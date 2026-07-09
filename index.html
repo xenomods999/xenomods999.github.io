@@ -1,1 +1,763 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>XENO MODS</title>
+  <style>
+    :root{
+      --bg:#050816;
+      --bg2:#071022;
+      --panel:#0b1020;
+      --panel2:#0d1328;
+      --card:#10182e;
+      --text:#f4f7ff;
+      --muted:#8ea0c6;
+      --line:rgba(255,255,255,.08);
+      --blue:#4ea3ff;
+      --blue2:#1f6fff;
+      --blue3:#0f4fcf;
+      --good:#31d38a;
+      --bad:#ff6b7a;
+      --shadow:0 20px 50px rgba(0,0,0,.45);
+      --radius:24px;
+    }
 
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 500px at 50% -10%, rgba(78,163,255,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, #04060d 100%);
+      overflow-x:hidden;
+    }
+
+    .app{
+      width:min(100%, 1000px);
+      margin:0 auto;
+      min-height:100vh;
+      padding:14px 14px calc(18px + env(safe-area-inset-bottom));
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 4px 18px;
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      line-height:1;
+    }
+
+    .brand .name{
+      font-size:22px;
+      font-weight:950;
+      letter-spacing:.4px;
+      color:#fff;
+    }
+    .brand .name span{color:var(--blue)}
+    .brand .sub{
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:2.3px;
+      text-transform:uppercase;
+    }
+
+    .top-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .online{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      color:#d6e2ff;
+      font-weight:700;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:var(--good);
+      box-shadow:0 0 12px rgba(49,211,138,.8);
+    }
+
+    .icon-btn{
+      width:46px;height:46px;
+      border:none;
+      border-radius:14px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      box-shadow: var(--shadow);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .icon-btn:active{transform:scale(.98)}
+    .hamburger{
+      width:18px;height:14px;position:relative;
+    }
+    .hamburger span{
+      position:absolute;left:0;right:0;height:2px;border-radius:999px;background:#fff;
+    }
+    .hamburger span:nth-child(1){top:0}
+    .hamburger span:nth-child(2){top:6px}
+    .hamburger span:nth-child(3){bottom:0}
+
+    .screen{display:none}
+    .screen.active{display:block}
+
+    .login-wrap{
+      min-height:calc(100vh - 90px);
+      display:grid;
+      place-items:center;
+      padding:18px 0 10px;
+    }
+
+    .login-card{
+      width:min(100%, 430px);
+      background:linear-gradient(180deg, rgba(16,24,46,.96), rgba(11,16,32,.96));
+      border:1px solid var(--line);
+      border-radius:30px;
+      box-shadow:var(--shadow);
+      padding:24px 18px 18px;
+    }
+
+    .login-title{
+      font-size:46px;
+      font-weight:1000;
+      letter-spacing:.4px;
+      line-height:1;
+      margin:2px 0 6px;
+      text-align:center;
+      background:linear-gradient(90deg, #fff 0%, #78bcff 48%, #2f82ff 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .login-sub{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      margin-bottom:22px;
+    }
+
+    .field-label{
+      display:block;
+      color:#9db2df;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1px;
+      margin:0 0 8px;
+      text-transform:uppercase;
+    }
+
+    .input{
+      width:100%;
+      background:#091022;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      color:#fff;
+      padding:16px 16px;
+      font-size:16px;
+      outline:none;
+    }
+    .input::placeholder{color:#567}
+    .input:focus{
+      border-color:rgba(78,163,255,.75);
+      box-shadow:0 0 0 4px rgba(78,163,255,.12);
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:18px;
+      padding:16px 18px;
+      font-size:16px;
+      font-weight:900;
+      color:#fff;
+      cursor:pointer;
+      background:linear-gradient(90deg, var(--blue2) 0%, var(--blue) 100%);
+      box-shadow:0 18px 30px rgba(31,111,255,.22);
+      margin-top:14px;
+    }
+    .btn:disabled{opacity:.65; cursor:not-allowed}
+    .btn:active{transform:scale(.99)}
+    .msg{
+      min-height:20px;
+      margin-top:10px;
+      font-size:13px;
+      font-weight:700;
+      color:var(--bad);
+    }
+
+    .dash{
+      display:grid;
+      gap:14px;
+    }
+
+    .hero{
+      background:linear-gradient(180deg, rgba(16,24,46,.96), rgba(11,16,32,.96));
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:16px;
+    }
+
+    .hero-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+    .hero-title h1{
+      margin:0;
+      font-size:20px;
+      font-weight:950;
+      letter-spacing:.2px;
+    }
+    .hero-title .tag{
+      font-size:12px;
+      color:#d8e6ff;
+      background:rgba(78,163,255,.12);
+      border:1px solid rgba(78,163,255,.16);
+      padding:8px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+    .panel{
+      background:linear-gradient(180deg, rgba(17,26,49,.96), rgba(10,15,30,.96));
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:14px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin:0 0 14px;
+      color:#d8e6ff;
+      font-weight:900;
+      font-size:15px;
+      letter-spacing:.3px;
+    }
+    .section-head::before{
+      content:"";
+      width:5px;
+      height:18px;
+      border-radius:999px;
+      background:linear-gradient(180deg, #66b7ff, #1f6fff);
+      box-shadow:0 0 12px rgba(78,163,255,.3);
+    }
+
+    .features{
+      display:grid;
+      gap:10px;
+    }
+    .feature{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 12px;
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+    }
+    .feature .txt{
+      min-width:0;
+      flex:1;
+    }
+    .feature .name{
+      font-size:15px;
+      font-weight:900;
+      margin:0 0 5px;
+      line-height:1.2;
+    }
+    .feature .desc{
+      font-size:12px;
+      color:var(--muted);
+      margin:0;
+      line-height:1.35;
+    }
+
+    .toggle{
+      position:relative;
+      width:56px;
+      height:32px;
+      flex:0 0 auto;
+    }
+    .toggle input{display:none}
+    .slider{
+      position:absolute;inset:0;
+      background:#18233f;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:999px;
+      transition:.2s ease;
+    }
+    .slider::before{
+      content:"";
+      position:absolute;
+      width:24px;height:24px;
+      left:4px;top:3px;
+      border-radius:50%;
+      background:#dbe8ff;
+      transition:.2s ease;
+      box-shadow:0 6px 16px rgba(0,0,0,.35);
+    }
+    .toggle input:checked + .slider{
+      background:linear-gradient(90deg, rgba(31,111,255,.9), rgba(78,163,255,.95));
+      border-color:rgba(78,163,255,.34);
+    }
+    .toggle input:checked + .slider::before{
+      transform:translateX(24px);
+      background:#fff;
+    }
+
+    .action-row{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+    .primary{
+      width:100%;
+      border:none;
+      border-radius:18px;
+      padding:16px 18px;
+      font-size:16px;
+      font-weight:950;
+      color:#fff;
+      cursor:pointer;
+      background:linear-gradient(90deg, #1f6fff 0%, #4ea3ff 100%);
+      box-shadow:0 16px 30px rgba(31,111,255,.20);
+    }
+
+    .drawer-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      opacity:0;
+      pointer-events:none;
+      transition:.2s ease;
+      z-index:20;
+    }
+    .drawer{
+      position:fixed;
+      top:0;
+      right:0;
+      height:100%;
+      width:min(100%, 360px);
+      background:linear-gradient(180deg, rgba(13,20,39,.98), rgba(8,12,24,.98));
+      border-left:1px solid var(--line);
+      box-shadow:-20px 0 50px rgba(0,0,0,.45);
+      transform:translateX(100%);
+      transition:.22s ease;
+      z-index:30;
+      display:flex;
+      flex-direction:column;
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer-backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .drawer-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .drawer-top .title{
+      font-size:16px;
+      font-weight:950;
+      margin:0;
+    }
+
+    .drawer-content{
+      padding:14px;
+      overflow:auto;
+      display:grid;
+      gap:12px;
+    }
+
+    .status-card, .log-card{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:20px;
+      padding:14px;
+    }
+
+    .status-line{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:13px;
+      font-weight:800;
+      color:#dbe8ff;
+      margin-bottom:10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(49,211,138,.10);
+      border:1px solid rgba(49,211,138,.18);
+      color:#dffdf0;
+      font-size:12px;
+      font-weight:900;
+    }
+    .badge .dot{background:var(--good)}
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .mini{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:12px;
+      min-width:0;
+    }
+    .mini .k{
+      display:block;
+      color:#7f93bd;
+      font-size:11px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      margin-bottom:6px;
+      font-weight:800;
+    }
+    .mini .v{
+      font-size:14px;
+      font-weight:900;
+      color:#fff;
+      word-break:break-word;
+    }
+
+    .log{
+      margin-top:10px;
+      background:#070b17;
+      border:1px solid rgba(255,255,255,.05);
+      border-radius:16px;
+      padding:12px;
+      min-height:200px;
+      max-height:40vh;
+      overflow:auto;
+      white-space:pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size:12px;
+      line-height:1.55;
+      color:#cfdcff;
+    }
+
+    .small-note{
+      text-align:center;
+      color:#7c8ab0;
+      font-size:12px;
+      margin-top:10px;
+    }
+
+    @media (min-width: 760px){
+      .hero{padding:18px}
+      .panel{padding:16px}
+      .feature .name{font-size:16px}
+    }
+        @media (max-width: 420px){
+      .app{padding:12px 10px 14px}
+      .login-title{font-size:40px}
+      .brand .name{font-size:20px}
+      .online{padding:9px 10px;font-size:12px}
+      .icon-btn{width:44px;height:44px}
+      .hero-title{align-items:flex-start}
+      .hero-title h1{font-size:18px}
+      .hero-title .tag{font-size:11px}
+      .feature{padding:12px 10px}
+      .feature .name{font-size:14px}
+      .feature .desc{font-size:11px}
+      .drawer{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="name">XENO <span>MODS</span></div>
+        <div class="sub">Telegram:https://t.me/XenoChanel</div>
+      </div>
+
+      <div class="top-right">
+        <div class="online"><span class="dot"></span><span id="onlineText">ออฟไลน์</span></div>
+        <button class="icon-btn" id="menuBtn" aria-label="เมนู">
+          <div class="hamburger" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <section id="loginScreen" class="screen active">
+      <div class="login-wrap">
+        <div class="login-card">
+          <div class="login-title">XENO MODS</div>
+          <div class="login-sub">Access Panel</div>
+
+          <label class="field-label" for="accessKey">Access Key</label>
+          <input id="accessKey" class="input" type="text" placeholder="กรอกคีย์เพื่อเข้าสู่ระบบ" autocomplete="off" />
+          <button id="loginBtn" class="btn">เข้าสู่ระบบ</button>
+          <div id="loginMsg" class="msg"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboardScreen" class="screen">
+      <div class="dash">
+        <div class="hero">
+          <div class="hero-title">
+            <h1>PANEL PROXY</h1>
+            <div class="tag">Free Fire Only</div>
+          </div>
+
+          <div class="panel">
+            <div class="section-head">การตั้งค่าแอปพลิเคชัน</div>
+            <div class="features">
+              <div class="feature">
+                <div class="txt">
+                  <div class="name">HS ALTO</div>
+                  <p class="desc">ยิงข้างๆหรือด้านบนหัวเท่ากับขึ้นหัวทันที</p>
+                </div>
+                <label class="toggle"><input id="f1" type="checkbox"><span class="slider"></span></label>
+              </div>
+
+              <div class="feature">
+                <div class="txt">
+                  <div class="name">HS NECK</div>
+                  <p class="desc">ยิงคอเท่ากับโดนหัว</p>
+                </div>
+                <label class="toggle"><input id="f2" type="checkbox"><span class="slider"></span></label>
+              </div>
+
+              <div class="feature">
+                <div class="txt">
+                  <div class="name">HS NECK & HS ALTO</div>
+                  <p class="desc">รวมทั้งสองฟังชั่นยิงคอและข้างๆโดนหัว</p>
+                </div>
+                <label class="toggle"><input id="f3" type="checkbox"><span class="slider"></span></label>
+              </div>
+
+              <div class="feature">
+                <div class="txt">
+                  <div class="name">HS PEITO</div>
+                  <p class="desc">ยิงตัวโดนหัวหรือยิงอกเท่ากับขึ้นหัว</p>
+                </div>
+                <label class="toggle"><input id="f4" type="checkbox"><span class="slider"></span></label>
+              </div>
+            </div>
+
+            <div class="action-row">
+          <!--    <button id="executeBtn" class="primary" disabled>ดำเนินการ / เริ่มทำงาน</button> -->
+            </div>
+            <!--
+            <div class="small-note">หน้าเว็บเดโมเท่านั้น ไม่มีระบบเชื่อมต่อจริง</div>
+            -->
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-top">
+      <h3 class="title">User Status &amp; Logs</h3>
+      <button class="icon-btn" id="closeDrawerBtn" aria-label="ปิดเมนู" style="width:40px;height:40px;border-radius:12px;box-shadow:none;">
+        ✕
+      </button>
+    </div>
+
+    <div class="drawer-content">
+      <div class="status-card">
+        <div class="status-line">
+          <span class="badge"><span class="dot"></span><span id="licenseStatus">ยังไม่ล็อกอิน</span></span>
+        </div>
+        <div class="meta-grid">
+          <div class="mini">
+            <span class="k">วันหมดอายุ</span>
+            <div class="v" id="expText">30/12/2026</div>
+          </div>
+          <div class="mini">
+            <span class="k">Access Key</span>
+            <div class="v" id="keyText">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-card">
+        <div class="section-head" style="margin-bottom:10px;">บันทึกการทำงาน</div>
+        <div class="log" id="logArea">[SYSTEM] รอการเข้าสู่ระบบ...
+[INFO] หน้าเว็บโหลดสำเร็จ
+[INFO] พร้อมใช้งาน</div>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboardScreen = document.getElementById('dashboardScreen');
+    const accessKey = document.getElementById('accessKey');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginMsg = document.getElementById('loginMsg');
+    const executeBtn = document.getElementById('executeBtn');
+    const onlineText = document.getElementById('onlineText');
+    const licenseStatus = document.getElementById('licenseStatus');
+    const expText = document.getElementById('expText');
+    const keyText = document.getElementById('keyText');
+    const logArea = document.getElementById('logArea');
+
+    const drawer = document.getElementById('drawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const menuBtn = document.getElementById('menuBtn');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+
+    const state = {
+      auth: false,
+      key: '',
+      exp: '30/12/2026',
+      logs: []
+    };
+
+    function timeStamp() {
+      return new Date().toLocaleTimeString('th-TH', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+
+    function pushLog(line) {
+      state.logs.push(`[${timeStamp()}] ${line}`);
+      logArea.textContent = state.logs.join('\n');
+      logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      drawerBackdrop.classList.add('open');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      drawerBackdrop.classList.remove('open');
+    }
+
+    function showDashboard() {
+      loginScreen.classList.remove('active');
+      dashboardScreen.classList.add('active');
+      onlineText.textContent = 'ออนไลน์';
+      licenseStatus.textContent = 'สถานะลิขสิทธิ์: ใช้งานได้';
+      keyText.textContent = state.key || '-';
+      expText.textContent = state.exp;
+      executeBtn.disabled = false;
+      pushLog('ล็อกอินสำเร็จ');
+      pushLog('เปิดหน้าหลักเรียบร้อย');
+    }
+
+    function showLogin() {
+      dashboardScreen.classList.remove('active');
+      loginScreen.classList.add('active');
+      onlineText.textContent = 'ออฟไลน์';
+      loginMsg.textContent = ''; 
+      accessKey.value = '';
+      executeBtn.disabled = true;
+      state.auth = false;
+      state.key = '';
+      licenseStatus.textContent = 'ยังไม่ล็อกอิน';
+      keyText.textContent = '-';
+      closeDrawer();
+      accessKey.focus();
+    }
+
+    loginBtn.addEventListener('click', () => {
+      const key = accessKey.value.trim();
+      if (!key) {
+        loginMsg.textContent = 'กรุณากรอก Access Key';
+        return;
+      }
+
+      loginMsg.style.color = '#cfe3ff';
+      loginMsg.textContent = 'กำลังตรวจสอบ...';
+      loginBtn.disabled = true;
+
+      setTimeout(() => {
+        state.auth = true;
+        state.key = key;
+        loginMsg.textContent = '';
+        loginBtn.disabled = false;
+        showDashboard();
+      }, 650);
+    });
+
+    accessKey.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loginBtn.click();
+    });
+
+    executeBtn.addEventListener('click', () => {
+      if (!state.auth) return;
+      pushLog('กดปุ่มดำเนินการ / เริ่มทำงาน');
+      pushLog('ระบบเดโมประมวลผลเรียบร้อย');
+    });
+
+    ['f1','f2','f3','f4'].forEach((id, idx) => {
+      const el = document.getElementById(id);
+      el.addEventListener('change', (e) => {
+        pushLog(`สวิตช์ ${idx + 1} = ${e.target.checked ? 'เปิด' : 'ปิด'}`);
+      });
+    });
+
+    menuBtn.addEventListener('click', () => {
+      if (drawer.classList.contains('open')) closeDrawer();
+      else openDrawer();
+    });
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    drawerBackdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
+    });
+
+    pushLog('พร้อมใช้งาน');
+  </script>
+</body>
+</html>
+  
+  
