@@ -1,734 +1,796 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
-  <title>XENO MODS</title>
-  <style>
-    :root{
-      --bg:#000000;
-      --bg2:#05070d;
-      --panel:#0b0f18;
-      --panel2:#0d1320;
-      --card:#111827;
-      --line:rgba(255,255,255,.07);
-      --text:#f4f7ff;
-      --muted:#8b97ad;
-      --blue:#4ea3ff;
-      --blue2:#1f6fff;
-      --blue3:#0d4ed8;
-      --good:#2dd4bf;
-      --danger:#ff5f73;
-      --shadow:0 18px 40px rgba(0,0,0,.45);
-      --radius:22px;
-      --radius-lg:28px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BYPASS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Styling - Clean & Minimal */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0a0a0a; 
+            color: #e5e5e5;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 50% -10%, rgba(78,163,255,.10), transparent 55%),
-        linear-gradient(180deg, #020308 0%, #000 100%);
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-    }
+        /* Solid Panels instead of Glassmorphism */
+        .panel {
+            background-color: #141414;
+            border: 1px solid #262626;
+            border-radius: 12px;
+        }
 
-    .app{
-      width:min(100%, 460px);
-      margin:0 auto;
-      min-height:100vh;
-      padding:12px 12px calc(16px + env(safe-area-inset-bottom));
-    }
+        /* Custom Toggle Switch - Minimal Gray/White */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #262626; 
+            transition: .2s; border-radius: 20px;
+            border: 1px solid #333;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 16px; width: 16px;
+            left: 2px; bottom: 2px; background-color: #737373; transition: .2s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #e5e5e5; border-color: #e5e5e5; }
+        input:checked + .slider:before { transform: translateX(18px); background-color: #141414; }
 
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:8px 2px 16px;
-    }
+        /* Option selection styling */
+        .option-item {
+            background-color: #1a1a1a;
+            border: 1px solid #262626;
+            transition: all 0.2s;
+        }
+        .option-item.active {
+            border-color: #a3a3a3;
+            background-color: #262626;
+        }
+        .check-indicator {
+            width: 18px; height: 18px; border-radius: 4px; border: 2px solid #525252;
+            transition: 0.2s; display: flex; justify-content: center; align-items: center;
+        }
+        .option-item.active .check-indicator { border-color: #e5e5e5; background: #e5e5e5; }
+        .option-item.active .check-indicator::after {
+            content: ""; width: 4px; height: 8px; border: solid #141414;
+            border-width: 0 2px 2px 0; transform: rotate(45deg); margin-bottom: 2px;
+        }
 
-    .brand{
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      line-height:1.05;
-    }
-    .brand .name{
-      font-size:22px;
-      font-weight:1000;
-      letter-spacing:.2px;
-      white-space:nowrap;
-    }
-    .brand .name span{color:var(--blue)}
-    .brand .sub{
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:1.9px;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .top-right{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex:0 0 auto;
-    }
-
-    .status-pill{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--line);
-      color:#dfe9ff;
-      font-size:13px;
-      font-weight:800;
-      white-space:nowrap;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;
-      background:var(--danger);
-      box-shadow:0 0 12px rgba(255,95,115,.55);
-      flex:0 0 auto;
-    }
-
-    .icon-btn{
-      width:44px;
-      height:44px;
-      border:none;
-      border-radius:14px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      color:#fff;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      -webkit-tap-highlight-color:transparent;
-      box-shadow:var(--shadow);
-    }
-    .hamburger{width:18px;height:14px;position:relative;}
-    .hamburger span{
-      position:absolute;left:0;right:0;height:2px;border-radius:999px;background:#dfe9ff;
-    }
-    .hamburger span:nth-child(1){top:0}
-    .hamburger span:nth-child(2){top:6px}
-    .hamburger span:nth-child(3){bottom:0}
-
-    .screen{display:none}
-    .screen.active{display:block}
-
-    .login-wrap{
-      min-height:calc(100vh - 92px);
-      display:grid;
-      place-items:center;
-      padding:12px 0 8px;
-    }
-
-    .login-card,
-    .hero,
-    .panel,
-    .drawer,
-    .status-card,
-    .log-card{
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(17,24,39,.95), rgba(8,12,20,.96));
-      box-shadow:var(--shadow);
-    }
-
-    .login-card{
-      width:100%;
-      border-radius:var(--radius-lg);
-      padding:18px 16px 16px;
-    }
-
-    .login-title{
-      margin:2px 0 6px;
-      text-align:center;
-      font-size:36px;
-      line-height:1;
-      font-weight:1000;
-      letter-spacing:.2px;
-      background:linear-gradient(90deg,#fff 0%, #89c4ff 46%, #4ea3ff 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .login-sub{
-      text-align:center;
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:2.4px;
-      text-transform:uppercase;
-      margin-bottom:18px;
-    }
-
-    .field-label{
-      display:block;
-      margin:0 0 8px;
-      color:#aab9d8;
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:1px;
-      text-transform:uppercase;
-    }
-
-    .input{
-      width:100%;
-      border:none;
-      outline:none;
-      color:#fff;
-      background:#070d17;
-      border:1px solid rgba(78,163,255,.20);
-      border-radius:18px;
-      padding:15px 15px;
-      font-size:15px;
-    }
-    .input::placeholder{color:#6b7a95}
-    .input:focus{
-      border-color:rgba(78,163,255,.7);
-      box-shadow:0 0 0 4px rgba(78,163,255,.10);
-    }
-
-    .btn{
-      width:100%;
-      margin-top:12px;
-      border:none;
-      border-radius:18px;
-      padding:15px 16px;
-      color:#fff;
-      font-size:15px;
-      font-weight:1000;
-      background:linear-gradient(90deg,var(--blue2),var(--blue));
-      box-shadow:0 14px 26px rgba(31,111,255,.18);
-      cursor:pointer;
-    }
-    .btn:disabled{opacity:.65;cursor:not-allowed}
-    .btn:active{transform:scale(.99)}
-    .msg{min-height:20px;margin-top:10px;font-size:13px;font-weight:700;color:var(--danger)}
-
-    .dash{display:grid;gap:12px}
-
-    .hero{
-      border-radius:var(--radius-lg);
-      padding:14px;
-    }
-
-    .hero-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:12px;
-    }
-    .hero-head h1{
-      margin:0;
-      font-size:18px;
-      font-weight:1000;
-      letter-spacing:.1px;
-    }
-    .hero-head .subtag{margin-top:4px;font-size:12px;color:#8ea2c8}
-
-    .badge-live{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(45,212,191,.08);
-      border:1px solid rgba(45,212,191,.18);
-      color:#dffdf8;
-      font-size:12px;
-      font-weight:900;
-      white-space:nowrap;
-    }
-    .badge-live .dot{background:var(--good);box-shadow:0 0 10px rgba(45,212,191,.55)}
-
-    .panel{
-      border-radius:26px;
-      padding:14px;
-    }
-
-    .section-head{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin:0 0 12px;
-      font-size:15px;
-      font-weight:1000;
-      color:#dbe7ff;
-    }
-    .section-head::before{
-      content:"";
-      width:5px;height:18px;border-radius:999px;
-      background:linear-gradient(180deg,#66b7ff,#1f6fff);
-      box-shadow:0 0 12px rgba(78,163,255,.35);
-      flex:0 0 auto;
-    }
-
-    .features{display:grid;gap:10px}
-    .feature{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:13px 12px;
-      border-radius:18px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.05);
-    }
-    .feature .txt{min-width:0;flex:1}
-    .feature .name{margin:0 0 4px;font-size:14px;font-weight:950;line-height:1.2}
-    .feature .desc{margin:0;color:var(--muted);font-size:11px;line-height:1.35}
-
-    .toggle{position:relative;width:56px;height:32px;flex:0 0 auto}
-    .toggle input{display:none}
-    .slider{
-      position:absolute;inset:0;
-      background:#172033;
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:999px;
-      transition:.18s ease;
-    }
-    .slider::before{
-      content:"";
-      position:absolute;
-      top:3px;left:4px;
-      width:24px;height:24px;
-      border-radius:50%;
-      background:#dbe8ff;
-      transition:.18s ease;
-      box-shadow:0 6px 16px rgba(0,0,0,.35);
-    }
-    .toggle input:checked + .slider{
-      background:linear-gradient(90deg, rgba(31,111,255,.92), rgba(78,163,255,.96));
-      border-color:rgba(78,163,255,.28);
-    }
-    .toggle input:checked + .slider::before{transform:translateX(24px);background:#fff}
-
-    .action-row{display:grid;gap:10px;margin-top:12px}
-    .primary{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:15px 16px;
-      font-size:15px;
-      font-weight:1000;
-      color:#fff;
-      background:linear-gradient(90deg,#1f6fff,#4ea3ff);
-      box-shadow:0 16px 28px rgba(31,111,255,.20);
-      cursor:pointer;
-    }
-    .secondary{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:14px 16px;
-      font-size:15px;
-      font-weight:950;
-      color:#dfe9ff;
-      background:#121826;
-      border:1px solid rgba(255,255,255,.06);
-      cursor:pointer;
-    }
-    .small-note{text-align:center;margin-top:8px;color:#7f8ba7;font-size:11px}
-
-    .drawer-backdrop{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.58);
-      opacity:0;
-      pointer-events:none;
-      transition:.2s ease;
-      z-index:20;
-    }
-    .drawer{
-      position:fixed;
-      top:0;
-      right:0;
-      width:min(100%, 340px);
-      height:100%;
-      transform:translateX(100%);
-      transition:.22s ease;
-      z-index:30;
-      display:flex;
-      flex-direction:column;
-      background:linear-gradient(180deg, rgba(10,15,25,.98), rgba(6,9,16,.98));
-      border-left:1px solid var(--line);
-      box-shadow:-18px 0 40px rgba(0,0,0,.45);
-    }
-    .drawer.open{transform:translateX(0)}
-    .drawer-backdrop.open{opacity:1;pointer-events:auto}
-
-    .drawer-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .drawer-top .title{margin:0;font-size:16px;font-weight:1000}
-    .close-x{
-      width:40px;height:40px;
-      border-radius:12px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      color:#fff;
-      cursor:pointer;
-      display:grid;
-      place-items:center;
-    }
-
-    .drawer-content{
-      padding:14px;
-      overflow:auto;
-      display:grid;
-      gap:12px;
-    }
-
-    .status-card,.log-card{
-      border-radius:20px;
-      padding:14px;
-    }
-
-    .status-line{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:12px;
-    }
-    .status-line .caption{font-size:13px;font-weight:900;color:#dbe7ff}
-
-    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .mini{
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:16px;
-      padding:12px;
-      min-width:0;
-    }
-    .mini .k{
-      display:block;
-      margin-bottom:6px;
-      color:#7f93bd;
-      font-size:11px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:1px;
-    }
-    .mini .v{font-size:14px;font-weight:950;word-break:break-word}
-
-    .log{
-      margin-top:10px;
-      min-height:180px;
-      max-height:42vh;
-      overflow:auto;
-      white-space:pre-wrap;
-      background:#050913;
-      border:1px solid rgba(255,255,255,.05);
-      border-radius:16px;
-      padding:12px;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-      font-size:12px;
-      line-height:1.55;
-      color:#d4e2ff;
-    }
-
-    @media (max-width: 420px){
-      .app{padding:10px 10px calc(14px + env(safe-area-inset-bottom))}
-      .brand .name{font-size:20px}
-      .brand .sub{font-size:11px;letter-spacing:1.6px}
-      .status-pill{padding:9px 10px;font-size:12px}
-      .icon-btn{width:42px;height:42px}
-      .login-title{font-size:32px}
-      .hero-head{align-items:flex-start}
-      .hero-head h1{font-size:17px}
-      .hero-head .subtag{font-size:11px}
-      .feature{padding:12px 10px}
-      .feature .name{font-size:13px}
-      .feature .desc{font-size:10.5px}
-      .drawer{width:100%}
-    }
-
-    @media (min-width: 760px){
-      body{display:flex;justify-content:center}
-      .app{max-width:460px}
-    }
-  </style>
+        /* Nav active state */
+        .nav-btn.active {
+            color: #e5e5e5;
+        }
+        .nav-btn.active .nav-indicator {
+            background-color: #e5e5e5;
+        }
+        
+        /* Loading Animation overlay */
+        .loading-overlay {
+            background-color: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(4px);
+        }
+    </style>
 </head>
-<body>
-  <div class="app">
-    <div class="topbar">
-      <div class="brand">
-        <div class="name">XENO <span>MODS</span></div>
-        <div class="sub">Mobile access panel</div>
-      </div>
+<body class="flex justify-center">
 
-      <div class="top-right">
-        <div class="status-pill"><span class="dot"></span><span id="onlineText">ออฟไลน์</span></div>
-        <button class="icon-btn" id="menuBtn" aria-label="เมนู">
-          <div class="hamburger" aria-hidden="true"><span></span><span></span><span></span></div>
-        </button>
-      </div>
-    </div>
-
-    <section id="loginScreen" class="screen active">
-      <div class="login-wrap">
-        <div class="login-card">
-          <div class="login-title">XENO MODS</div>
-          <div class="login-sub">Access Panel</div>
-
-          <label class="field-label" for="accessKey">Access Key</label>
-          <input id="accessKey" class="input" type="text" placeholder="กรอกคีย์เพื่อเข้าสู่ระบบ" autocomplete="off" />
-          <button id="loginBtn" class="btn">เข้าสู่ระบบ</button>
-          <div id="loginMsg" class="msg"></div>
-        </div>
-      </div>
-    </section>
-    <section id="dashboardScreen" class="screen">
-      <div class="dash">
-        <div class="hero">
-          <div class="hero-head">
+    <!-- พื้นที่แสดงผลเนื้อหาหลัก -->
+    <div class="w-full max-w-md min-h-screen p-4 flex flex-col pb-32">
+        
+        <!-- Header -->
+        <header class="flex items-center space-x-3 mt-2 mb-6">
+            <div class="bg-neutral-800 p-2.5 rounded-lg border border-neutral-700">
+                <i class="fas fa-shield-halved text-neutral-300 text-lg"></i>
+            </div>
             <div>
-              <h1>PANEL</h1>
-              <div class="subtag">XENO MODS</div>
+                <h1 class="text-xl font-bold tracking-wide text-neutral-100 uppercase">Bypass</h1>
+                <p class="text-[10px] text-neutral-500 tracking-wider uppercase">Max Modules Edition</p>
             </div>
-            <div class="badge-live"><span class="dot"></span><span id="licenseStatusInline">พร้อมใช้งาน</span></div>
-          </div>
+        </header>
 
-          <div class="panel">
-            <div class="section-head">SETTING</div>
-            <div class="features">
-              <div class="feature">
-                <div class="txt">
-                  <div class="name">HS ALTO</div>
-                  <p class="desc">ยิงข้างๆหรือหรือบนหัว เท่ากับ ขึ้นหัว</p>
-                </div>
-                <label class="toggle"><input id="f1" type="checkbox"><span class="slider"></span></label>
-              </div>
+        <!-- Dynamic Content Space -->
+        <div class="flex-grow w-full">
+            
+            <!-- 1. TAB: MAIN -->
+            <div id="view-main" class="tab-content space-y-4">
+                
+                <!-- UID Input Section -->
+                <div class="panel p-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-id-card-clip text-neutral-400 text-sm"></i>
+                            <h4 class="text-[11px] font-bold tracking-wider text-neutral-300 uppercase">Target UID</h4>
+                        </div>
+                        <span class="text-[9px] bg-neutral-800 text-neutral-400 px-2 py-1 rounded border border-neutral-700 font-bold uppercase">Required</span>
+                    </div>
 
-              <div class="feature">
-                <div class="txt">
-                  <div class="name">HS NECK</div>
-                  <p class="desc">ยิงคอขึ้นหัว</p>
+                    <div class="relative">
+                        <input type="number" id="uid" placeholder="กรอก Game UID ของคุณ" 
+                            class="w-full bg-[#0a0a0a] border border-neutral-800 rounded-lg py-3.5 pl-4 pr-12 text-neutral-200 placeholder-neutral-600 text-sm font-medium transition-all focus:border-neutral-500 focus:outline-none">
+                        <i class="fas fa-user-astronaut absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral-600"></i>
+                    </div>
                 </div>
-                <label class="toggle"><input id="f2" type="checkbox"><span class="slider"></span></label>
-              </div>
 
-              <div class="feature">
-                <div class="txt">
-                  <div class="name">HS NECK & HS ALTO</div>
-                  <p class="desc">รวมสองฟังชั่นยิงข้างๆและยิงคอ</p>
-                </div>
-                <label class="toggle"><input id="f3" type="checkbox"><span class="slider"></span></label>
-              </div>
+                <!-- Bypass Features Section -->
+                <div class="panel p-4 space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-layer-group text-neutral-400 text-sm"></i>
+                        <h4 class="text-[11px] font-bold tracking-wider text-neutral-300 uppercase">Bypass Modules</h4>
+                    </div>
 
-              <div class="feature">
-                <div class="txt">
-                  <div class="name">HS PEITO</div>
-                  <p class="desc">ยิงตัวขึ้นหัว</p>
+                    <!-- List of Features -->
+                    <div class="space-y-2">
+                        <!-- Module 1 -->
+                        <div id="container_clear_cache" class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-eraser text-neutral-400 text-base w-5 text-center"></i>
+                                <div>
+                                    <div class="text-[11px] font-bold text-neutral-200">Clear Cache & Logs</div>
+                                    <div class="text-[9px] text-neutral-500 mt-0.5">ลบประวัติการแฮ็กและไฟล์ขยะเซิร์ฟเวอร์</div>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="btn_clear_cache" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Module 2 -->
+                        <div id="container_device_spoofer" class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-mobile-screen text-neutral-400 text-base w-5 text-center"></i>
+                                <div>
+                                    <div class="text-[11px] font-bold text-neutral-200">Device ID Spoofer</div>
+                                    <div class="text-[9px] text-neutral-500 mt-0.5">ปลอมแปลง IMEI/MAC ซ่อนเครื่องแท้</div>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="btn_device_spoofer" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Module 3 -->
+                        <div id="container_bypass_emulator" class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-desktop text-neutral-400 text-base w-5 text-center"></i>
+                                <div>
+                                    <div class="text-[11px] font-bold text-neutral-200">Bypass Emulator</div>
+                                    <div class="text-[9px] text-neutral-500 mt-0.5">จำลองเป็นมือถือ (จับคู่เจอคนเล่นมือถือ)</div>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="btn_bypass_emulator">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Module 4 -->
+                        <div id="container_anti_report" class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <i class="fas fa-user-shield text-neutral-400 text-base w-5 text-center"></i>
+                                <div>
+                                    <div class="text-[11px] font-bold text-neutral-200">Anti-Report Safe</div>
+                                    <div class="text-[9px] text-neutral-500 mt-0.5">บล็อคการถูกรีพอร์ตจากผู้เล่นอื่นอัตโนมัติ</div>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="btn_anti_report" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <label class="toggle"><input id="f4" type="checkbox"><span class="slider"></span></label>
-              </div>
+
+                <!-- Action Section -->
+                <div class="space-y-3 pt-2">
+                    <!-- Alert Box -->
+                    <div id="alert-box" class="hidden bg-neutral-900 rounded-lg p-3 text-[11px] font-medium border flex items-center space-x-2">
+                        <i id="alert-icon" class="fas fa-info-circle text-sm"></i>
+                        <span id="alert-text">Message</span>
+                    </div>
+
+                    <!-- START Button -->
+                    <button id="start-btn" 
+                        class="w-full bg-neutral-200 text-neutral-900 font-bold text-sm py-4 rounded-lg active:bg-neutral-300 transition-colors flex justify-center items-center tracking-wider relative">
+                        <span id="btn-text">START BYPASS</span>
+                        <i id="btn-spinner" class="fas fa-circle-notch fa-spin hidden absolute right-6 text-neutral-600"></i>
+                    </button>
+                </div>
             </div>
-<!--
-            <div class="action-row">
-              <button id="executeBtn" class="primary" disabled>ดำเนินการ / เริ่มทำงาน</button>
-              <button id="resetBtn" class="secondary">รีเซ็ตสถานะ</button>
+
+            <!-- 2. TAB: PROXY -->
+            <div id="view-proxy" class="tab-content space-y-4 hidden">
+                
+                <!-- หัวข้อค่าย CEREX PROXY -->
+                <div class="panel p-4 space-y-4 border border-neutral-700">
+                    <div class="flex justify-between items-center border-b border-neutral-800 pb-3">
+                        <div class="flex items-center space-x-2.5">
+                            <div class="bg-neutral-800 p-1.5 rounded text-neutral-200">
+                                <i class="fas fa-circle-nodes text-xs"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-black text-neutral-100 uppercase tracking-wider">CEREX PROXY</h3>
+                                <p class="text-[8px] text-neutral-500 uppercase tracking-widest font-semibold">Active Injection Engine</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] text-green-400 font-black tracking-widest bg-green-950/40 px-2 py-0.5 rounded border border-green-800 animate-pulse">ONLINE</span>
+                    </div>
+
+                    <!-- รายละเอียดและปุ่ม INJECTOR -->
+                    <div class="space-y-3">
+                        <p class="text-[10px] text-neutral-400 leading-relaxed">
+                            ระบบโครงข่ายเครือข่ายความปลอดภัยขั้นสูง ป้องกันโครงสร้าง DNS ของอุปกรณ์แบบเข้ารหัส
+                        </p>
+                        
+                        <!-- ปุ่ม INJECTOR ตัวเริ่มเกมและเชื่อมระบบ -->
+                        <button id="injector-btn" onclick="runInjector()" class="w-full bg-gradient-to-r from-neutral-200 to-neutral-300 hover:from-neutral-100 hover:to-neutral-200 text-neutral-900 font-bold text-[11px] py-3.5 rounded-lg active:scale-[0.98] transition-all uppercase tracking-widest flex justify-center items-center space-x-2 shadow-lg shadow-black/30">
+                            <i class="fas fa-bolt text-xs"></i>
+                            <span>INJECTOR START</span>
+                        </button>
+                        
+                        <!-- แจ้งเตือนของระบบ INJECTOR -->
+                        <div id="injector-status" class="hidden text-center bg-neutral-900/50 p-2.5 rounded border border-neutral-800 text-[10px] font-bold text-neutral-400">
+                            <i class="fas fa-spinner fa-spin mr-1.5 text-neutral-400"></i> กำลังรวบรวมค่า Proxy...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Headshot -->
+                <div id="container_headshot" class="panel p-4 space-y-4 transition-all duration-300">
+                    <div class="flex justify-between items-center border-b border-neutral-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-crosshairs text-neutral-400 text-sm"></i>
+                            <div>
+                                <h3 class="text-[11px] font-bold text-neutral-200 uppercase">Ativar Headshot</h3>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="headshotToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="space-y-2">
+                        <!-- Option 1 -->
+                        <div id="option_hs_alto" class="option-item p-3 rounded-lg flex justify-between items-center cursor-pointer transition-all duration-300" onclick="toggleOption(this, 'hs_alto')">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-[11px] text-neutral-200">HS ALTO</span>
+                                <span class="text-[9px] text-neutral-500 mt-0.5">ยิงข้างๆโดนหัว (เป้าหมายเหนือศีรษะ)</span>
+                            </div>
+                            <div class="check-indicator"></div>
+                        </div>
+                        <!-- Option 2 -->
+                        <div id="option_hs_alto_pescoco" class="option-item p-3 rounded-lg flex justify-between items-center cursor-pointer transition-all duration-300" onclick="toggleOption(this, 'hs_alto_pescoco')">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-[11px] text-neutral-200">HS ALTO & PESCOÇO</span>
+                                <span class="text-[9px] text-neutral-500 mt-0.5">รวบรวมสองฟังก์ชัน (หัวและคอ)</span>
+                            </div>
+                            <div class="check-indicator"></div>
+                        </div>
+                        <!-- Option 3 -->
+                        <div id="option_hs_no_pescoco" class="option-item p-3 rounded-lg flex justify-between items-center cursor-pointer transition-all duration-300" onclick="toggleOption(this, 'hs_no_pescoco')">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-[11px] text-neutral-200">HS NO PESCOÇO</span>
+                                <span class="text-[9px] text-neutral-500 mt-0.5">ยิงคอโดนหัว (เป้าหมายที่คอ)</span>
+                            </div>
+                            <div class="check-indicator"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Proxy Route -->
+                <div class="panel p-4 space-y-4">
+                    <div class="flex justify-between items-center border-b border-neutral-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-globe text-neutral-400 text-sm"></i>
+                            <div>
+                                <h3 class="text-[11px] font-bold text-neutral-200 uppercase">Proxy Route</h3>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+              </div>
+                    <div class="space-y-2">
+                        <label class="block text-[9px] font-bold text-neutral-500 uppercase">Select Safety Node</label>
+                        <div class="p-3 bg-[#0a0a0a] border border-neutral-800 rounded-lg flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-neutral-300 animate-pulse"></span>
+                                <span class="text-[11px] font-bold text-neutral-300">VIP Node 01</span>
+                            </div>
+                            <span class="text-[9px] bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded border border-neutral-700">12ms</span>
+                        </div>
+                    </div>
+                </div>
             </div>
--->
-            <div class="small-note">ติดต่อเฮียเชผู้สร้าง Proxy เท่านั้น</div>
-          </div>
+
+            <!-- 3. TAB: SETTING -->
+            <div id="view-setting" class="tab-content space-y-4 hidden">
+                <div class="panel p-4 space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-wifi text-neutral-400 text-sm"></i>
+                        <div>
+                            <h3 class="text-[11px] font-bold text-neutral-200 uppercase">ADB Pairing</h3>
+                            <p class="text-[9px] text-neutral-500 mt-0.5">เชื่อมต่ออุปกรณ์ผ่าน Wireless Debugging</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0a0a0a] border border-neutral-800 p-3 rounded-lg flex items-center justify-between">
+                        <div class="flex items-center space-x-2.5">
+                            <div id="status-glow" class="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                            <div>
+                                <span class="text-[8px] text-neutral-500 block font-bold uppercase mb-0.5">Status</span>
+                                <span id="adbStatus" class="text-[10px] font-bold text-neutral-400 uppercase">Not Connected</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-mobile-screen-button text-neutral-600"></i>
+                    </div>
+
+                    <div class="bg-neutral-800/50 border border-neutral-800 p-3 rounded-lg space-y-1.5">
+                        <span class="text-[11px] font-bold text-neutral-300 flex items-center space-x-1.5">
+                            <i class="fas fa-info-circle text-neutral-400"></i>
+                            <span>ขั้นตอนการจับคู่</span>
+                        </span>
+                        <ol class="text-[10px] text-neutral-400 list-decimal pl-4 space-y-1">
+                            <li>ไปที่ <b class="text-neutral-300">ตัวเลือกสำหรับนักพัฒนา</b> (Developer Options)</li>
+                            <li>เปิด <b class="text-neutral-300">การแก้ไขข้อบกพร่องผ่านระบบไร้สาย</b></li>
+                            <li>กดเลือก <b class="text-neutral-300">จับคู่อุปกรณ์ด้วยรหัส</b></li>
+                            <li>นำเลข 6 หลักที่ปรากฏ กรอกในช่องด้านล่าง</li>
+                        </ol>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <input type="text" id="pairingCode" class="w-full bg-[#0a0a0a] border border-neutral-800 text-center text-lg font-bold py-3 rounded-lg tracking-[0.3em] text-neutral-200 placeholder-neutral-700 uppercase focus:border-neutral-500 outline-none transition-colors" maxlength="6" placeholder="XXXXXX" pattern="\d*" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        
+                        <button onclick="startPairing()" class="w-full bg-neutral-200 text-neutral-900 font-bold text-[11px] py-3 rounded-lg active:bg-neutral-300 transition-colors uppercase tracking-wider">
+                            ยืนยันการเชื่อมต่อ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. TAB: ADMIN (ล็อคอิน & หน้าปรับแต่งออนไลน์) -->
+            <div id="view-admin" class="tab-content space-y-4 hidden">
+                
+                <!-- ด่านล็อกอิน (Login Overlay) -->
+                <div id="admin-login-card" class="panel p-6 space-y-4 text-center">
+                    <div class="w-12 h-12 bg-neutral-800 text-neutral-300 rounded-full flex items-center justify-center mx-auto border border-neutral-700">
+                        <i class="fas fa-user-shield text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-neutral-200 uppercase tracking-wider">Cerex Admin Panel</h3>
+                        <p class="text-[9px] text-neutral-500 mt-1">กรุณายืนยันสิทธิ์เพื่อเปิดระบบควบคุมออนไลน์</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <input type="password" id="adminPasswordInput" placeholder="ENTER ACCESS CODE" 
+                            class="w-full bg-[#0a0a0a] border border-neutral-800 text-center font-bold py-3 rounded-lg text-sm tracking-[0.2em] text-neutral-100 placeholder-neutral-700 uppercase focus:border-neutral-500 focus:outline-none transition-colors">
+                        
+                        <!-- แสดงเมื่อรหัสผิดพลาด -->
+                        <p id="login-error" class="hidden text-[10px] text-red-500 font-bold uppercase">รหัสผ่านไม่ถูกต้อง!</p>
+
+                        <button onclick="attemptAdminLogin()" class="w-full bg-neutral-200 text-neutral-900 font-extrabold text-[11px] py-3.5 rounded-lg active:bg-neutral-300 transition-colors uppercase tracking-widest">
+                            VERIFY IDENTITY
+                        </button>
+                    </div>
+                </div>
+
+                <!-- หน้าจอหลักควบคุมระบบเมื่อเข้ารหัสสำเร็จ -->
+                <div id="admin-control-card" class="panel p-4 space-y-4 hidden">
+                    <div class="flex justify-between items-center border-b border-neutral-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-globe text-green-400 text-sm animate-pulse"></i>
+                            <div>
+                                <h3 class="text-[11px] font-black text-neutral-100 uppercase tracking-wider">ONLINE CONTROLLER</h3>
+                                <p class="text-[8px] text-neutral-500 font-bold uppercase">ปรับเปลี่ยนฟังก์ชันผู้ใช้แบบ real-time</p>
+                            </div>
+                        </div>
+                        <button onclick="adminLogout()" class="text-[9px] bg-red-950/40 text-red-400 px-2.5 py-1 rounded border border-red-900 font-bold uppercase">
+                            Logout
+                        </button>
+                    </div>
+
+                    <!-- รายชื่อปุ่มควบคุมทั้งหมดบน Google Sheets -->
+                    <div class="space-y-2.5">
+                        <div class="text-[9px] text-neutral-500 font-bold uppercase">สลับสวิตช์เพื่อสั่ง ปิด/เปิด ฝั่งผู้เล่นทั่วโลก</div>
+                        
+                        <!-- ปุ่ม 1 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">Clear Cache & Logs</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_clear_cache" onchange="sendAdminUpdate('clear_cache', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 2 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">Device ID Spoofer</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_device_spoofer" onchange="sendAdminUpdate('device_spoofer', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 3 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">Bypass Emulator</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_bypass_emulator" onchange="sendAdminUpdate('bypass_emulator', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 4 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">Anti-Report Safe</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_anti_report" onchange="sendAdminUpdate('anti_report', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 5 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300 text-neutral-100">Ativar Headshot (Master)</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_ativar_headshot" onchange="sendAdminUpdate('ativar_headshot', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 6 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">HS ALTO</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_hs_alto" onchange="sendAdminUpdate('hs_alto', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                                                                                                 </div>
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">HS ALTO & PESCOÇO</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_hs_alto_pescoco" onchange="sendAdminUpdate('hs_alto_pescoco', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- ปุ่ม 8 -->
+                        <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
+                            <span class="text-[11px] font-bold text-neutral-300">HS NO PESCOÇO</span>
+                            <label class="switch">
+                                <input type="checkbox" id="admin_hs_no_pescoco" onchange="sendAdminUpdate('hs_no_pescoco', this.checked)">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-    </section>
-  </div>
-
-  <div class="drawer-backdrop" id="drawerBackdrop"></div>
-  <aside class="drawer" id="drawer">
-    <div class="drawer-top">
-      <h3 class="title">User Status &amp; Logs</h3>
-      <button class="close-x" id="closeDrawerBtn" aria-label="ปิดเมนู">✕</button>
     </div>
 
-    <div class="drawer-content">
-      <div class="status-card">
-        <div class="status-line">
-          <div class="caption">สถานะผู้ใช้</div>
-          <div class="badge-live" style="padding:7px 10px;"><span class="dot"></span><span id="licenseStatus">ยังไม่ล็อกอิน</span></div>
+    <!-- แถบเมนูด้านล่างสุด (Nav Bar) -->
+    <div class="fixed bottom-0 left-0 w-full bg-[#0a0a0a] border-t border-neutral-800 z-50">
+        <div class="max-w-md mx-auto grid grid-cols-4 items-center p-2">
+            <button id="nav-main" onclick="switchTab('main')" class="nav-btn active py-3 text-neutral-500 flex flex-col items-center space-y-1 transition-colors relative">
+                <i class="fas fa-layer-group text-lg mb-0.5"></i>
+                <span class="text-[8px] font-bold uppercase tracking-wider">Main</span>
+                <div class="nav-indicator absolute top-0 w-8 h-0.5 rounded-full transition-all bg-transparent"></div>
+            </button>
+            <button id="nav-proxy" onclick="switchTab('proxy')" class="nav-btn py-3 text-neutral-500 hover:text-neutral-300 flex flex-col items-center space-y-1 transition-colors relative">
+                <i class="fas fa-crosshairs text-lg mb-0.5"></i>
+                <span class="text-[8px] font-bold uppercase tracking-wider">Proxy</span>
+                <div class="nav-indicator absolute top-0 w-8 h-0.5 rounded-full transition-all bg-transparent"></div>
+            </button>
+            <button id="nav-setting" onclick="switchTab('setting')" class="nav-btn py-3 text-neutral-500 hover:text-neutral-300 flex flex-col items-center space-y-1 transition-colors relative">
+                <i class="fas fa-gears text-lg mb-0.5"></i>
+                <span class="text-[8px] font-bold uppercase tracking-wider">Setting</span>
+                <div class="nav-indicator absolute top-0 w-8 h-0.5 rounded-full transition-all bg-transparent"></div>
+            </button>
+            <button id="nav-admin" onclick="switchTab('admin')" class="nav-btn py-3 text-neutral-500 hover:text-neutral-300 flex flex-col items-center space-y-1 transition-colors relative">
+                <i class="fas fa-user-shield text-lg mb-0.5"></i>
+                <span class="text-[8px] font-bold uppercase tracking-wider">Admin</span>
+                <div class="nav-indicator absolute top-0 w-8 h-0.5 rounded-full transition-all bg-transparent"></div>
+            </button>
         </div>
-
-        <div class="meta-grid">
-          <div class="mini">
-            <span class="k">วันหมดอายุ</span>
-            <div class="v" id="expText">30/12/2026</div>
-          </div>
-          <div class="mini">
-            <span class="k">Access Key</span>
-            <div class="v" id="keyText">-</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="log-card">
-        <div class="section-head" style="margin-bottom:10px;">บันทึกการทำงาน</div>
-        <div class="log" id="logArea">[SYSTEM] รอการเข้าสู่ระบบ...
-[INFO] หน้าเว็บโหลดสำเร็จ
-[INFO] พร้อมใช้งาน</div>
-      </div>
     </div>
-  </aside>
 
-  <script>
-    const loginScreen = document.getElementById('loginScreen');
-    const dashboardScreen = document.getElementById('dashboardScreen');
-    const accessKey = document.getElementById('accessKey');
-    const loginBtn = document.getElementById('loginBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const loginMsg = document.getElementById('loginMsg');
-    const executeBtn = document.getElementById('executeBtn');
-    const onlineText = document.getElementById('onlineText');
-    const licenseStatus = document.getElementById('licenseStatus');
-    const licenseStatusInline = document.getElementById('licenseStatusInline');
-    const expText = document.getElementById('expText');
-    const keyText = document.getElementById('keyText');
-    const logArea = document.getElementById('logArea');
+    <!-- หน้าต่างม่านดำสำหรับการประมวลผล (Loading Indicator สำหรับตอนบันทึก API) -->
+    <div id="global-loading" class="hidden fixed inset-0 z-[100] flex flex-col items-center justify-center loading-overlay">
+        <div class="bg-neutral-900 border border-neutral-800 p-6 rounded-2xl flex flex-col items-center space-y-4 max-w-xs text-center shadow-2xl">
+            <i class="fas fa-circle-notch fa-spin text-3xl text-neutral-100"></i>
+            <div>
+                <p class="text-xs font-bold text-neutral-200 uppercase tracking-widest">CEREX SYSTEM</p>
+                <p class="text-[9px] text-neutral-500 mt-1 uppercase tracking-wider">กำลังส่งข้อมูลไปยังฐานข้อมูลออนไลน์...</p>
+            </div>
+        </div>
+    </div>
 
-    const drawer = document.getElementById('drawer');
-    const drawerBackdrop = document.getElementById('drawerBackdrop');
-    const menuBtn = document.getElementById('menuBtn');
-    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+    <!-- JavaScript logic -->
+    <script>
+        // ========================================================
+        // 🚨 สเต็ปสำคัญ: กรุณาเอาลิงก์ SheetDB สีเขียวของคุณมาวางแทนทีกล่องนี้ 🚨
+        // ========================================================
+        const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/878i1we2wsshs'; // <-- แก้ตรงนี้เป็นไอดีลิงก์สีเขียวของคุณ
+        
+        let isAdminAuthenticated = false;
 
-    const state = {
-      auth:false,
-      key:'',
-      exp:'30/12/2026',
-      logs:[]
-    };
+        // จัดการแท็บหน้าจอ
+        function switchTab(tab) {
+            document.getElementById('view-main').classList.add('hidden');
+            document.getElementById('view-proxy').classList.add('hidden');
+            document.getElementById('view-setting').classList.add('hidden');
+            document.getElementById('view-admin').classList.add('hidden');
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
 
-    function timeStamp(){
-      return new Date().toLocaleTimeString('th-TH',{
-        hour:'2-digit',
-        minute:'2-digit',
-        second:'2-digit'
-      });
-    }
+            const navs = ['main', 'proxy', 'setting', 'admin'];
+            navs.forEach(n => {
+                document.getElementById(`nav-${n}`).classList.remove('active');
+            });
+            document.getElementById(`nav-${tab}`).classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
 
-    function pushLog(line){
-      state.logs.push(`[${timeStamp()}] ${line}`);
-      logArea.textContent = state.logs.join('\n');
-      logArea.scrollTop = logArea.scrollHeight;
-    }
+        // ฟังก์ชันคลิกตัวเลือกคอ/หัว
+        function toggleOption(element, featureId) {
+            // เช็คว่าปุ่มนี้ถูกล็อกด้วยแอดมินอยู่หรือไม่
+            if (element.classList.contains('opacity-40')) {
+                alert("ฟังก์ชันนี้ถูกระงับการใช้งานชั่วคราวโดยผู้ดูแลระบบ!");
+                return;
+            }
+            
+            const isMasterOn = document.getElementById('headshotToggle').checked;
+            if (!isMasterOn) {
+                alert("กรุณาเปิดสวิตช์ Ativar Headshot ก่อน");
+                return;
+            }
+            element.classList.toggle('active');
+        }
 
-    function openDrawer(){
-      drawer.classList.add('open');
-      drawerBackdrop.classList.add('open');
-    }
+        // ----------------- ระบบดึงและควบคุมสถานะแอปออนไลน์ (SheetDB) -----------------
+        
+        async function fetchOnlineStatus() {
+            if (!SHEETDB_API_URL || SHEETDB_API_URL.includes('your_sheetdb_id')) return;
+            
+            try {
+                const response = await fetch(SHEETDB_API_URL);
+                if (!response.ok) return;
+                const data = await response.json();
 
-    function closeDrawer(){
-      drawer.classList.remove('open');
-      drawerBackdrop.classList.remove('open');
-    }
+                // 1. ดึงและตั้งค่าปุ่มฝั่งผู้เล่น
+                applyFeatureStatus(data, 'clear_cache', 'btn_clear_cache', 'container_clear_cache', 'switch');
+                applyFeatureStatus(data, 'device_spoofer', 'btn_device_spoofer', 'container_device_spoofer', 'switch');
+                applyFeatureStatus(data, 'bypass_emulator', 'btn_bypass_emulator', 'container_bypass_emulator', 'switch');
+                applyFeatureStatus(data, 'anti_report', 'btn_anti_report', 'container_anti_report', 'switch');
+                
+                applyFeatureStatus(data, 'ativar_headshot', 'headshotToggle', 'container_headshot', 'switch');
+                applyFeatureStatus(data, 'hs_alto', null, 'option_hs_alto', 'option');
+                applyFeatureStatus(data, 'hs_alto_pescoco', null, 'option_hs_alto_pescoco', 'option');
+                applyFeatureStatus(data, 'hs_no_pescoco', null, 'option_hs_no_pescoco', 'option');
 
-    function showDashboard(){
-      loginScreen.classList.remove('active');
-      dashboardScreen.classList.add('active');
-      onlineText.textContent = 'ออนไลน์';
-      licenseStatus.textContent = 'ใช้งานได้';
-      licenseStatusInline.textContent = 'ใช้งานได้';
-      keyText.textContent = state.key || '-';
-      expText.textContent = state.exp;
-      executeBtn.disabled = false;
-      pushLog('ล็อกอินสำเร็จ');
-      pushLog('เข้าสู่หน้าแผงควบคุม');
-    }
+                // 2. ถ้าล็อกอินในแท็บ Admin ค้างไว้อยู่ ให้สอดคล้องสถานะปุ่มในตาราง
+                if (isAdminAuthenticated) {
+                    syncAdminCheckboxes(data);
+                }
 
-    function resetAll(){
-      state.auth = false;
-      state.key = '';
-      state.logs = ['[SYSTEM] รอการเข้าสู่ระบบ...'];
-      loginMsg.textContent = '';
-      loginMsg.style.color = '#ff5f73';
-      accessKey.value = '';
-      executeBtn.disabled = true;
-      onlineText.textContent = 'ออฟไลน์';
-      licenseStatus.textContent = 'ยังไม่ล็อกอิน';
-      licenseStatusInline.textContent = 'ยังไม่ล็อกอิน';
-      expText.textContent = '30/12/2026';
-      keyText.textContent = '-';
-      logArea.textContent = state.logs.join('\n');
-      document.querySelectorAll('.toggle input').forEach(el => el.checked = false);
-      closeDrawer();
-      loginScreen.classList.add('active');
-      dashboardScreen.classList.remove('active');
-      accessKey.focus();
-    }
+            } catch (err) {
+                console.log("Error checking online status:", err);
+            }
+        }
+        function applyFeatureStatus(dataArray, featureName, buttonId, containerId, type) {
+            const item = dataArray.find(x => x.feature === featureName);
+            if (!item) return;
 
-    loginBtn.addEventListener('click', () => {
-      const key = accessKey.value.trim();
-      if (!key){
-        loginMsg.textContent = 'กรุณากรอก Access Key';
-        return;
-      }
+            const isAllowed = (item.status === 'true');
+            const container = document.getElementById(containerId);
+            
+            if (type === 'switch') {
+                const checkbox = document.getElementById(buttonId);
+                if (checkbox) {
+                    if (isAllowed) {
+                        checkbox.disabled = false;
+                        if (container) container.classList.remove('opacity-40');
+                    } else {
+                        checkbox.checked = false;
+                        checkbox.disabled = true;
+                        if (container) container.classList.add('opacity-40');
+                    }
+                }
+            } else if (type === 'option') {
+                if (container) {
+                    if (isAllowed) {
+                        container.classList.remove('opacity-40', 'pointer-events-none');
+                    } else {
+                        container.classList.remove('active');
+                        container.classList.add('opacity-40', 'pointer-events-none');
+                    }
+                }
+            }
+        }
 
-      loginMsg.style.color = '#dbe7ff';
-      loginMsg.textContent = 'กำลังตรวจสอบ...';
-      loginBtn.disabled = true;
+        // ดึงสถานะแอปทุก ๆ 12 วินาที
+        setInterval(fetchOnlineStatus, 12000);
+        // รันทันทีเมื่อเปิดแอป
+        window.addEventListener('DOMContentLoaded', fetchOnlineStatus);
 
-      setTimeout(() => {
-        state.auth = true;
-        state.key = key;
-        state.logs = ['[SYSTEM] ตรวจสอบสำเร็จ', '[INFO] เตรียมเปิดแผงควบคุม'];
-        loginBtn.disabled = false;
-        loginMsg.textContent = '';
-        showDashboard();
-        logArea.textContent = state.logs.join('\n');
-      }, 550);
-    });
+        // ----------------- ระบบแอดมิน (Admin Panel Engine) -----------------
+        
+        function attemptAdminLogin() {
+            const pwdInput = document.getElementById('adminPasswordInput').value;
+            const errorLabel = document.getElementById('login-error');
+            
+            if (pwdInput === 'cerex') {
+                isAdminAuthenticated = true;
+                errorLabel.classList.add('hidden');
+                document.getElementById('admin-login-card').classList.add('hidden');
+                document.getElementById('admin-control-card').classList.remove('hidden');
+                
+                // ดึงข้อมูลลล่าสุดมาตั้งสวิตช์ปุ่มฝั่งแอดมินทันทีที่เข้ารหัสผ่านผ่าน
+                fetchOnlineStatus();
+            } else {
+                errorLabel.classList.remove('hidden');
+            }
+        }
 
-    accessKey.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') loginBtn.click();
-    });
+        function adminLogout() {
+            isAdminAuthenticated = false;
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('admin-login-card').classList.remove('hidden');
+            document.getElementById('admin-control-card').classList.add('hidden');
+        }
 
-    executeBtn.addEventListener('click', () => {
-      if (!state.auth) return;
-      pushLog('กดปุ่มดำเนินการ / เริ่มทำงาน');
-      pushLog('ระบบเดโมตอบสนองเรียบร้อย');
-    });
+        // ซิงค์สวิตช์ฝั่งแอดมินให้ตรงกับฐานข้อมูลจริง
+        function syncAdminCheckboxes(dataArray) {
+            const list = ['clear_cache', 'device_spoofer', 'bypass_emulator', 'anti_report', 'ativar_headshot', 'hs_alto', 'hs_alto_pescoco', 'hs_no_pescoco'];
+            list.forEach(name => {
+                const row = dataArray.find(x => x.feature === name);
+                const adminSwitch = document.getElementById(`admin_${name}`);
+                if (row && adminSwitch) {
+                    adminSwitch.checked = (row.status === 'true');
+                }
+            });
+        }
 
-    resetBtn.addEventListener('click', resetAll);
+        // แอดมินกดสวิตช์อัปเดตข้อมูลขึ้นคลาวด์ Google Sheet ผ่าน SheetDB API
+        async function sendAdminUpdate(featureName, isChecked) {
+            if (!SHEETDB_API_URL || SHEETDB_API_URL.includes('your_sheetdb_id')) {
+                alert("กรุณาตั้งค่าลิงก์ SheetDB ของคุณในโค้ดก่อนจึงจะอัปเดตระบบได้ครับ!");
+                return;
+            }
 
-    ['f1','f2','f3','f4'].forEach((id, idx) => {
-      const el = document.getElementById(id);
-      el.addEventListener('change', e => {
-        pushLog(`สวิตช์ ${idx + 1}: ${e.target.checked ? 'เปิด' : 'ปิด'}`);
-      });
-    });
+            const loader = document.getElementById('global-loading');
+            loader.classList.remove('hidden');
 
-    menuBtn.addEventListener('click', () => {
-      if (drawer.classList.contains('open')) closeDrawer();
-      else openDrawer();
-    });
-    closeDrawerBtn.addEventListener('click', closeDrawer);
-    drawerBackdrop.addEventListener('click', closeDrawer);
+            try {
+                // ส่งข้อมูลอัปเดตด้วยแบบ PATCH เจาะจงแถว feature นั้น ๆ
+                const response = await fetch(`${SHEETDB_API_URL}/feature/${featureName}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: isChecked ? 'true' : 'false'
+                    })
+                });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDrawer();
-    });
+                if (response.ok) {
+                    // ทำการอัปเดตหน้าจอทันที
+                    await fetchOnlineStatus();
+                } else {
+                    alert("บันทึกลงฐานข้อมูลออนไลน์ล้มเหลว!");
+                }
+            } catch (err) {
+                alert("เชื่อมต่อฐานข้อมูลออนไลน์ไม่ได้!");
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
 
-    pushLog('พร้อมใช้งาน');
-  </script>
+        // ----------------- ปุ่มเริ่มทำงาน & Injector -----------------
+
+        const startBtn = document.getElementById('start-btn');
+        const uidInput = document.getElementById('uid');
+        const alertBox = document.getElementById('alert-box');
+        const alertText = document.getElementById('alert-text');
+        const alertIcon = document.getElementById('alert-icon');
+        const btnText = document.getElementById('btn-text');
+        const btnSpinner = document.getElementById('btn-spinner');
+
+        function showBypassAlert(message, type) {
+            alertText.innerText = message;
+            alertBox.className = 'bg-neutral-900 rounded-lg p-3 text-[11px] font-medium border flex items-center space-x-2';
+            
+            if (type === 'error') {
+                alertBox.classList.add('border-red-900/50', 'text-red-400');
+                alertIcon.className = 'fas fa-triangle-exclamation text-red-500 text-sm';
+            } else if (type === 'success') {
+                alertBox.classList.add('border-neutral-700', 'text-neutral-300');
+                alertIcon.className = 'fas fa-check-circle text-neutral-200 text-sm';
+            }
+            alertBox.classList.remove('hidden');
+        }
+
+        function hideBypassAlert() {
+            alertBox.classList.add('hidden');
+        }
+
+        startBtn.addEventListener('click', () => {
+            const uid = uidInput.value.trim();
+            hideBypassAlert();
+
+            if (!uid) {
+                showBypassAlert('กรุณากรอกหมายเลข UID ก่อนใช้งาน', 'error');
+                return;
+            }
+
+            startBtn.disabled = true;
+            startBtn.classList.add('opacity-70');
+            btnText.innerText = 'INJECTING...';
+            btnSpinner.classList.remove('hidden');
+
+            setTimeout(() => {
+                startBtn.disabled = false;
+                startBtn.classList.remove('opacity-70');
+                btnText.innerText = 'START BYPASS';
+                btnSpinner.classList.add('hidden');
+
+                showBypassAlert(`Injecting UID: ${uid} สำเร็จ!`, 'success');
+            }, 1500);
+        });
+
+        uidInput.addEventListener('input', () => {
+            if (!alertBox.classList.contains('hidden')) hideBypassAlert();
+        });
+
+        // ฟังก์ชันระบบสปินปุ่มเริ่มเกม INJECTOR ในค่าย CEREX PROXY
+        function runInjector() {
+            const injectorBtn = document.getElementById('injector-btn');
+            const statusBox = document.getElementById('injector-status');
+
+            injectorBtn.disabled = true;
+            injectorBtn.classList.add('opacity-50');
+            statusBox.classList.remove('hidden');
+
+            setTimeout(() => {
+                injectorBtn.disabled = false;
+                injectorBtn.classList.remove('opacity-50');
+                statusBox.innerHTML = '<i class="fas fa-check text-green-400 mr-1.5"></i> CEREX PROXY INJECTED SUCCESSFUL!';
+                statusBox.classList.add('border-green-800', 'text-green-400');
+            }, 2000);
+        }
+
+        function startPairing() {
+            const code = document.getElementById('pairingCode').value;
+            const statusEl = document.getElementById('adbStatus');
+            const statusGlow = document.getElementById('status-glow');
+
+            if (code.length === 6) {
+                setTimeout(() => {
+                    statusEl.innerText = "CONNECTED";
+                    statusEl.className = "text-[10px] font-bold text-neutral-300 uppercase";
+                    statusGlow.className = "w-1.5 h-1.5 rounded-full bg-neutral-300";
+                    document.getElementById('pairingCode').disabled = true;
+                }, 1000);
+            }
+        }
+    </script>
 </body>
-                  </html>
+</html>
 
 
