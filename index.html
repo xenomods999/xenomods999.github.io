@@ -597,7 +597,7 @@
             const item = dataArray.find(x => x.feature === featureName);
             if (!item) return;
 
-            const isAllowed = (item.status === 'true');
+            const isAllowed = (String(item.status).toLowerCase() === 'true');
             const container = document.getElementById(containerId);
             
             if (type === 'switch') {
