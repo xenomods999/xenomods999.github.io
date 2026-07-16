@@ -685,8 +685,10 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        status: isChecked ? 'true' : 'false'
-                    })
+    data: {
+        status: isChecked ? 'true' : 'false'
+    }
+})
                 });
 
                 if (response.ok) {
