@@ -262,7 +262,6 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-
                     <div class="space-y-2">
                         <!-- Option 1 -->
                         <div id="option_hs_alto" class="option-item p-3 rounded-lg flex justify-between items-center cursor-pointer transition-all duration-300" onclick="toggleOption(this, 'hs_alto')">
@@ -304,7 +303,8 @@
                             <input type="checkbox" checked>
                             <span class="slider"></span>
                         </label>
-              </div>
+                    </div>
+
                     <div class="space-y-2">
                         <label class="block text-[9px] font-bold text-neutral-500 uppercase">Select Safety Node</label>
                         <div class="p-3 bg-[#0a0a0a] border border-neutral-800 rounded-lg flex items-center justify-between">
@@ -347,7 +347,7 @@
                         </span>
                         <ol class="text-[10px] text-neutral-400 list-decimal pl-4 space-y-1">
                             <li>ไปที่ <b class="text-neutral-300">ตัวเลือกสำหรับนักพัฒนา</b> (Developer Options)</li>
-                            <li>เปิด <b class="text-neutral-300">การแก้ไขข้อบกพร่องผ่านระบบไร้สาย</b></li>
+                                                        <li>เปิด <b class="text-neutral-300">การแก้ไขข้อบกพร่องผ่านระบบไร้สาย</b></li>
                             <li>กดเลือก <b class="text-neutral-300">จับคู่อุปกรณ์ด้วยรหัส</b></li>
                             <li>นำเลข 6 หลักที่ปรากฏ กรอกในช่องด้านล่าง</li>
                         </ol>
@@ -388,7 +388,6 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- หน้าจอหลักควบคุมระบบเมื่อเข้ารหัสสำเร็จ -->
                 <div id="admin-control-card" class="panel p-4 space-y-4 hidden">
                     <div class="flex justify-between items-center border-b border-neutral-800 pb-3">
@@ -460,7 +459,9 @@
                                 <input type="checkbox" id="admin_hs_alto" onchange="sendAdminUpdate('hs_alto', this.checked)">
                                 <span class="slider"></span>
                             </label>
-                                                                                                 </div>
+                        </div>
+
+                        <!-- ปุ่ม 7 -->
                         <div class="flex justify-between items-center bg-[#0a0a0a] p-3 rounded-lg border border-neutral-800">
                             <span class="text-[11px] font-bold text-neutral-300">HS ALTO & PESCOÇO</span>
                             <label class="switch">
@@ -520,13 +521,13 @@
             </div>
         </div>
     </div>
-
+    
     <!-- JavaScript logic -->
     <script>
         // ========================================================
         // 🚨 สเต็ปสำคัญ: กรุณาเอาลิงก์ SheetDB สีเขียวของคุณมาวางแทนทีกล่องนี้ 🚨
         // ========================================================
-        const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/878i1we2wsshs'; // <-- แก้ตรงนี้เป็นไอดีลิงก์สีเขียวของคุณ
+        const SHEETDB_API_URL = 'https://sheetdb.io/api/v1/878i1we2wsshs'; 
         
         let isAdminAuthenticated = false;
 
@@ -593,6 +594,8 @@
                 console.log("Error checking online status:", err);
             }
         }
+
+        // จัดการเปิด/ปิด ความจาง ล็อกปุ่มฝั่งผู้ใช้
         function applyFeatureStatus(dataArray, featureName, buttonId, containerId, type) {
             const item = dataArray.find(x => x.feature === featureName);
             if (!item) return;
@@ -623,7 +626,6 @@
                 }
             }
         }
-
         // ดึงสถานะแอปทุก ๆ 12 วินาที
         setInterval(fetchOnlineStatus, 12000);
         // รันทันทีเมื่อเปิดแอป
@@ -662,7 +664,7 @@
                 const row = dataArray.find(x => x.feature === name);
                 const adminSwitch = document.getElementById(`admin_${name}`);
                 if (row && adminSwitch) {
-                    adminSwitch.checked = (row.status === 'true');
+                    adminSwitch.checked = (String(row.status).toLowerCase() === 'true');
                 }
             });
         }
@@ -671,6 +673,9 @@
         async function sendAdminUpdate(featureName, isChecked) {
             if (!SHEETDB_API_URL || SHEETDB_API_URL.includes('your_sheetdb_id')) {
                 alert("กรุณาตั้งค่าลิงก์ SheetDB ของคุณในโค้ดก่อนจึงจะอัปเดตระบบได้ครับ!");
+                // หากตั้งค่าผิดพลาด ให้ตีกลับสวิตช์เป็นค่าเดิม
+                const adminSwitch = document.getElementById(`admin_${featureName}`);
+                if (adminSwitch) adminSwitch.checked = !isChecked;
                 return;
             }
 
@@ -685,20 +690,30 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-    data: {
-        status: isChecked ? 'true' : 'false'
-    }
-})
+                        data: {
+                            status: isChecked ? 'true' : 'false'
+                        }
+                    })
                 });
 
                 if (response.ok) {
-                    // ทำการอัปเดตหน้าจอทันที
-                    await fetchOnlineStatus();
+                    // ✅ อัปเดตสำเร็จ บังคับให้สวิตช์ล็อกสถานะใหม่ไว้เลย โดยไม่ต้องไปรอดึงข้อมูลใหม่
+                    const adminSwitch = document.getElementById(`admin_${featureName}`);
+                    if (adminSwitch) adminSwitch.checked = isChecked;
+                    
+                    // หมายเหตุ: เราเอา await fetchOnlineStatus(); ออกไป 
+                    // เพื่อปล่อยให้ระบบดึงข้อมูลอัตโนมัติรอบ 12 วิถัดไปทำงานของมันเอง ป้องกันการดีดกลับ
                 } else {
                     alert("บันทึกลงฐานข้อมูลออนไลน์ล้มเหลว!");
+                    // ❌ ถ้า API พัง ให้คืนค่าสวิตช์เดิม
+                    const adminSwitch = document.getElementById(`admin_${featureName}`);
+                    if (adminSwitch) adminSwitch.checked = !isChecked;
                 }
             } catch (err) {
                 alert("เชื่อมต่อฐานข้อมูลออนไลน์ไม่ได้!");
+                // ❌ ถ้าเน็ตพัง ให้คืนค่าสวิตช์เดิม
+                const adminSwitch = document.getElementById(`admin_${featureName}`);
+                if (adminSwitch) adminSwitch.checked = !isChecked;
             } finally {
                 loader.classList.add('hidden');
             }
@@ -795,4 +810,4 @@
 </body>
 </html>
 
-
+    
