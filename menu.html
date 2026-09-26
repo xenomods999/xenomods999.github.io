@@ -7,10 +7,10 @@
 
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Google Fonts: Inter -->
+<!-- Google Fonts: Inter & Prompt -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -46,7 +46,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-color);
   color: var(--txt-white);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -122,6 +122,35 @@ body {
   border-radius: 50%;
   background: var(--color-green);
   box-shadow: 0 0 8px var(--color-green);
+}
+
+/* แถบประกาศหน้าแรก (Announcement Banner) */
+.announcement-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 16px;
+  padding: 12px 16px;
+  color: #fde68a;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.08);
+  animation: pulseAmber 2.5s infinite;
+}
+
+.announcement-banner i {
+  color: #fbbf24;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@keyframes pulseAmber {
+  0% { border-color: rgba(245, 158, 11, 0.35); }
+  50% { border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 4px 18px rgba(245, 158, 11, 0.18); }
+  100% { border-color: rgba(245, 158, 11, 0.35); }
 }
 
 /* VIP Timer Card */
@@ -812,7 +841,7 @@ input:checked + .slider:before {
   filter: grayscale(0.2);
 }
 
-/* สไตล์ปุ่มตอนพร้อมเปิดเกม (สีเขียว) */
+/* ปุ่มพร้อมเปิดเกม (สีเขียวเรืองแสง) */
 .btn-inject.ready-launch {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   box-shadow: 0 4px 22px rgba(16, 185, 129, 0.5) !important;
@@ -1108,6 +1137,12 @@ input:checked + .slider:before {
     </div>
   </div>
 
+  <!-- แถบประกาศแจ้งเตือนหน้าแรก (Moco Notice) -->
+  <div class="announcement-banner">
+    <i class="fas fa-bullhorn"></i>
+    <span><strong>ประกาศ:</strong> ขณะนี้ฟังก์ชันมองโมโคปิดชั่วคราวนะครับ</span>
+  </div>
+
   <!-- VIP Timer Card -->
   <div class="vip-timer-card">
     <div class="vip-timer-left">
@@ -1266,7 +1301,19 @@ input:checked + .slider:before {
           </label>
         </div>
 
-        <!-- 3. SLIDER: FOV Circle (30° - 180°) พร้อมวงพรีวิว -->
+        <!-- 3. Hs - Neck (ยิงคอขึ้นหัว เพิ่มตามสั่ง) -->
+        <div class="feature-row">
+          <div class="feature-text-group">
+            <span class="feature-title-text">Hs - Neck</span>
+            <span class="feature-desc-text">ยิงคอขึ้นหัว เล็งบริเวณลำคอดึงขึ้นสู่ศีรษะอัตโนมัติ แม่นยำและเป็นธรรมชาติ</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="feat_hs_neck" onchange="toggleFeatureWithVibe('hs_neck', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- 4. SLIDER: FOV Circle (30° - 180°) พร้อมวงพรีวิว -->
         <div class="slider-group">
           <div class="slider-header-row">
             <span class="feature-title-text">FOV Circle</span>
@@ -1281,7 +1328,7 @@ input:checked + .slider:before {
           </div>
         </div>
 
-        <!-- 4. SLIDER: Smoothness (1 - 10) -->
+        <!-- 5. SLIDER: Smoothness (1 - 10) -->
         <div class="slider-group">
           <div class="slider-header-row">
             <span class="feature-title-text">Smoothness</span>
@@ -1291,7 +1338,7 @@ input:checked + .slider:before {
           <input type="range" min="1" max="10" value="5" class="custom-range" id="smoothRangeInput" oninput="handleSmoothChange(this.value)">
         </div>
 
-        <!-- 5. Icewall Inverted -->
+        <!-- 6. Icewall Inverted -->
         <div class="feature-row">
           <div class="feature-text-group">
             <span class="feature-title-text">Icewall Inverted</span>
@@ -1310,7 +1357,7 @@ input:checked + .slider:before {
           <i class="fas fa-cog"></i> VISION
         </div>
 
-        <!-- 1. ESP Moco (LOCKED) -->
+        <!-- 1. ESP Moco (LOCKED - แจ้งปิดชั่วคราว) -->
         <div class="feature-row locked-feature">
           <div class="feature-text-group">
             <div class="lock-title-wrap">
@@ -1435,7 +1482,7 @@ if (!localStorage.getItem('sd_saved_user_key')) {
 let tempSelectedClient = 'FREE FIRE';
 let tempSelectedPackage = 'com.dts.freefireth';
 let isInjecting = false;
-let isReadyToLaunch = false; // ตรวจสอบว่าพร้อมเปิดเกมหรือยัง
+let isReadyToLaunch = false;
 
 // สลับแท็บ Setup และ Features
 function switchTab(tab) {
@@ -1632,7 +1679,6 @@ function confirmClientSelection() {
   localStorage.setItem('sunny_selected_package', tempSelectedPackage);
   updateSearchButtonLabel(tempSelectedClient);
 
-  // ถ้าระบบเคยฉีดไปแล้ว ให้รีเซ็ตปุ่มเป็นชื่อเกมใหม่
   if (isReadyToLaunch) {
     const btnText = document.getElementById('btnInjectText');
     btnText.innerText = `START ${tempSelectedClient}`;
@@ -1662,8 +1708,9 @@ function changeMarkerType(val) {
   localStorage.setItem('feat_marker_type', val);
 }
 
+// โหลดสถานะเดิมที่เคยปรับแต่ง
 function loadFeatureStates() {
-  const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted'];
+  const features = ['aimbot_legit', 'aimbot_85', 'hs_neck', 'icewall_inverted'];
   features.forEach(f => {
     const saved = localStorage.getItem(`feat_${f}`);
     const el = document.getElementById(`feat_${f}`);
@@ -1688,11 +1735,10 @@ function loadFeatureStates() {
 }
 
 // ========================================================
-// จัดการปุ่ม INJECT & LAUNCH GAME (แก้ปัญหา Chrome เด้ง Play Store)
+// จัดการปุ่ม INJECT & LAUNCH GAME (เปิดเกมตรง ไม่เด้ง Play Store)
 // ========================================================
 function handleInjectClick() {
   if (isReadyToLaunch) {
-    // จังหวะที่ 2: ผู้ใช้สัมผัสปุ่ม "START GAME" โดยตรง (Direct Gesture)
     const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
     launchGameApp(targetPackage);
     return;
@@ -1734,7 +1780,6 @@ function startInjectProgress() {
 
       vibrateDevice([80, 60, 80]);
 
-      // เปลี่ยนปุ่มเป็น "START GAME" สีเขียว ให้ลูกค้ากดเข้าแอปได้ทันที
       btn.disabled = false;
       btn.classList.add('ready-launch');
       btnIcon.className = 'fas fa-play';
@@ -1742,7 +1787,6 @@ function startInjectProgress() {
       isReadyToLaunch = true;
       isInjecting = false;
 
-      // แสดง Toast แจ้งเตือน
       const toast = document.getElementById('toastNotification');
       const toastGame = document.getElementById('toastTargetGameText');
       toastGame.innerText = `ฉีดสำเร็จ! กดปุ่ม START ${targetClient} เพื่อเข้าเล่น`;
@@ -1759,24 +1803,21 @@ function startInjectProgress() {
   }, 45);
 }
 
-// ฟังก์ชันสั่งเปิดเกม (รองรับทั้ง Android Chrome และ Safari iOS 100%)
 function launchGameApp(pkgName) {
   vibrateDevice(50);
   const ua = navigator.userAgent;
   const isMax = pkgName.includes('max');
 
   if (/Android/i.test(ua)) {
-    // 1. เรียกผ่าน Custom Scheme ของตัวเกมโดยตรง
     const customScheme = isMax ? 'freefiremax://' : 'freefire://';
     window.location.href = customScheme;
 
-    // 2. แผนสำรอง: เปิดผ่าน Intent Launcher โดยไม่ระบุ fallback ไป Google Play Store
     setTimeout(() => {
       window.location.href = `intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkgName};end;`;
     }, 400);
 
   } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    const scheme = isMax ? 'freefiremax://' : 'freefire://';
+    const scheme = pkgName.includes('max') ? 'freefiremax://' : 'freefire://';
     window.location.href = scheme;
   }
 }
