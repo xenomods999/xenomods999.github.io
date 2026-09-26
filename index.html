@@ -387,6 +387,7 @@ function showStatus(text, isSuccess = false) {
 }
 
 // ฟังก์ชัน Login ส่งผ่าน Vercel API
+// ฟังก์ชัน Login ส่งผ่าน Vercel API
 async function performLogin() {
   const keyInput = document.getElementById('keyInput');
   const key = keyInput.value.trim();
@@ -404,16 +405,17 @@ async function performLogin() {
   document.getElementById('statusBox').style.display = 'none';
 
   const serial = getDeviceSerial();
-  
-  // ยิงเข้า Serverless Function ของ Vercel
   const url = '/api/connect';
-  const bodyData = 'game=ProxyPin&user_key=' + encodeURIComponent(key) + '&serial=' + encodeURIComponent(serial);
 
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: bodyData
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        game: 'ProxyPin',
+        user_key: key,
+        serial: serial
+      })
     });
 
     const r = await response.json();
@@ -431,12 +433,12 @@ async function performLogin() {
         window.location.href = 'menu.html';
       }, 700);
     } else {
-      showStatus('รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
+      showStatus(r.message || 'รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
     }
   } catch(e) {
     btnLabel.innerText = 'Continue';
     btn.disabled = false;
-    showStatus('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+    showStatus('เกิดข้อผิดพลาด: ' + e.message);
   }
 }
 
