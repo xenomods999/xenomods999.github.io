@@ -124,7 +124,7 @@ body {
   box-shadow: 0 0 8px var(--color-green);
 }
 
-/* กล่องนับเวลาอายุคีย์ (VIP Countdown Box) */
+/* VIP Timer Card */
 .vip-timer-card {
   display: flex;
   justify-content: space-between;
@@ -588,7 +588,7 @@ body {
   transform: scale(1.2);
 }
 
-/* FOV Visual Radar Box (วงแสดงขนาด FOV) */
+/* FOV Visual Radar Box */
 .fov-radar-container {
   width: 100%;
   height: 140px;
@@ -622,7 +622,7 @@ body {
   position: absolute;
 }
 
-/* Locked Feature Row (ESP Moco ล็อค) */
+/* Locked Feature Row (ESP Moco) */
 .feature-row.locked-feature {
   opacity: 0.65;
 }
@@ -794,7 +794,7 @@ input:checked + .slider:before {
   justify-content: center;
   gap: 10px;
   box-shadow: 0 4px 20px rgba(109, 74, 255, 0.45);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .btn-inject:hover {
@@ -810,6 +810,19 @@ input:checked + .slider:before {
   opacity: 0.7;
   cursor: not-allowed;
   filter: grayscale(0.2);
+}
+
+/* สไตล์ปุ่มตอนพร้อมเปิดเกม (สีเขียว) */
+.btn-inject.ready-launch {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  box-shadow: 0 4px 22px rgba(16, 185, 129, 0.5) !important;
+  animation: pulseGreen 1.5s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.015); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 .loading-bar-container {
@@ -1078,7 +1091,7 @@ input:checked + .slider:before {
   </div>
   <div class="toast-content">
     <div class="toast-title">INJECTION SUCCESSFUL</div>
-    <div class="toast-desc" id="toastTargetGameText">กำลังเปิดตัวเกม...</div>
+    <div class="toast-desc" id="toastTargetGameText">ฉีดสำเร็จ! กรุณากดปุ่มเพื่อเปิดเกม</div>
   </div>
 </div>
 
@@ -1095,7 +1108,7 @@ input:checked + .slider:before {
     </div>
   </div>
 
-  <!-- กล่องนับเวลาอายุคีย์ (VIP Countdown Box) -->
+  <!-- VIP Timer Card -->
   <div class="vip-timer-card">
     <div class="vip-timer-left">
       <i class="fas fa-stopwatch timer-icon"></i>
@@ -1214,7 +1227,7 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม + FOV/Smoothness Sliders + Moco Locked) -->
+  <!-- TAB 2: FEATURES VIEW -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
       <h2 class="section-title">Features</h2>
@@ -1262,7 +1275,6 @@ input:checked + .slider:before {
           <span class="feature-desc-text">ปรับองศาวงล็อกเป้าและระยะตรวจจับรอบเป้าเล็ง</span>
           <input type="range" min="30" max="180" value="90" class="custom-range" id="fovRangeInput" oninput="handleFovChange(this.value)">
           
-          <!-- วงพรีวิว FOV เรดาร์ -->
           <div class="fov-radar-container">
             <div class="fov-crosshair-center"></div>
             <div class="fov-circle-preview" id="fovCircleVisual" style="width: 75px; height: 75px;"></div>
@@ -1298,7 +1310,7 @@ input:checked + .slider:before {
           <i class="fas fa-cog"></i> VISION
         </div>
 
-        <!-- 1. ESP Moco (เพิ่มไอคอนล็อค ปิดไม่ให้เปิดใช้งานตามสั่ง) -->
+        <!-- 1. ESP Moco (LOCKED) -->
         <div class="feature-row locked-feature">
           <div class="feature-text-group">
             <div class="lock-title-wrap">
@@ -1333,8 +1345,9 @@ input:checked + .slider:before {
 
       <!-- ส่วน INJECT & LOADING BAR -->
       <div class="inject-card">
-        <button class="btn-inject" id="btnInjectMain" onclick="triggerInjectAndLaunch()">
-          <i class="fas fa-syringe"></i> <span id="btnInjectText">INJECT</span>
+        <button class="btn-inject" id="btnInjectMain" onclick="handleInjectClick()">
+          <i class="fas fa-syringe" id="btnInjectIcon"></i>
+          <span id="btnInjectText">INJECT</span>
         </button>
 
         <div class="loading-bar-container">
@@ -1422,6 +1435,7 @@ if (!localStorage.getItem('sd_saved_user_key')) {
 let tempSelectedClient = 'FREE FIRE';
 let tempSelectedPackage = 'com.dts.freefireth';
 let isInjecting = false;
+let isReadyToLaunch = false; // ตรวจสอบว่าพร้อมเปิดเกมหรือยัง
 
 // สลับแท็บ Setup และ Features
 function switchTab(tab) {
@@ -1444,7 +1458,6 @@ function switchTab(tab) {
   }
 }
 
-// ระบบสั่นสะเทือนตอบสนอง
 function vibrateDevice(duration = 35) {
   if (navigator.vibrate) {
     navigator.vibrate(duration);
@@ -1493,13 +1506,10 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
-// ========================================================
-// ระบบนับเวลาถอยหลังอายุคีย์ (24 ชั่วโมงจำลอง)
-// ========================================================
+// ระบบนับเวลาถอยหลังอายุคีย์ (24 ชั่วโมง)
 function startKeyCountdown() {
   let expiryTime = localStorage.getItem('sunny_key_expiry');
   if (!expiryTime) {
-    // กำหนดอายุคีย์ 24 ชม. จากการเข้าสู่ระบบครั้งแรก
     expiryTime = Date.now() + (24 * 60 * 60 * 1000);
     localStorage.setItem('sunny_key_expiry', expiryTime);
   } else {
@@ -1530,15 +1540,12 @@ function startKeyCountdown() {
   setInterval(updateTimer, 1000);
 }
 
-// ========================================================
 // จัดการสไลเดอร์ FOV และ SMOOTHNESS
-// ========================================================
 function handleFovChange(val) {
   vibrateDevice(15);
   document.getElementById('fovValBadge').innerText = `${val}°`;
   localStorage.setItem('feat_fov_val', val);
 
-  // ปรับขนาดวงพรีวิวเรดาร์ (คำนวณตามองศา 30-180 ให้อยู่ในขนาด 25px ถึง 130px)
   const size = Math.round(25 + ((val - 30) / 150) * 105);
   const visual = document.getElementById('fovCircleVisual');
   visual.style.width = `${size}px`;
@@ -1551,13 +1558,11 @@ function handleSmoothChange(val) {
   localStorage.setItem('feat_smooth_val', val);
 }
 
-// แจ้งเตือนเมื่อกดฟังก์ชันที่ล็อคอยู่
 function triggerLockedAlert() {
   vibrateDevice([40, 50, 40]);
   alert('ฟังก์ชัน ESP Moco กำลังปิดปรับปรุงชั่วคราว');
 }
 
-// สวิตช์ฟังก์ชันพร้อมการสั่น
 function toggleFeatureWithVibe(name, state) {
   vibrateDevice(35);
   localStorage.setItem(`feat_${name}`, state);
@@ -1626,6 +1631,12 @@ function confirmClientSelection() {
   localStorage.setItem('sunny_selected_client', tempSelectedClient);
   localStorage.setItem('sunny_selected_package', tempSelectedPackage);
   updateSearchButtonLabel(tempSelectedClient);
+
+  // ถ้าระบบเคยฉีดไปแล้ว ให้รีเซ็ตปุ่มเป็นชื่อเกมใหม่
+  if (isReadyToLaunch) {
+    const btnText = document.getElementById('btnInjectText');
+    btnText.innerText = `START ${tempSelectedClient}`;
+  }
 }
 
 function updateSearchButtonLabel(clientName) {
@@ -1651,7 +1662,6 @@ function changeMarkerType(val) {
   localStorage.setItem('feat_marker_type', val);
 }
 
-// โหลดสถานะเดิมที่เคยปรับแต่ง
 function loadFeatureStates() {
   const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted'];
   features.forEach(f => {
@@ -1662,12 +1672,10 @@ function loadFeatureStates() {
     }
   });
 
-  // โหลดค่า Slider FOV
   const savedFov = localStorage.getItem('feat_fov_val') || 90;
   document.getElementById('fovRangeInput').value = savedFov;
   handleFovChange(savedFov);
 
-  // โหลดค่า Slider Smoothness
   const savedSmooth = localStorage.getItem('feat_smooth_val') || 5;
   document.getElementById('smoothRangeInput').value = savedSmooth;
   handleSmoothChange(savedSmooth);
@@ -1680,23 +1688,34 @@ function loadFeatureStates() {
 }
 
 // ========================================================
-// INJECT & LAUNCH GAME
+// จัดการปุ่ม INJECT & LAUNCH GAME (แก้ปัญหา Chrome เด้ง Play Store)
 // ========================================================
-function triggerInjectAndLaunch() {
-  if (isInjecting) return;
-  isInjecting = true;
+function handleInjectClick() {
+  if (isReadyToLaunch) {
+    // จังหวะที่ 2: ผู้ใช้สัมผัสปุ่ม "START GAME" โดยตรง (Direct Gesture)
+    const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
+    launchGameApp(targetPackage);
+    return;
+  }
 
+  if (isInjecting) return;
+  startInjectProgress();
+}
+
+function startInjectProgress() {
+  isInjecting = true;
   vibrateDevice([40, 50, 40]);
 
   const btn = document.getElementById('btnInjectMain');
   const btnText = document.getElementById('btnInjectText');
+  const btnIcon = document.getElementById('btnInjectIcon');
   const fillBar = document.getElementById('loadingProgressFill');
   const percentText = document.getElementById('loadingPercentageText');
   const statusText = document.getElementById('loadingStatusText');
 
   btn.disabled = true;
   btnText.innerText = 'INJECTING...';
-  statusText.innerText = 'PROCESSING MODULES...';
+  statusText.innerText = 'INJECTING PACKETS...';
 
   let progress = 0;
   fillBar.style.width = '0%';
@@ -1709,40 +1728,55 @@ function triggerInjectAndLaunch() {
       clearInterval(interval);
       fillBar.style.width = '100%';
       percentText.innerText = '100%';
-      statusText.innerText = 'COMPLETED';
+      statusText.innerText = 'READY TO LAUNCH';
 
       const targetClient = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
-      const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
 
       vibrateDevice([80, 60, 80]);
 
+      // เปลี่ยนปุ่มเป็น "START GAME" สีเขียว ให้ลูกค้ากดเข้าแอปได้ทันที
+      btn.disabled = false;
+      btn.classList.add('ready-launch');
+      btnIcon.className = 'fas fa-play';
+      btnText.innerText = `START ${targetClient}`;
+      isReadyToLaunch = true;
+      isInjecting = false;
+
+      // แสดง Toast แจ้งเตือน
       const toast = document.getElementById('toastNotification');
       const toastGame = document.getElementById('toastTargetGameText');
-      toastGame.innerText = `ฉีดสำเร็จ! กำลังเปิด ${targetClient}...`;
+      toastGame.innerText = `ฉีดสำเร็จ! กดปุ่ม START ${targetClient} เพื่อเข้าเล่น`;
       toast.classList.add('show');
 
       setTimeout(() => {
-        launchGameApp(targetPackage);
-        setTimeout(() => {
-          toast.classList.remove('show');
-          btn.disabled = false;
-          btnText.innerText = 'INJECT';
-          isInjecting = false;
-        }, 2500);
-      }, 800);
+        toast.classList.remove('show');
+      }, 4000);
+
     } else {
       fillBar.style.width = `${progress}%`;
       percentText.innerText = `${progress}%`;
     }
-  }, 50);
+  }, 45);
 }
 
+// ฟังก์ชันสั่งเปิดเกม (รองรับทั้ง Android Chrome และ Safari iOS 100%)
 function launchGameApp(pkgName) {
+  vibrateDevice(50);
   const ua = navigator.userAgent;
+  const isMax = pkgName.includes('max');
+
   if (/Android/i.test(ua)) {
-    window.location.href = `intent://#Intent;package=${pkgName};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end;`;
+    // 1. เรียกผ่าน Custom Scheme ของตัวเกมโดยตรง
+    const customScheme = isMax ? 'freefiremax://' : 'freefire://';
+    window.location.href = customScheme;
+
+    // 2. แผนสำรอง: เปิดผ่าน Intent Launcher โดยไม่ระบุ fallback ไป Google Play Store
+    setTimeout(() => {
+      window.location.href = `intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkgName};end;`;
+    }, 400);
+
   } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    const scheme = pkgName.includes('max') ? 'freefiremax://' : 'freefire://';
+    const scheme = isMax ? 'freefiremax://' : 'freefire://';
     window.location.href = scheme;
   }
 }
