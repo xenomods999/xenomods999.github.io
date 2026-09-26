@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DRIP WIRE - LOGIN</title>
+
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+input {
+  user-select: auto;
+}
+
+:root {
+  --bg-color: #0b0b0e;
+  --card-bg: #141418;
+  --input-bg: #1e1e24;
+  --input-border: #292932;
+  --input-focus: #3b3b48;
+  
+  --primary-purple: #6d4aff;
+  --primary-hover: #5d3bf0;
+  --primary-glow: rgba(109, 74, 255, 0.35);
+  
+  --txt-white: #ffffff;
+  --txt-muted: #737380;
+  --txt-label: #8f8fa0;
+  --txt-placeholder: #505060;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--txt-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Card Container */
+.login-card {
+  width: 100%;
+  max-width: 375px;
+  background-color: var(--card-bg);
+  border-radius: 26px;
+  padding: 38px 26px 34px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo */
+.logo-box {
+  width: 62px;
+  height: 62px;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a20;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Title & Subtitle */
+.card-title {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: var(--txt-white);
+  margin-bottom: 6px;
+}
+
+.card-subtitle {
+  font-size: 13.5px;
+  color: var(--txt-muted);
+  font-weight: 400;
+  margin-bottom: 26px;
+}
+
+/* Form */
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.field-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt-label);
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+/* Input Area */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 12px;
+  padding: 0 14px;
+  transition: all 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--input-focus);
+  background-color: #23232b;
+}
+
+.key-input {
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--txt-white);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.key-input::placeholder {
+  color: var(--txt-placeholder);
+  font-size: 14px;
+}
+
+/* ปุ่ม Paste แบบไอคอนด้านในช่องกรอก */
+.btn-paste-icon {
+  background: transparent;
+  border: none;
+  color: var(--txt-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px;
+  border-radius: 6px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-paste-icon:hover {
+  color: var(--txt-white);
+}
+
+/* Continue Button */
+.btn-continue {
+  width: 100%;
+  height: 48px;
+  margin-top: 18px;
+  background-color: var(--primary-purple);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px var(--primary-glow);
+}
+
+.btn-continue:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 6px 22px rgba(109, 74, 255, 0.5);
+}
+
+.btn-continue:active {
+  transform: scale(0.985);
+}
+
+.btn-continue:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Status Message */
+.status-msg {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  font-size: 12.5px;
+  text-align: center;
+  font-weight: 500;
+  display: none;
+  line-height: 1.4;
+}
+
+.status-msg.success {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.25);
+  color: #6ee7b7;
+}
+
+/* System Maintenance Box */
+.update-box {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.update-icon {
+  font-size: 40px;
+  color: #a78bfa;
+  margin-bottom: 2px;
+}
+
+.update-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.update-desc {
+  font-size: 13px;
+  color: var(--txt-muted);
+  line-height: 1.5;
+}
+
+.btn-discord {
+  width: 100%;
+  height: 44px;
+  background: #5865F2;
+  color: #ffffff;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="login-card">
+
+  <!-- Logo -->
+  <div class="logo-box">
+    <img src="https://i.postimg.cc/C1QLb9w9/Picsart-26-09-26-06-31-03-951.png" alt="SUNNY WIRE Logo" class="logo-img">
+  </div>
+
+  <!-- Header Titles -->
+  <h1 class="card-title">SUNNY WIRE</h1>
+  <p class="card-subtitle">Enter your product key to get started</p>
+
+  <!-- Login Form -->
+  <div class="form-container" id="loginContainer">
+    <label class="field-label" for="keyInput">Product key</label>
+    
+    <div class="input-wrapper">
+      <input type="text" id="keyInput" class="key-input" placeholder="Enter your key" autocomplete="off" spellcheck="false">
+      <!-- ไอคอนปุ่มกดวาง Paste เพื่อความสะดวก -->
+      <button type="button" class="btn-paste-icon" onclick="pasteFromClipboard()" title="วางคีย์">
+        <i class="far fa-clipboard"></i>
+      </button>
+    </div>
+
+    <!-- Continue Button -->
+    <button id="loginBtn" class="btn-continue" onclick="performLogin()">
+      <span id="loginBtnLabel">Continue</span>
+    </button>
+
+    <!-- แจ้งเตือนสถานะ -->
+    <div id="statusBox" class="status-msg"></div>
+  </div>
+
+  <!-- Update/Maintenance Screen (กรณีปิดปรับปรุง) -->
+  <div class="update-box" id="updateContainer">
+    <div class="update-icon">
+      <i class="fas fa-tools"></i>
+    </div>
+    <div class="update-title">ระบบกำลังอัปเดต</div>
+    <div class="update-desc">
+      ขณะนี้ระบบกำลังปิดปรับปรุงชั่วคราว<br>สามารถติดตามข่าวสารได้ที่ Discord ครับ
+    </div>
+    <a href="https://discord.gg/jT4QhEeXx" target="_blank" class="btn-discord">
+      <i class="fab fa-discord"></i> Discord Server
+    </a>
+  </div>
+
+</div>
+
+<script>
+// ฟังก์ชันกด PASTE วางคีย์
+async function pasteFromClipboard() {
+  const input = document.getElementById('keyInput');
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text && text.trim() !== '') {
+        input.value = text.trim();
+        showStatus('วางคีย์สำเร็จแล้ว', true);
+        setTimeout(() => {
+          document.getElementById('statusBox').style.display = 'none';
+        }, 1200);
+        return;
+      }
+    } catch (err) {}
+  }
+
+  // Fallback กรณีถูกบล็อกสิทธิ์คลิปบอร์ด
+  const fallbackText = prompt('กรุณาวางรหัสคีย์ของคุณที่นี่ (Paste Key):');
+  if (fallbackText && fallbackText.trim() !== '') {
+    input.value = fallbackText.trim();
+  }
+}
+
+// สร้าง Device Serial / HWID
+function getDeviceSerial() {
+  let s = localStorage.getItem('sd_device_serial_lite');
+  if (!s) {
+    try {
+      const raw = `${window.screen.width}x${window.screen.height}-${navigator.userAgent}`;
+      let h = 0;
+      for (let i = 0; i < raw.length; i++) {
+        h = ((h << 5) - h) + raw.charCodeAt(i);
+        h = h & h;
+      }
+      s = 'SD-' + Math.abs(h).toString(16).toUpperCase();
+      localStorage.setItem('sd_device_serial_lite', s);
+    } catch(e) {
+      s = 'SD-' + Math.random().toString(16).substring(2, 10).toUpperCase();
+      localStorage.setItem('sd_device_serial_lite', s);
+    }
+  }
+  return s;
+}
+
+// แสดงข้อความแจ้งเตือน
+function showStatus(text, isSuccess = false) {
+  const box = document.getElementById('statusBox');
+  box.innerText = text;
+  box.style.display = 'block';
+  box.className = isSuccess ? 'status-msg success' : 'status-msg';
+}
+
+// ฟังก์ชัน Login และเปิดหน้า menu.html
+async function performLogin() {
+  const keyInput = document.getElementById('keyInput');
+  const key = keyInput.value.trim();
+  const btn = document.getElementById('loginBtn');
+  const btnLabel = document.getElementById('loginBtnLabel');
+
+  if (!key) {
+    showStatus('กรุณากรอก Product key ก่อนเข้าสู่ระบบ');
+    keyInput.focus();
+    return;
+  }
+
+  btnLabel.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+  btn.disabled = true;
+  document.getElementById('statusBox').style.display = 'none';
+
+  const serial = getDeviceSerial();
+  const url = 'https://qqshop.xyz/connect';
+  const bodyData = 'game=ProxyPin&user_key=' + encodeURIComponent(key) + '&serial=' + encodeURIComponent(serial);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: bodyData
+    });
+
+    const r = await response.json();
+    btnLabel.innerText = 'Continue';
+    btn.disabled = false;
+
+    if (r.status === true) {
+      showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
+      localStorage.setItem('sd_saved_user_key', key);
+
+      // หน่วงเวลาเล็กน้อยเพื่อให้เห็นสถานะ แล้วเปลี่ยนไปหน้า menu.html
+      setTimeout(() => {
+        if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
+          AndroidInterface.onLoginSuccess(key);
+        }
+        window.location.href = 'menu.html';
+      }, 700);
+    } else {
+      showStatus('รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
+    }
+  } catch(e) {
+    // สำรองด้วย XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        btnLabel.innerText = 'Continue';
+        btn.disabled = false;
+        if (xhr.status === 200) {
+          try {
+            const r = JSON.parse(xhr.responseText);
+            if (r.status === true) {
+              showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
+              localStorage.setItem('sd_saved_user_key', key);
+              setTimeout(() => {
+                if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
+                  AndroidInterface.onLoginSuccess(key);
+                }
+                window.location.href = 'menu.html';
+              }, 700);
+            } else {
+              showStatus('รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
+            }
+          } catch(errEx) {
+            showStatus('เกิดข้อผิดพลาดในการประมวลผล');
+          }
+        } else {
+          showStatus('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
+        }
+      }
+    };
+    xhr.send(bodyData);
+  }
+}
+
+// โหลดคีย์เดิมที่เคยบันทึกไว้
+window.addEventListener('DOMContentLoaded', function() {
+  const savedKey = localStorage.getItem('sd_saved_user_key');
+  if (savedKey) {
+    document.getElementById('keyInput').value = savedKey;
+  }
+});
+</script>
+</body>
+</html>

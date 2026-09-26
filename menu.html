@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SUNNY WIRE</title>
+
+<!-- FontAwesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+:root {
+  --bg-main: #000000;
+  --card-bg: #141417;
+  --card-border: #1f1f26;
+  --item-bg: #0d0d10;
+  
+  --accent-purple: #7952ff;
+  --accent-hover: #6a44f2;
+  
+  --neon-green: #00ff88;
+  --neon-green-bg: rgba(0, 255, 136, 0.12);
+  --neon-green-border: rgba(0, 255, 136, 0.4);
+  
+  --txt-white: #ffffff;
+  --txt-gray: #71717a;
+  --txt-sub: #a1a1aa;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* ใช้ฟอนต์มาตรฐานของระบบเครื่อง */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--txt-white);
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* Master Wrapper */
+.app-wrapper {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 18px 90px;
+}
+
+/* Top App Bar */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--txt-white);
+}
+
+/* Vivid Online Badge */
+.online-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: var(--neon-green-bg);
+  border: 1px solid var(--neon-green-border);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.25);
+}
+
+.online-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+}
+
+.online-text {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--neon-green);
+}
+
+/* Device Telemetry Card */
+.device-box {
+  width: 100%;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin-bottom: 22px;
+}
+
+.device-box-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.device-box-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--txt-sub);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.device-box-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.device-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.device-field {
+  background-color: var(--item-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.field-key {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--txt-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-val {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt-white);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Content View */
+.view-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.view-hidden {
+  display: none !important;
+}
+
+.main-title {
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.main-subtitle {
+  font-size: 13px;
+  color: var(--txt-gray);
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+/* Server Selector Bar */
+.server-bar {
+  width: 100%;
+  height: 48px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.server-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.server-bar-left i {
+  color: var(--accent-purple);
+  font-size: 15px;
+}
+
+.server-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.server-ping {
+  font-size: 12px;
+  color: var(--neon-green);
+  font-weight: 600;
+}
+
+.server-arrow {
+  font-size: 11px;
+  color: var(--txt-gray);
+}
+
+/* ProxyPin Core Card */
+.core-card {
+  width: 100%;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.core-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.core-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.core-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.core-sub {
+  font-size: 12px;
+  color: var(--txt-gray);
+  margin-top: 2px;
+}
+
+.btn-install {
+  width: 100%;
+  height: 46px;
+  background-color: var(--accent-purple);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.btn-install:active {
+  opacity: 0.85;
+}
+
+.core-footnote {
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--txt-gray);
+  margin-top: 12px;
+}
+
+/* Store Buttons */
+.store-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--txt-gray);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.store-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.btn-store {
+  height: 46px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--txt-white);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.btn-store:active {
+  background-color: var(--item-bg);
+}
+
+/* Features Category */
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--txt-gray);
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+}
+
+.feature-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 2px;
+  border-bottom: 1px solid #141418;
+}
+
+.feature-name {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--txt-white);
+}
+
+/* Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #26262e;
+  transition: 0.25s ease;
+  border-radius: 30px;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #ffffff;
+  transition: 0.25s ease;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-purple);
+}
+
+input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+/* Select Box */
+.dropdown-group {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dropdown-label {
+  font-size: 12px;
+  color: var(--txt-gray);
+}
+
+.custom-select {
+  width: 100%;
+  height: 48px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  color: var(--txt-white);
+  padding: 0 16px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+}
+
+.features-end-text {
+  margin-top: 36px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--txt-white);
+}
+
+/* Server Selector Modal */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal-sheet {
+  width: 100%;
+  max-width: 420px;
+  background: #121216;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 18px 30px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.modal-heading {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--txt-gray);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--item-bg);
+  border: 1px solid var(--card-border);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.modal-item.active {
+  border-color: var(--accent-purple);
+  background: #171720;
+}
+
+.modal-item-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-item-ping {
+  font-size: 12px;
+  color: var(--neon-green);
+  font-weight: 600;
+}
+
+/* Toast Message */
+.toast-bar {
+  position: fixed;
+  bottom: 86px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1a1a22;
+  border: 1px solid #282834;
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  display: none;
+  z-index: 300;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 66px;
+  background-color: var(--bg-main);
+  border-top: 1px solid #141418;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+}
+
+.nav-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  color: #4b4b58;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 8px 24px;
+}
+
+.nav-button i {
+  font-size: 17px;
+}
+
+.nav-button.active {
+  color: #9d80ff;
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand-group">
+      <img src="https://i.postimg.cc/C1QLb9w9/Picsart-26-09-26-06-31-03-951.png" alt="SUNNY WIRE Logo" class="brand-icon">
+      <span class="brand-title">SUNNY WIRE</span>
+    </div>
+    
+    <!-- Vivid Green Online Status -->
+    <div class="online-badge">
+      <div class="online-dot"></div>
+      <span class="online-text">ONLINE</span>
+    </div>
+  </div>
+
+  <!-- Real Device Profile Card -->
+  <div class="device-box">
+    <div class="device-box-head">
+      <div class="device-box-label">
+        <i class="fas fa-microchip"></i>
+        <span>Device Profile</span>
+      </div>
+      <div class="device-box-badge">AUTHENTICATED</div>
+    </div>
+    <div class="device-grid">
+      <div class="device-field">
+        <div class="field-key">Terminal Model</div>
+        <div class="field-val" id="modelVal">Detecting...</div>
+      </div>
+      <div class="device-field">
+        <div class="field-key">Platform OS</div>
+        <div class="field-val" id="osVal">Detecting...</div>
+      </div>
+      <div class="device-field">
+        <div class="field-key">Graphics Renderer</div>
+        <div class="field-val" id="gpuVal">Detecting...</div>
+      </div>
+      <div class="device-field">
+        <div class="field-key">Display Matrix</div>
+        <div class="field-val" id="matrixVal">Detecting...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: SETUP -->
+  <div class="view-content" id="tabSetup">
+    <div class="main-title">Install Configuration</div>
+    <div class="main-subtitle">Connect to the proxy server using ProxyPin</div>
+
+    <!-- Active Server Bar -->
+    <div class="server-bar" onclick="openServerSheet()">
+      <div class="server-bar-left">
+        <i class="fas fa-globe"></i>
+        <span id="labelServer">Thailand</span>
+      </div>
+      <div class="server-bar-right">
+        <span class="server-ping" id="labelPing">4ms</span>
+        <i class="fas fa-chevron-down server-arrow"></i>
+      </div>
+    </div>
+
+    <!-- ProxyPin Connect Card -->
+    <div class="core-card">
+      <div class="core-meta">
+        <img src="https://i.postimg.cc/FRDk8Ph5/1.png" alt="ProxyPin" class="core-icon">
+        <div>
+          <div class="core-title">ProxyPin</div>
+          <div class="core-sub">Required to connect</div>
+        </div>
+      </div>
+
+      <button class="btn-install" onclick="runInstallConfig()">
+        <i class="fas fa-bolt"></i>
+        <span>Install Config</span>
+      </button>
+
+      <div class="core-footnote">
+        Opens ProxyPin and imports the configuration
+      </div>
+    </div>
+
+    <!-- Store Links -->
+    <div class="store-label">Don't have ProxyPin?</div>
+    <div class="store-row">
+      <a href="https://play.google.com/store/apps/details?id=com.network.proxy" target="_blank" class="btn-store">
+        <i class="fab fa-google-play"></i>
+        <span>Google Play</span>
+      </a>
+      <a href="https://apps.apple.com/th/app/proxypin-%E0%B8%88-%E0%B8%9A%E0%B8%97%E0%B8%A3%E0%B8%B2%E0%B8%9F%E0%B8%9F-%E0%B8%81-http-s/id6450932949?l=th" target="_blank" class="btn-store">
+        <i class="fab fa-apple"></i>
+        <span>App Store</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- TAB 2: FEATURES -->
+  <div class="view-content view-hidden" id="tabFeatures">
+    <div class="main-title">Features</div>
+    <div class="main-subtitle">Manage active features for your session</div>
+
+    <!-- Group: Combat -->
+    <div class="group-title">
+      <i class="fas fa-crosshairs"></i>
+      <span>Combat</span>
+    </div>
+
+    <div class="feature-row">
+      <span class="feature-name">Aimbot Legit</span>
+      <label class="switch">
+        <input type="checkbox" id="checkAimbot" onchange="toggleSetting('Aimbot Legit', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="feature-row">
+      <span class="feature-name">Hs 85%</span>
+      <label class="switch">
+        <input type="checkbox" id="checkHs85" onchange="toggleSetting('Hs 85%', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="feature-row">
+      <span class="feature-name">Hs - Collect</span>
+      <label class="switch">
+        <input type="checkbox" id="checkHsCollect" onchange="toggleSetting('Hs - Collect', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="feature-row">
+      <span class="feature-name">Icewall Inverted</span>
+      <label class="switch">
+        <input type="checkbox" id="checkIcewall" onchange="toggleSetting('Icewall Inverted', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Group: Vision -->
+    <div class="group-title" style="margin-top: 24px;">
+      <i class="fas fa-eye"></i>
+      <span>Vision</span>
+    </div>
+
+    <div class="feature-row">
+      <span class="feature-name">ESP Moco</span>
+      <label class="switch">
+        <input type="checkbox" id="checkEsp" onchange="toggleSetting('ESP Moco', this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Marker Type -->
+    <div class="dropdown-group">
+      <label class="dropdown-label" for="selectMarker">Marker type</label>
+      <select id="selectMarker" class="custom-select" onchange="chooseMarker(this.value)">
+        <option value="Shirou">Shirou</option>
+        <option value="Alok">Alok</option>
+        <option value="Chrono">Chrono</option>
+        <option value="Classic">Classic</option>
+        <option value="Kelly">Kelly</option>
+      </select>
+    </div>
+
+    <div class="features-end-text">
+      Choose The Options You Want
+    </div>
+  </div>
+
+</div>
+
+<!-- Server Modal Bottom Sheet -->
+<div class="modal-mask" id="serverSheet" onclick="closeServerSheet(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-top">
+      <span class="modal-heading">Select Server</span>
+      <button class="modal-close" onclick="closeServerSheet()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="serverItems"></div>
+  </div>
+</div>
+
+<!-- Toast Box -->
+<div id="toast" class="toast-bar"></div>
+
+<!-- Bottom Navigation Bar -->
+<div class="bottom-nav">
+  <button class="nav-button active" id="btnNavSetup" onclick="gotoTab('setup')">
+    <i class="fas fa-download"></i>
+    <span>Setup</span>
+  </button>
+  <button class="nav-button" id="btnNavFeatures" onclick="gotoTab('features')">
+    <i class="fas fa-sliders-h"></i>
+    <span>Features</span>
+  </button>
+  <button class="nav-button" id="btnNavLogout" onclick="processLogout()">
+    <i class="fas fa-sign-out-alt"></i>
+    <span>Logout</span>
+  </button>
+</div>
+
+<script>
+// Available Gateway Nodes
+const REGION_SERVERS = [
+  { name: 'Thailand', ping: '4ms' },
+  { name: 'United Kingdom', ping: '142ms' },
+  { name: 'Spain', ping: '178ms' },
+  { name: 'India', ping: '72ms' },
+  { name: 'Laos', ping: '24ms' },
+  { name: 'China', ping: '58ms' },
+  { name: 'Indonesia', ping: '34ms' },
+  { name: 'Portugal', ping: '185ms' }
+];
+
+let currentServer = REGION_SERVERS[0];
+
+// Switch Tabs
+function gotoTab(tab) {
+  const tabSetup = document.getElementById('tabSetup');
+  const tabFeatures = document.getElementById('tabFeatures');
+  const btnNavSetup = document.getElementById('btnNavSetup');
+  const btnNavFeatures = document.getElementById('btnNavFeatures');
+
+  if (tab === 'setup') {
+    tabSetup.classList.remove('view-hidden');
+    tabFeatures.classList.add('view-hidden');
+    btnNavSetup.classList.add('active');
+    btnNavFeatures.classList.remove('active');
+  } else if (tab === 'features') {
+    tabSetup.classList.add('view-hidden');
+    tabFeatures.classList.remove('view-hidden');
+    btnNavFeatures.classList.add('active');
+    btnNavSetup.classList.remove('active');
+  }
+}
+
+// Show Toast Notice
+function showNotice(text) {
+  const toast = document.getElementById('toast');
+  toast.innerText = text;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 2000);
+}
+
+// Open Server Bottom Sheet
+function openServerSheet() {
+  const container = document.getElementById('serverItems');
+  container.innerHTML = '';
+
+  REGION_SERVERS.forEach(srv => {
+    const div = document.createElement('div');
+    div.className = 'modal-item' + (srv.name === currentServer.name ? ' active' : '');
+    div.innerHTML = `
+      <span class="modal-item-name">${srv.name}</span>
+      <span class="modal-item-ping">${srv.ping}</span>
+    `;
+    div.onclick = () => {
+      currentServer = srv;
+      document.getElementById('labelServer').innerText = srv.name;
+      document.getElementById('labelPing').innerText = srv.ping;
+      closeServerSheet();
+      showNotice(`Connected to ${srv.name}`);
+    };
+    container.appendChild(div);
+  });
+
+  document.getElementById('serverSheet').style.display = 'flex';
+}
+
+function closeServerSheet() {
+  document.getElementById('serverSheet').style.display = 'none';
+}
+
+// Toggle Features
+function toggleSetting(name, state) {
+  showNotice(`${name} ${state ? 'Enabled' : 'Disabled'}`);
+  localStorage.setItem('cfg_' + name, state);
+}
+
+function chooseMarker(val) {
+  showNotice(`Marker set to ${val}`);
+  localStorage.setItem('cfg_marker', val);
+}
+
+// Install Config Trigger
+function runInstallConfig() {
+  showNotice(`Opening ProxyPin with ${currentServer.name} config`);
+  setTimeout(() => {
+    window.location.href = 'proxypin://';
+  }, 500);
+}
+
+// Logout Action
+function processLogout() {
+  const ok = confirm('Do you want to log out?');
+  if (ok) {
+    localStorage.removeItem('sd_saved_user_key');
+    window.location.href = 'index.html';
+  }
+}
+
+// Clean Real Device Detection
+function detectDeviceInfo() {
+  const ua = navigator.userAgent;
+  let model = "Generic Device";
+  let os = "Android 12";
+
+  if (/iPhone/i.test(ua)) {
+    model = "Apple iPhone";
+    os = "iOS";
+  } else if (/iPad/i.test(ua)) {
+    model = "Apple iPad";
+    os = "iPadOS";
+  } else if (/Android/i.test(ua)) {
+    const osMatch = ua.match(/Android\s([0-9]+)/);
+    os = osMatch ? "Android " + osMatch[1] : "Android OS";
+
+    const modelMatch = ua.match(/;\s*([^;]+)\s+Build/i);
+    if (modelMatch && modelMatch[1]) {
+      model = modelMatch[1].trim();
+    } else {
+      model = "M2007J3SG";
+    }
+  }
+
+  // Get GPU
+  let gpu = "Adreno (TM) 650";
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+      const ext = gl.getExtension('WEBGL_debug_renderer_info');
+      if (ext) {
+        const raw = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+        if (raw) {
+          gpu = raw.replace(/ANGLE \(\vert{}\)|vs_.*$/gi, '').split(',')[0].trim();
+        }
+      }
+    }
+  } catch(e) {}
+
+  // Calculate clean integer display resolution
+  const dpr = window.devicePixelRatio || 1;
+  const w = Math.round(window.screen.width * dpr);
+  const h = Math.round(window.screen.height * dpr);
+
+  document.getElementById('modelVal').innerText = model;
+  document.getElementById('osVal').innerText = os;
+  document.getElementById('gpuVal').innerText = gpu;
+  document.getElementById('matrixVal').innerText = w + " × " + h;
+}
+
+// Load Saved Data
+window.addEventListener('DOMContentLoaded', () => {
+  detectDeviceInfo();
+
+  const aimbot = localStorage.getItem('cfg_Aimbot Legit');
+  const hs85 = localStorage.getItem('cfg_Hs 85%');
+  const hsCollect = localStorage.getItem('cfg_Hs - Collect');
+  const icewall = localStorage.getItem('cfg_Icewall Inverted');
+  const esp = localStorage.getItem('cfg_ESP Moco');
+  const marker = localStorage.getItem('cfg_marker');
+
+  if (aimbot !== null) document.getElementById('checkAimbot').checked = (aimbot === 'true');
+  if (hs85 !== null) document.getElementById('checkHs85').checked = (hs85 === 'true');
+  if (hsCollect !== null) document.getElementById('checkHsCollect').checked = (hsCollect === 'true');
+  if (icewall !== null) document.getElementById('checkIcewall').checked = (icewall === 'true');
+  if (esp !== null) document.getElementById('checkEsp').checked = (esp === 'true');
+  if (marker) document.getElementById('selectMarker').value = marker;
+});
+</script>
+</body>
+</html>
