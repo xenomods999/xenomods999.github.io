@@ -38,6 +38,7 @@
   --color-green: #10b981;
   --color-red: #ef4444;
   --color-blue: #38bdf8;
+  --color-amber: #f59e0b;
 }
 
 body {
@@ -58,14 +59,14 @@ body {
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 /* Tab Sections */
 .view-section {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -121,6 +122,62 @@ body {
   border-radius: 50%;
   background: var(--color-green);
   box-shadow: 0 0 8px var(--color-green);
+}
+
+/* กล่องนับเวลาอายุคีย์ (VIP Countdown Box) */
+.vip-timer-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(109, 74, 255, 0.12) 0%, rgba(20, 20, 24, 0.8) 100%);
+  border: 1px solid rgba(109, 74, 255, 0.25);
+  border-radius: 18px;
+  padding: 13px 18px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+
+.vip-timer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timer-icon {
+  font-size: 20px;
+  color: #a78bfa;
+}
+
+.vip-timer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vip-timer-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--txt-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.vip-timer-clock {
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.vip-tier-badge {
+  background: rgba(168, 85, 247, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #d8b4fe;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.6px;
 }
 
 /* Device Card */
@@ -478,6 +535,118 @@ body {
   line-height: 1.4;
 }
 
+/* Sliders Styling (FOV & Smoothness) */
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-divider);
+}
+
+.slider-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-val-badge {
+  background: rgba(109, 74, 255, 0.2);
+  border: 1px solid rgba(109, 74, 255, 0.4);
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: #23232e;
+  outline: none;
+  margin: 6px 0;
+  cursor: pointer;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary-purple);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(109, 74, 255, 0.8);
+  transition: transform 0.1s ease;
+}
+
+.custom-range::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+}
+
+/* FOV Visual Radar Box (วงแสดงขนาด FOV) */
+.fov-radar-container {
+  width: 100%;
+  height: 140px;
+  background: #101015;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fov-crosshair-center {
+  width: 6px;
+  height: 6px;
+  background: #ef4444;
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0 0 8px #ef4444;
+  z-index: 2;
+}
+
+.fov-circle-preview {
+  border: 2px dashed rgba(167, 139, 250, 0.75);
+  border-radius: 50%;
+  background: rgba(109, 74, 255, 0.08);
+  transition: width 0.15s ease, height 0.15s ease;
+  box-shadow: 0 0 15px rgba(109, 74, 255, 0.3);
+  position: absolute;
+}
+
+/* Locked Feature Row (ESP Moco ล็อค) */
+.feature-row.locked-feature {
+  opacity: 0.65;
+}
+
+.lock-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-locked {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: var(--color-amber);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
 /* Marker Selector */
 .marker-type-group {
   display: flex;
@@ -585,8 +754,17 @@ input:checked + .slider:before {
   transform: translateX(22px);
 }
 
+.switch.disabled-switch {
+  cursor: not-allowed;
+}
+
+.switch.disabled-switch .slider {
+  background-color: #1c1c24;
+  cursor: not-allowed;
+}
+
 /* ========================================================
-   INJECT CARD & REAL LOADING BAR (วิ่งเต็มหลอดไปทางขวา)
+   INJECT CARD & REAL LOADING BAR
    ======================================================== */
 .inject-card {
   margin-top: 10px;
@@ -634,7 +812,6 @@ input:checked + .slider:before {
   filter: grayscale(0.2);
 }
 
-/* หลอดหน้าโหลดวิ่งไปทางขวา */
 .loading-bar-container {
   display: flex;
   flex-direction: column;
@@ -673,7 +850,6 @@ input:checked + .slider:before {
   box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
 }
 
-/* เส้นนีออนวิ่งไปทางขวาในหลอดโหลด */
 .loading-bar-fill::after {
   content: '';
   position: absolute;
@@ -692,9 +868,7 @@ input:checked + .slider:before {
   100% { transform: translateX(100%); }
 }
 
-/* ========================================================
-   TOAST NOTIFICATION
-   ======================================================== */
+/* Toast */
 .toast-box {
   position: fixed;
   top: 24px;
@@ -921,6 +1095,18 @@ input:checked + .slider:before {
     </div>
   </div>
 
+  <!-- กล่องนับเวลาอายุคีย์ (VIP Countdown Box) -->
+  <div class="vip-timer-card">
+    <div class="vip-timer-left">
+      <i class="fas fa-stopwatch timer-icon"></i>
+      <div class="vip-timer-info">
+        <span class="vip-timer-label">KEY EXPIRATION</span>
+        <span class="vip-timer-clock" id="keyTimerDisplay">23h 59m 59s</span>
+      </div>
+    </div>
+    <div class="vip-tier-badge">VIP ACTIVE</div>
+  </div>
+
   <!-- TAB 1: SETUP VIEW -->
   <div class="view-section" id="viewSetup">
 
@@ -986,13 +1172,11 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ป้ายสถานะสีแดง / สีเขียว -->
       <div id="configStatusBadge" class="config-status-badge unauthorized">
         <span class="status-dot"></span>
         <span id="configStatusText">UNAUTHORIZED</span>
       </div>
 
-      <!-- ปุ่มกดขออนุญาต VPN โดยตรง -->
       <button class="btn-action-main" onclick="openVpnModal()">
         <i class="fas fa-bolt"></i> Install Config
       </button>
@@ -1011,7 +1195,6 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน -->
       <button class="btn-search-client" id="btnSearchClient" onclick="openClientModal()">
         <i class="fas fa-search"></i>
         <span id="searchClientLabel">Search</span>
@@ -1031,7 +1214,7 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชัน + หลอดโหลดวิ่งไปทางขวา + ปุ่มเปิดเกม) -->
+  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม + FOV/Smoothness Sliders + Moco Locked) -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
       <h2 class="section-title">Features</h2>
@@ -1053,7 +1236,7 @@ input:checked + .slider:before {
             <span class="feature-desc-text">ช่วยดึงเป้าเข้าตัวศัตรูแบบเนียนเป็นธรรมชาติ ไม่กระตุกหรือดีดผิดปกติ</span>
           </div>
           <label class="switch">
-            <input type="checkbox" id="feat_aimbot_legit" onchange="toggleFeature('aimbot_legit', this.checked)">
+            <input type="checkbox" id="feat_aimbot_legit" onchange="toggleFeatureWithVibe('aimbot_legit', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
@@ -1065,19 +1248,45 @@ input:checked + .slider:before {
             <span class="feature-desc-text">เพิ่มแรงดูดเป้าเข้าส่วนสำคัญระดับ 85% ล็อกเป้าแม่นยำสูงหวังผลได้ทันที</span>
           </div>
           <label class="switch">
-            <input type="checkbox" id="feat_aimbot_85" onchange="toggleFeature('aimbot_85', this.checked)">
+            <input type="checkbox" id="feat_aimbot_85" onchange="toggleFeatureWithVibe('aimbot_85', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
 
-        <!-- 3. Icewall Inverted -->
+        <!-- 3. SLIDER: FOV Circle (30° - 180°) พร้อมวงพรีวิว -->
+        <div class="slider-group">
+          <div class="slider-header-row">
+            <span class="feature-title-text">FOV Circle</span>
+            <span class="slider-val-badge" id="fovValBadge">90°</span>
+          </div>
+          <span class="feature-desc-text">ปรับองศาวงล็อกเป้าและระยะตรวจจับรอบเป้าเล็ง</span>
+          <input type="range" min="30" max="180" value="90" class="custom-range" id="fovRangeInput" oninput="handleFovChange(this.value)">
+          
+          <!-- วงพรีวิว FOV เรดาร์ -->
+          <div class="fov-radar-container">
+            <div class="fov-crosshair-center"></div>
+            <div class="fov-circle-preview" id="fovCircleVisual" style="width: 75px; height: 75px;"></div>
+          </div>
+        </div>
+
+        <!-- 4. SLIDER: Smoothness (1 - 10) -->
+        <div class="slider-group">
+          <div class="slider-header-row">
+            <span class="feature-title-text">Smoothness</span>
+            <span class="slider-val-badge" id="smoothValBadge">5</span>
+          </div>
+          <span class="feature-desc-text">ปรับความหน่วงและความเนียนในการลากเป้าเข้าหาศัตรู</span>
+          <input type="range" min="1" max="10" value="5" class="custom-range" id="smoothRangeInput" oninput="handleSmoothChange(this.value)">
+        </div>
+
+        <!-- 5. Icewall Inverted -->
         <div class="feature-row">
           <div class="feature-text-group">
             <span class="feature-title-text">Icewall Inverted</span>
             <span class="feature-desc-text">ระบบวางไอซ์วอลล์แบบรวดเร็วและกลับด้าน ป้องกันตัวอัตโนมัติรอบทิศทาง</span>
           </div>
           <label class="switch">
-            <input type="checkbox" id="feat_icewall_inverted" onchange="toggleFeature('icewall_inverted', this.checked)">
+            <input type="checkbox" id="feat_icewall_inverted" onchange="toggleFeatureWithVibe('icewall_inverted', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
@@ -1089,14 +1298,17 @@ input:checked + .slider:before {
           <i class="fas fa-cog"></i> VISION
         </div>
 
-        <!-- 1. ESP Moco -->
-        <div class="feature-row">
+        <!-- 1. ESP Moco (เพิ่มไอคอนล็อค ปิดไม่ให้เปิดใช้งานตามสั่ง) -->
+        <div class="feature-row locked-feature">
           <div class="feature-text-group">
-            <span class="feature-title-text">ESP Moco</span>
-            <span class="feature-desc-text">แสดงมาร์กเกอร์และพิกัดตำแหน่งศัตรูบนแผนที่และเหนือหัวตลอดทั้งแมตช์</span>
+            <div class="lock-title-wrap">
+              <span class="feature-title-text">ESP Moco</span>
+              <span class="badge-locked"><i class="fas fa-lock"></i> LOCKED</span>
+            </div>
+            <span class="feature-desc-text">ระบบกำลังปิดปรับปรุงชั่วคราว ไม่สามารถเปิดใช้งานได้ในเวอร์ชันนี้</span>
           </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_esp_moco" onchange="toggleFeature('esp_moco', this.checked)">
+          <label class="switch disabled-switch" onclick="triggerLockedAlert()">
+            <input type="checkbox" id="feat_esp_moco" disabled>
             <span class="slider"></span>
           </label>
         </div>
@@ -1119,13 +1331,12 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ส่วน INJECT & LOADING BAR (วิ่งเต็มหลอดไปทางขวา) -->
+      <!-- ส่วน INJECT & LOADING BAR -->
       <div class="inject-card">
         <button class="btn-inject" id="btnInjectMain" onclick="triggerInjectAndLaunch()">
           <i class="fas fa-syringe"></i> <span id="btnInjectText">INJECT</span>
         </button>
 
-        <!-- แถบแสดงสถานะหลอดโหลด -->
         <div class="loading-bar-container">
           <div class="loading-bar-header">
             <span id="loadingStatusText">READY TO INJECT</span>
@@ -1214,6 +1425,7 @@ let isInjecting = false;
 
 // สลับแท็บ Setup และ Features
 function switchTab(tab) {
+  vibrateDevice(20);
   const viewSetup = document.getElementById('viewSetup');
   const viewFeatures = document.getElementById('viewFeatures');
   const navSetup = document.getElementById('navSetup');
@@ -1229,6 +1441,13 @@ function switchTab(tab) {
     viewFeatures.classList.remove('hidden');
     navSetup.classList.remove('active');
     navFeatures.classList.add('active');
+  }
+}
+
+// ระบบสั่นสะเทือนตอบสนอง
+function vibrateDevice(duration = 35) {
+  if (navigator.vibrate) {
+    navigator.vibrate(duration);
   }
 }
 
@@ -1274,12 +1493,84 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
+// ========================================================
+// ระบบนับเวลาถอยหลังอายุคีย์ (24 ชั่วโมงจำลอง)
+// ========================================================
+function startKeyCountdown() {
+  let expiryTime = localStorage.getItem('sunny_key_expiry');
+  if (!expiryTime) {
+    // กำหนดอายุคีย์ 24 ชม. จากการเข้าสู่ระบบครั้งแรก
+    expiryTime = Date.now() + (24 * 60 * 60 * 1000);
+    localStorage.setItem('sunny_key_expiry', expiryTime);
+  } else {
+    expiryTime = parseInt(expiryTime, 10);
+  }
+
+  function updateTimer() {
+    const now = Date.now();
+    const diff = expiryTime - now;
+
+    if (diff <= 0) {
+      document.getElementById('keyTimerDisplay').innerText = '00h 00m 00s (EXPIRED)';
+      return;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const hStr = String(hours).padStart(2, '0');
+    const mStr = String(minutes).padStart(2, '0');
+    const sStr = String(seconds).padStart(2, '0');
+
+    document.getElementById('keyTimerDisplay').innerText = `${hStr}h ${mStr}m ${sStr}s`;
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+}
+
+// ========================================================
+// จัดการสไลเดอร์ FOV และ SMOOTHNESS
+// ========================================================
+function handleFovChange(val) {
+  vibrateDevice(15);
+  document.getElementById('fovValBadge').innerText = `${val}°`;
+  localStorage.setItem('feat_fov_val', val);
+
+  // ปรับขนาดวงพรีวิวเรดาร์ (คำนวณตามองศา 30-180 ให้อยู่ในขนาด 25px ถึง 130px)
+  const size = Math.round(25 + ((val - 30) / 150) * 105);
+  const visual = document.getElementById('fovCircleVisual');
+  visual.style.width = `${size}px`;
+  visual.style.height = `${size}px`;
+}
+
+function handleSmoothChange(val) {
+  vibrateDevice(15);
+  document.getElementById('smoothValBadge').innerText = val;
+  localStorage.setItem('feat_smooth_val', val);
+}
+
+// แจ้งเตือนเมื่อกดฟังก์ชันที่ล็อคอยู่
+function triggerLockedAlert() {
+  vibrateDevice([40, 50, 40]);
+  alert('ฟังก์ชัน ESP Moco กำลังปิดปรับปรุงชั่วคราว');
+}
+
+// สวิตช์ฟังก์ชันพร้อมการสั่น
+function toggleFeatureWithVibe(name, state) {
+  vibrateDevice(35);
+  localStorage.setItem(`feat_${name}`, state);
+}
+
 // --- MODAL VPN ---
 function openVpnModal() {
+  vibrateDevice(20);
   document.getElementById('vpnModal').style.display = 'flex';
 }
 
 function allowPermission() {
+  vibrateDevice(40);
   closeAllModals();
 
   const badge = document.getElementById('configStatusBadge');
@@ -1292,6 +1583,7 @@ function allowPermission() {
 }
 
 function denyPermission() {
+  vibrateDevice(30);
   closeAllModals();
 
   const badge = document.getElementById('configStatusBadge');
@@ -1302,8 +1594,9 @@ function denyPermission() {
   localStorage.setItem('sunny_vpn_status', 'unauthorized');
 }
 
-// --- MODAL CLIENT SELECTION (จดจำทั้งชื่อและ Package Name) ---
+// --- MODAL CLIENT SELECTION ---
 function openClientModal() {
+  vibrateDevice(20);
   const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
   const pkg = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
   selectClientOption(current, pkg);
@@ -1311,6 +1604,7 @@ function openClientModal() {
 }
 
 function selectClientOption(game, pkg) {
+  vibrateDevice(25);
   tempSelectedClient = game;
   tempSelectedPackage = pkg;
 
@@ -1327,6 +1621,7 @@ function selectClientOption(game, pkg) {
 }
 
 function confirmClientSelection() {
+  vibrateDevice(35);
   closeAllModals();
   localStorage.setItem('sunny_selected_client', tempSelectedClient);
   localStorage.setItem('sunny_selected_package', tempSelectedPackage);
@@ -1351,17 +1646,14 @@ function closeAllModals() {
   document.getElementById('vpnModal').style.display = 'none';
 }
 
-// จัดเก็บสถานะ Toggles
-function toggleFeature(name, state) {
-  localStorage.setItem(`feat_${name}`, state);
-}
-
 function changeMarkerType(val) {
+  vibrateDevice(20);
   localStorage.setItem('feat_marker_type', val);
 }
 
+// โหลดสถานะเดิมที่เคยปรับแต่ง
 function loadFeatureStates() {
-  const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted', 'esp_moco'];
+  const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted'];
   features.forEach(f => {
     const saved = localStorage.getItem(`feat_${f}`);
     const el = document.getElementById(`feat_${f}`);
@@ -1369,6 +1661,16 @@ function loadFeatureStates() {
       el.checked = (saved === 'true');
     }
   });
+
+  // โหลดค่า Slider FOV
+  const savedFov = localStorage.getItem('feat_fov_val') || 90;
+  document.getElementById('fovRangeInput').value = savedFov;
+  handleFovChange(savedFov);
+
+  // โหลดค่า Slider Smoothness
+  const savedSmooth = localStorage.getItem('feat_smooth_val') || 5;
+  document.getElementById('smoothRangeInput').value = savedSmooth;
+  handleSmoothChange(savedSmooth);
 
   const savedMarker = localStorage.getItem('feat_marker_type');
   if (savedMarker) {
@@ -1378,15 +1680,13 @@ function loadFeatureStates() {
 }
 
 // ========================================================
-// ฟังก์ชัน INJECT แบบหลอดโหลดวิ่งไปทางขวา และเปิดเกม
+// INJECT & LAUNCH GAME
 // ========================================================
 function triggerInjectAndLaunch() {
   if (isInjecting) return;
   isInjecting = true;
 
-  if (navigator.vibrate) {
-    navigator.vibrate([30, 40, 30]);
-  }
+  vibrateDevice([40, 50, 40]);
 
   const btn = document.getElementById('btnInjectMain');
   const btnText = document.getElementById('btnInjectText');
@@ -1402,9 +1702,8 @@ function triggerInjectAndLaunch() {
   fillBar.style.width = '0%';
   percentText.innerText = '0%';
 
-  // อนิเมชันหลอดโหลดวิ่งไปทางขวา
   const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 8) + 4; // วิ่งแบบเป็นธรรมชาติ
+    progress += Math.floor(Math.random() * 8) + 4;
     if (progress >= 100) {
       progress = 100;
       clearInterval(interval);
@@ -1412,21 +1711,18 @@ function triggerInjectAndLaunch() {
       percentText.innerText = '100%';
       statusText.innerText = 'COMPLETED';
 
-      // ดึง Package ที่เคยเลือกไว้ (ถ้าไม่มีจะใช้ Free Fire ปกติ)
       const targetClient = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
       const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
 
-      // แสดง Toast แจ้งเตือน
+      vibrateDevice([80, 60, 80]);
+
       const toast = document.getElementById('toastNotification');
       const toastGame = document.getElementById('toastTargetGameText');
       toastGame.innerText = `ฉีดสำเร็จ! กำลังเปิด ${targetClient}...`;
       toast.classList.add('show');
 
-      // รอ 800ms ให้เห็นสถานะชัดเจน แล้วดีดเปิดเกมทันที
       setTimeout(() => {
         launchGameApp(targetPackage);
-        
-        // รีเซ็ตปุ่มกลับมาพร้อมกดใหม่
         setTimeout(() => {
           toast.classList.remove('show');
           btn.disabled = false;
@@ -1441,35 +1737,31 @@ function triggerInjectAndLaunch() {
   }, 50);
 }
 
-// สั่งเปิดตัวเกมตาม Package Name (com.dts.freefireth / com.dts.freefiremax)
 function launchGameApp(pkgName) {
   const ua = navigator.userAgent;
-
   if (/Android/i.test(ua)) {
-    // บน Android: สั่งเปิดผ่าน Android Intent Launcher ตาม Package โดยตรง
     window.location.href = `intent://#Intent;package=${pkgName};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end;`;
   } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    // บน iOS: สั่งเปิดผ่าน URL Scheme ของตัวเกม
     const scheme = pkgName.includes('max') ? 'freefiremax://' : 'freefire://';
     window.location.href = scheme;
-  } else {
-    // บน PC / บราวเซอร์ทั่วไป: แจ้งเตือนจำลองการเปิดเกม
-    console.log(`[Launch Game] Package: ${pkgName}`);
   }
 }
 
 // ออกจากระบบ
 function logout() {
+  vibrateDevice(30);
   localStorage.removeItem('sd_saved_user_key');
   localStorage.removeItem('sunny_vpn_status');
   localStorage.removeItem('sunny_selected_client');
   localStorage.removeItem('sunny_selected_package');
+  localStorage.removeItem('sunny_key_expiry');
   window.location.href = 'index.html';
 }
 
-// โหลดข้อมูลทั้งหมดเมื่อเปิดเว็บ
+// โหลดข้อมูลเมื่อเปิดหน้าเว็บ
 window.addEventListener('DOMContentLoaded', () => {
   initDeviceInfo();
+  startKeyCountdown();
   loadFeatureStates();
 
   const savedVpn = localStorage.getItem('sunny_vpn_status');
