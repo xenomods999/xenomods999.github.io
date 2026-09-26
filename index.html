@@ -386,8 +386,7 @@ function showStatus(text, isSuccess = false) {
   box.className = isSuccess ? 'status-msg success' : 'status-msg';
 }
 
-// ฟังก์ชัน Login ส่งผ่าน Vercel API
-// ฟังก์ชัน Login ส่งผ่าน Vercel API
+// ฟังก์ชัน Login ส่งผ่าน Vercel Proxy
 async function performLogin() {
   const keyInput = document.getElementById('keyInput');
   const key = keyInput.value.trim();
@@ -406,16 +405,21 @@ async function performLogin() {
 
   const serial = getDeviceSerial();
   const url = '/api/connect';
+  
+  // ส่งค่าแบบ Form URL Encoded ไปยัง Vercel Rewrite
+  const bodyData = new URLSearchParams({
+    game: 'ProxyPin',
+    user_key: key,
+    serial: serial
+  }).toString();
 
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        game: 'ProxyPin',
-        user_key: key,
-        serial: serial
-      })
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded' 
+      },
+      body: bodyData
     });
 
     const r = await response.json();
@@ -441,7 +445,6 @@ async function performLogin() {
     showStatus('เกิดข้อผิดพลาด: ' + e.message);
   }
 }
-
 // โหลดคีย์เดิมที่เคยบันทึกไว้
 window.addEventListener('DOMContentLoaded', function() {
   const savedKey = localStorage.getItem('sd_saved_user_key');
