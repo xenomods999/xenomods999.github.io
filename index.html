@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DRIP WIRE - LOGIN</title>
+<title>SUNNY WIRE - LOGIN</title>
 
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -163,7 +163,7 @@ body {
   font-size: 14px;
 }
 
-/* ปุ่ม Paste แบบไอคอนด้านในช่องกรอก */
+/* ปุ่ม Paste */
 .btn-paste-icon {
   background: transparent;
   border: none;
@@ -290,7 +290,7 @@ body {
 
   <!-- Logo -->
   <div class="logo-box">
-    <img src="https://i.postimg.cc/C1QLb9w9/Picsart-26-09-26-06-31-03-951.png" alt="SUNNY WIRE Logo" class="logo-img">
+    <img src="https://i.postimg.cc/SNrTx4V6/Picsart-26-09-05-09-29-37-550.png" alt="SUNNY WIRE Logo" class="logo-img">
   </div>
 
   <!-- Header Titles -->
@@ -303,7 +303,6 @@ body {
     
     <div class="input-wrapper">
       <input type="text" id="keyInput" class="key-input" placeholder="Enter your key" autocomplete="off" spellcheck="false">
-      <!-- ไอคอนปุ่มกดวาง Paste เพื่อความสะดวก -->
       <button type="button" class="btn-paste-icon" onclick="pasteFromClipboard()" title="วางคีย์">
         <i class="far fa-clipboard"></i>
       </button>
@@ -318,7 +317,7 @@ body {
     <div id="statusBox" class="status-msg"></div>
   </div>
 
-  <!-- Update/Maintenance Screen (กรณีปิดปรับปรุง) -->
+  <!-- Update/Maintenance Screen -->
   <div class="update-box" id="updateContainer">
     <div class="update-icon">
       <i class="fas fa-tools"></i>
@@ -352,7 +351,6 @@ async function pasteFromClipboard() {
     } catch (err) {}
   }
 
-  // Fallback กรณีถูกบล็อกสิทธิ์คลิปบอร์ด
   const fallbackText = prompt('กรุณาวางรหัสคีย์ของคุณที่นี่ (Paste Key):');
   if (fallbackText && fallbackText.trim() !== '') {
     input.value = fallbackText.trim();
@@ -388,7 +386,7 @@ function showStatus(text, isSuccess = false) {
   box.className = isSuccess ? 'status-msg success' : 'status-msg';
 }
 
-// ฟังก์ชัน Login และเปิดหน้า menu.html
+// ฟังก์ชัน Login ส่งผ่าน Vercel API
 async function performLogin() {
   const keyInput = document.getElementById('keyInput');
   const key = keyInput.value.trim();
@@ -406,7 +404,9 @@ async function performLogin() {
   document.getElementById('statusBox').style.display = 'none';
 
   const serial = getDeviceSerial();
-  const url = 'https://qqshop.xyz/connect';
+  
+  // ยิงเข้า Serverless Function ของ Vercel
+  const url = '/api/connect';
   const bodyData = 'game=ProxyPin&user_key=' + encodeURIComponent(key) + '&serial=' + encodeURIComponent(serial);
 
   try {
@@ -424,7 +424,6 @@ async function performLogin() {
       showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
       localStorage.setItem('sd_saved_user_key', key);
 
-      // หน่วงเวลาเล็กน้อยเพื่อให้เห็นสถานะ แล้วเปลี่ยนไปหน้า menu.html
       setTimeout(() => {
         if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
           AndroidInterface.onLoginSuccess(key);
@@ -435,38 +434,9 @@ async function performLogin() {
       showStatus('รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
     }
   } catch(e) {
-    // สำรองด้วย XMLHttpRequest
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
-        btnLabel.innerText = 'Continue';
-        btn.disabled = false;
-        if (xhr.status === 200) {
-          try {
-            const r = JSON.parse(xhr.responseText);
-            if (r.status === true) {
-              showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
-              localStorage.setItem('sd_saved_user_key', key);
-              setTimeout(() => {
-                if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
-                  AndroidInterface.onLoginSuccess(key);
-                }
-                window.location.href = 'menu.html';
-              }, 700);
-            } else {
-              showStatus('รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
-            }
-          } catch(errEx) {
-            showStatus('เกิดข้อผิดพลาดในการประมวลผล');
-          }
-        } else {
-          showStatus('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
-        }
-      }
-    };
-    xhr.send(bodyData);
+    btnLabel.innerText = 'Continue';
+    btn.disabled = false;
+    showStatus('ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้');
   }
 }
 
