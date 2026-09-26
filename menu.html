@@ -124,33 +124,33 @@ body {
   box-shadow: 0 0 8px var(--color-green);
 }
 
-/* แถบประกาศแจ้งเตือนหน้าแรก (อัปเดตแจ้งเตือนทั้งโมโคและยิงคอ) */
+/* แถบประกาศแจ้งเตือนหน้าแรก */
 .announcement-banner {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   border-radius: 16px;
   padding: 12px 16px;
-  color: #fde68a;
+  color: #fca5a5;
   font-size: 12.5px;
   font-weight: 600;
   line-height: 1.45;
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.08);
-  animation: pulseAmber 2.5s infinite;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
+  animation: pulseAlert 2.5s infinite;
 }
 
 .announcement-banner i {
-  color: #fbbf24;
+  color: #f87171;
   font-size: 16px;
   flex-shrink: 0;
 }
 
-@keyframes pulseAmber {
-  0% { border-color: rgba(245, 158, 11, 0.35); }
-  50% { border-color: rgba(245, 158, 11, 0.7); box-shadow: 0 4px 18px rgba(245, 158, 11, 0.18); }
-  100% { border-color: rgba(245, 158, 11, 0.35); }
+@keyframes pulseAlert {
+  0% { border-color: rgba(239, 68, 68, 0.35); }
+  50% { border-color: rgba(239, 68, 68, 0.7); box-shadow: 0 4px 18px rgba(239, 68, 68, 0.2); }
+  100% { border-color: rgba(239, 68, 68, 0.35); }
 }
 
 /* VIP Timer Card */
@@ -651,31 +651,6 @@ body {
   position: absolute;
 }
 
-/* Locked Feature Rows */
-.feature-row.locked-feature {
-  opacity: 0.65;
-}
-
-.lock-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.badge-locked {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: var(--color-amber);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 6px;
-  letter-spacing: 0.5px;
-}
-
 /* Marker Selector */
 .marker-type-group {
   display: flex;
@@ -781,15 +756,6 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(22px);
-}
-
-.switch.disabled-switch {
-  cursor: not-allowed;
-}
-
-.switch.disabled-switch .slider {
-  background-color: #1c1c24;
-  cursor: not-allowed;
 }
 
 /* ========================================================
@@ -1136,10 +1102,10 @@ input:checked + .slider:before {
     </div>
   </div>
 
-  <!-- แถบประกาศแจ้งเตือนหน้าแรก (อัปเดตแจ้งเตือนทั้งโมโคและยิงคอ) -->
+  <!-- แถบประกาศแจ้งเตือนหน้าแรก (อัปเดตคำเตือนความเสี่ยงยิงคอ) -->
   <div class="announcement-banner">
-    <i class="fas fa-bullhorn"></i>
-    <span><strong>ประกาศ:</strong> ขณะนี้ฟังก์ชันมองโมโคและยิงคอ (Hs - Neck) ปิดปรับปรุงชั่วคราวนะครับ</span>
+    <i class="fas fa-exclamation-triangle"></i>
+    <span><strong>ประกาศ:</strong> แนะนำการเปิดใช้งาน ไม่ควรเปิดยิงคอขึ้นหัว เสี่ยงต่อการแบน (Risk)</span>
   </div>
 
   <!-- VIP Timer Card -->
@@ -1261,7 +1227,7 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW -->
+  <!-- TAB 2: FEATURES VIEW (เปิดใช้งาน Hs - Neck และ ESP Moco) -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
       <h2 class="section-title">Features</h2>
@@ -1300,17 +1266,14 @@ input:checked + .slider:before {
           </label>
         </div>
 
-        <!-- 3. Hs - Neck (LOCKED - ล็อคปิดใช้งานชั่วคราวตามที่สั่ง) -->
-        <div class="feature-row locked-feature">
+        <!-- 3. Hs - Neck (เปิดใช้งานได้ตามปกติ) -->
+        <div class="feature-row">
           <div class="feature-text-group">
-            <div class="lock-title-wrap">
-              <span class="feature-title-text">Hs - Neck</span>
-              <span class="badge-locked"><i class="fas fa-lock"></i> LOCKED</span>
-            </div>
-            <span class="feature-desc-text">ยิงคอขึ้นหัว (ระบบปิดปรับปรุงชั่วคราว ไม่สามารถเปิดใช้งานได้)</span>
+            <span class="feature-title-text">Hs - Neck</span>
+            <span class="feature-desc-text">ยิงคอขึ้นหัว เล็งบริเวณลำคอดึงขึ้นสู่ศีรษะอัตโนมัติ (เสี่ยงต่อการแบน)</span>
           </div>
-          <label class="switch disabled-switch" onclick="triggerLockedAlert('ฟังก์ชันยิงคอขึ้นหัว (Hs - Neck)')">
-            <input type="checkbox" id="feat_hs_neck" disabled>
+          <label class="switch">
+            <input type="checkbox" id="feat_hs_neck" onchange="toggleFeatureWithVibe('hs_neck', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
@@ -1359,17 +1322,14 @@ input:checked + .slider:before {
           <i class="fas fa-cog"></i> VISION
         </div>
 
-        <!-- 1. ESP Moco (LOCKED) -->
-        <div class="feature-row locked-feature">
+        <!-- 1. ESP Moco (เปิดใช้งานได้ตามปกติ) -->
+        <div class="feature-row">
           <div class="feature-text-group">
-            <div class="lock-title-wrap">
-              <span class="feature-title-text">ESP Moco</span>
-              <span class="badge-locked"><i class="fas fa-lock"></i> LOCKED</span>
-            </div>
-            <span class="feature-desc-text">ระบบกำลังปิดปรับปรุงชั่วคราว ไม่สามารถเปิดใช้งานได้ในเวอร์ชันนี้</span>
+            <span class="feature-title-text">ESP Moco</span>
+            <span class="feature-desc-text">แสดงมาร์กเกอร์และพิกัดตำแหน่งศัตรูบนแผนที่และเหนือหัวตลอดทั้งแมตช์</span>
           </div>
-          <label class="switch disabled-switch" onclick="triggerLockedAlert('ฟังก์ชันมองโมโค (ESP Moco)')">
-            <input type="checkbox" id="feat_esp_moco" disabled>
+          <label class="switch">
+            <input type="checkbox" id="feat_esp_moco" onchange="toggleFeatureWithVibe('esp_moco', this.checked)">
             <span class="slider"></span>
           </label>
         </div>
@@ -1476,7 +1436,6 @@ input:checked + .slider:before {
 </div>
 
 <script>
-// ตรวจสอบการล็อกอิน
 if (!localStorage.getItem('sd_saved_user_key')) {
   window.location.href = 'index.html';
 }
@@ -1486,7 +1445,6 @@ let tempSelectedPackage = 'com.dts.freefireth';
 let isInjecting = false;
 let isReadyToLaunch = false;
 
-// สลับแท็บ Setup และ Features
 function switchTab(tab) {
   vibrateDevice(20);
   const viewSetup = document.getElementById('viewSetup');
@@ -1513,7 +1471,6 @@ function vibrateDevice(duration = 35) {
   }
 }
 
-// ตรวจจับสเปกเครื่องอัตโนมัติ
 function initDeviceInfo() {
   const ua = navigator.userAgent;
   let os = 'Unknown OS';
@@ -1555,7 +1512,6 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
-// ระบบนับเวลาถอยหลังอายุคีย์ (24 ชั่วโมง)
 function startKeyCountdown() {
   let expiryTime = localStorage.getItem('sunny_key_expiry');
   if (!expiryTime) {
@@ -1589,7 +1545,6 @@ function startKeyCountdown() {
   setInterval(updateTimer, 1000);
 }
 
-// จัดการสไลเดอร์ FOV และ SMOOTHNESS
 function handleFovChange(val) {
   vibrateDevice(15);
   document.getElementById('fovValBadge').innerText = `${val}°`;
@@ -1607,18 +1562,11 @@ function handleSmoothChange(val) {
   localStorage.setItem('feat_smooth_val', val);
 }
 
-// แจ้งเตือนเมื่อกดฟังก์ชันที่ล็อคอยู่ (แจ้งเตือนเฉพาะชื่อฟังก์ชันที่กด)
-function triggerLockedAlert(featureName = 'ฟังก์ชันนี้') {
-  vibrateDevice([40, 50, 40]);
-  alert(`${featureName} ปิดใช้งานชั่วคราว กำลังปรับปรุงระบบครับ`);
-}
-
 function toggleFeatureWithVibe(name, state) {
   vibrateDevice(35);
   localStorage.setItem(`feat_${name}`, state);
 }
 
-// --- MODAL VPN ---
 function openVpnModal() {
   vibrateDevice(20);
   document.getElementById('vpnModal').style.display = 'flex';
@@ -1649,7 +1597,6 @@ function denyPermission() {
   localStorage.setItem('sunny_vpn_status', 'unauthorized');
 }
 
-// --- MODAL CLIENT SELECTION ---
 function openClientModal() {
   vibrateDevice(20);
   const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
@@ -1711,9 +1658,8 @@ function changeMarkerType(val) {
   localStorage.setItem('feat_marker_type', val);
 }
 
-// โหลดสถานะเดิมที่เคยปรับแต่ง
 function loadFeatureStates() {
-  const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted'];
+  const features = ['aimbot_legit', 'aimbot_85', 'hs_neck', 'icewall_inverted', 'esp_moco'];
   features.forEach(f => {
     const saved = localStorage.getItem(`feat_${f}`);
     const el = document.getElementById(`feat_${f}`);
@@ -1737,9 +1683,6 @@ function loadFeatureStates() {
   }
 }
 
-// ========================================================
-// จัดการปุ่ม INJECT & LAUNCH GAME
-// ========================================================
 function handleInjectClick() {
   if (isReadyToLaunch) {
     const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
@@ -1825,7 +1768,6 @@ function launchGameApp(pkgName) {
   }
 }
 
-// ออกจากระบบ
 function logout() {
   vibrateDevice(30);
   localStorage.removeItem('sd_saved_user_key');
@@ -1836,7 +1778,6 @@ function logout() {
   window.location.href = 'index.html';
 }
 
-// โหลดข้อมูลเมื่อเปิดหน้าเว็บ
 window.addEventListener('DOMContentLoaded', () => {
   initDeviceInfo();
   startKeyCountdown();
