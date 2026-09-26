@@ -50,6 +50,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px 16px 95px;
+  overflow-x: hidden;
 }
 
 .app-container {
@@ -183,6 +184,25 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* Compatibility Banner (บอกการรองรับมือถือ) */
+.support-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(109, 74, 255, 0.09);
+  border: 1px solid rgba(109, 74, 255, 0.22);
+  border-radius: 14px;
+  padding: 11px 16px;
+  font-size: 12.5px;
+  color: #d1c4e9;
+  font-weight: 600;
+}
+
+.support-banner i {
+  color: #a78bfa;
+  font-size: 16px;
 }
 
 /* Titles */
@@ -401,7 +421,7 @@ body {
 }
 
 /* ========================================================
-   FEATURES TAB STYLING (ออกแบบตามโครงสร้างรูปภาพ)
+   FEATURES TAB STYLING
    ======================================================== */
 .features-container {
   display: flex;
@@ -458,7 +478,7 @@ body {
   line-height: 1.4;
 }
 
-/* Dropdown Selector Row */
+/* Marker Selector */
 .marker-type-group {
   display: flex;
   flex-direction: column;
@@ -518,7 +538,7 @@ body {
   font-size: 12px;
 }
 
-/* Switch */
+/* Switches */
 .switch {
   position: relative;
   display: inline-block;
@@ -563,6 +583,144 @@ input:checked + .slider {
 
 input:checked + .slider:before {
   transform: translateX(22px);
+}
+
+/* ========================================================
+   INJECT SECTION & ANIMATED DASHES (ตัวขีดวิ่งไปทางขวา)
+   ======================================================== */
+.inject-card {
+  margin-top: 10px;
+  background: var(--card-bg);
+  border: 1px solid rgba(109, 74, 255, 0.25);
+  border-radius: 20px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.btn-inject {
+  width: 100%;
+  height: 52px;
+  background: linear-gradient(135deg, #7c3aed 0%, #6d4aff 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(109, 74, 255, 0.45);
+  transition: all 0.2s ease;
+}
+
+.btn-inject:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 25px rgba(109, 74, 255, 0.6);
+}
+
+.btn-inject:active {
+  transform: scale(0.98);
+}
+
+/* หลอดตัวขีดวิ่งไปทางขวา */
+.dash-progress-track {
+  width: 100%;
+  height: 12px;
+  background-color: #101015;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.dash-stripes-runner {
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    #8b5cf6 0px,
+    #8b5cf6 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 32px 100%;
+  animation: runDashesToRight 0.75s linear infinite;
+}
+
+@keyframes runDashesToRight {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 32px 0;
+  }
+}
+
+/* ========================================================
+   TOAST NOTIFICATION (กล่องแจ้งเตือนสวยงาม)
+   ======================================================== */
+.toast-box {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50px);
+  background: #181820;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.2);
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 300px;
+}
+
+.toast-box.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.toast-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toast-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.toast-desc {
+  font-size: 11.5px;
+  color: var(--txt-muted);
 }
 
 /* Bottom Nav */
@@ -710,6 +868,17 @@ input:checked + .slider:before {
 </head>
 <body>
 
+<!-- TOAST NOTIFICATION -->
+<div id="toastNotification" class="toast-box">
+  <div class="toast-icon">
+    <i class="fas fa-check"></i>
+  </div>
+  <div class="toast-content">
+    <div class="toast-title">INJECTION SUCCESSFUL</div>
+    <div class="toast-desc">ฉีดสคริปต์เข้าสู่ตัวเกมเรียบร้อยแล้ว</div>
+  </div>
+</div>
+
 <div class="app-container">
 
   <!-- Top Header -->
@@ -752,6 +921,12 @@ input:checked + .slider:before {
           <div class="spec-val" id="devScreen">0 x 0</div>
         </div>
       </div>
+    </div>
+
+    <!-- Supported Devices Banner (บอกรองรับมือถือ) -->
+    <div class="support-banner">
+      <i class="fas fa-shield-alt"></i>
+      <span>รองรับระบบ iOS 15.0 - 27.2 และ Android 9.0+ ทุกรุ่น</span>
     </div>
 
     <!-- Section Header -->
@@ -807,7 +982,7 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน (เริ่มต้นคำว่า Search) -->
+      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน -->
       <button class="btn-search-client" id="btnSearchClient" onclick="openClientModal()">
         <i class="fas fa-search"></i>
         <span id="searchClientLabel">Search</span>
@@ -827,7 +1002,7 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (ปรับแต่งตรงตามรูปภาพ 100%) -->
+  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม + ปุ่ม INJECT) -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
       <h2 class="section-title">Features</h2>
@@ -854,7 +1029,7 @@ input:checked + .slider:before {
           </label>
         </div>
 
-        <!-- 2. Aimbot 85% (เพิ่มตามสั่ง) -->
+        <!-- 2. Aimbot 85% -->
         <div class="feature-row">
           <div class="feature-text-group">
             <span class="feature-title-text">Aimbot 85%</span>
@@ -912,6 +1087,17 @@ input:checked + .slider:before {
             </select>
             <i class="fas fa-chevron-down custom-select-arrow"></i>
           </div>
+        </div>
+      </div>
+
+      <!-- ส่วน INJECT อยู่ด้านล่างของฟังก์ชันทั้งหมด -->
+      <div class="inject-card">
+        <button class="btn-inject" onclick="triggerInject()">
+          <i class="fas fa-syringe"></i> INJECT
+        </button>
+        <!-- หลอดขีด ๆ วิ่งไปทางขวา -->
+        <div class="dash-progress-track">
+          <div class="dash-stripes-runner"></div>
         </div>
       </div>
 
@@ -1123,7 +1309,7 @@ function closeAllModals() {
   document.getElementById('vpnModal').style.display = 'none';
 }
 
-// จัดเก็บการเปิด/ปิด สวิตช์ฟังก์ชัน
+// จัดเก็บสถานะ Toggles
 function toggleFeature(name, state) {
   localStorage.setItem(`feat_${name}`, state);
 }
@@ -1133,7 +1319,7 @@ function changeMarkerType(val) {
   localStorage.setItem('feat_marker_type', val);
 }
 
-// โหลดสถานะสวิตช์เดิมที่เคยเลือกไว้
+// โหลดสถานะเดิมของฟังก์ชัน
 function loadFeatureStates() {
   const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted', 'esp_moco'];
   features.forEach(f => {
@@ -1149,6 +1335,23 @@ function loadFeatureStates() {
     const sel = document.getElementById('markerTypeSelect');
     if (sel) sel.value = savedMarker;
   }
+}
+
+// --- ฟังก์ชันกดปุ่ม INJECT และแสดง TOAST ---
+let toastTimeout;
+function triggerInject() {
+  // สั่นเบาๆ หากอุปกรณ์รองรับ
+  if (navigator.vibrate) {
+    navigator.vibrate(40);
+  }
+
+  const toast = document.getElementById('toastNotification');
+  toast.classList.add('show');
+
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2800);
 }
 
 // ออกจากระบบ
