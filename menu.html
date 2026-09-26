@@ -186,7 +186,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Compatibility Banner (บอกการรองรับมือถือ) */
+/* Supported Devices Banner */
 .support-banner {
   display: flex;
   align-items: center;
@@ -586,7 +586,7 @@ input:checked + .slider:before {
 }
 
 /* ========================================================
-   INJECT SECTION & ANIMATED DASHES (ตัวขีดวิ่งไปทางขวา)
+   INJECT CARD & REAL LOADING BAR (วิ่งเต็มหลอดไปทางขวา)
    ======================================================== */
 .inject-card {
   margin-top: 10px;
@@ -628,49 +628,78 @@ input:checked + .slider:before {
   transform: scale(0.98);
 }
 
-/* หลอดตัวขีดวิ่งไปทางขวา */
-.dash-progress-track {
+.btn-inject:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+/* หลอดหน้าโหลดวิ่งไปทางขวา */
+.loading-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   width: 100%;
-  height: 12px;
+}
+
+.loading-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--txt-muted);
+  letter-spacing: 0.6px;
+}
+
+.loading-bar-track {
+  width: 100%;
+  height: 14px;
   background-color: #101015;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   position: relative;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 
-.dash-stripes-runner {
-  width: 100%;
+.loading-bar-fill {
+  width: 0%;
   height: 100%;
-  background: repeating-linear-gradient(
-    90deg,
-    #8b5cf6 0px,
-    #8b5cf6 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  background-size: 32px 100%;
-  animation: runDashesToRight 0.75s linear infinite;
+  background: linear-gradient(90deg, #6d4aff 0%, #a855f7 70%, #c084fc 100%);
+  border-radius: 10px;
+  position: relative;
+  transition: width 0.08s linear;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
 }
 
-@keyframes runDashesToRight {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 32px 0;
-  }
+/* เส้นนีออนวิ่งไปทางขวาในหลอดโหลด */
+.loading-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.4) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  animation: shineRunner 1s infinite linear;
+}
+
+@keyframes shineRunner {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* ========================================================
-   TOAST NOTIFICATION (กล่องแจ้งเตือนสวยงาม)
+   TOAST NOTIFICATION
    ======================================================== */
 .toast-box {
   position: fixed;
   top: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(-50px);
+  transform: translateX(-50%) translateY(-60px);
   background: #181820;
   border: 1px solid rgba(16, 185, 129, 0.45);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.2);
@@ -684,7 +713,7 @@ input:checked + .slider:before {
   opacity: 0;
   pointer-events: none;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 300px;
+  min-width: 310px;
 }
 
 .toast-box.show {
@@ -875,7 +904,7 @@ input:checked + .slider:before {
   </div>
   <div class="toast-content">
     <div class="toast-title">INJECTION SUCCESSFUL</div>
-    <div class="toast-desc">ฉีดสคริปต์เข้าสู่ตัวเกมเรียบร้อยแล้ว</div>
+    <div class="toast-desc" id="toastTargetGameText">กำลังเปิดตัวเกม...</div>
   </div>
 </div>
 
@@ -923,7 +952,7 @@ input:checked + .slider:before {
       </div>
     </div>
 
-    <!-- Supported Devices Banner (บอกรองรับมือถือ) -->
+    <!-- Supported Devices Banner -->
     <div class="support-banner">
       <i class="fas fa-shield-alt"></i>
       <span>รองรับระบบ iOS 15.0 - 27.2 และ Android 9.0+ ทุกรุ่น</span>
@@ -1002,7 +1031,7 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม + ปุ่ม INJECT) -->
+  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชัน + หลอดโหลดวิ่งไปทางขวา + ปุ่มเปิดเกม) -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
       <h2 class="section-title">Features</h2>
@@ -1090,14 +1119,21 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ส่วน INJECT อยู่ด้านล่างของฟังก์ชันทั้งหมด -->
+      <!-- ส่วน INJECT & LOADING BAR (วิ่งเต็มหลอดไปทางขวา) -->
       <div class="inject-card">
-        <button class="btn-inject" onclick="triggerInject()">
-          <i class="fas fa-syringe"></i> INJECT
+        <button class="btn-inject" id="btnInjectMain" onclick="triggerInjectAndLaunch()">
+          <i class="fas fa-syringe"></i> <span id="btnInjectText">INJECT</span>
         </button>
-        <!-- หลอดขีด ๆ วิ่งไปทางขวา -->
-        <div class="dash-progress-track">
-          <div class="dash-stripes-runner"></div>
+
+        <!-- แถบแสดงสถานะหลอดโหลด -->
+        <div class="loading-bar-container">
+          <div class="loading-bar-header">
+            <span id="loadingStatusText">READY TO INJECT</span>
+            <span id="loadingPercentageText">0%</span>
+          </div>
+          <div class="loading-bar-track">
+            <div class="loading-bar-fill" id="loadingProgressFill"></div>
+          </div>
         </div>
       </div>
 
@@ -1129,10 +1165,10 @@ input:checked + .slider:before {
     <p class="modal-desc">Select your game version to proceed</p>
 
     <div class="client-options">
-      <button type="button" class="client-btn" id="btnOptFF" onclick="selectClientOption('FREE FIRE')">
+      <button type="button" class="client-btn" id="btnOptFF" onclick="selectClientOption('FREE FIRE', 'com.dts.freefireth')">
         FREE FIRE
       </button>
-      <button type="button" class="client-btn" id="btnOptFFMax" onclick="selectClientOption('FREE FIRE MAX')">
+      <button type="button" class="client-btn" id="btnOptFFMax" onclick="selectClientOption('FREE FIRE MAX', 'com.dts.freefiremax')">
         FREE FIRE MAX
       </button>
     </div>
@@ -1173,6 +1209,8 @@ if (!localStorage.getItem('sd_saved_user_key')) {
 }
 
 let tempSelectedClient = 'FREE FIRE';
+let tempSelectedPackage = 'com.dts.freefireth';
+let isInjecting = false;
 
 // สลับแท็บ Setup และ Features
 function switchTab(tab) {
@@ -1264,15 +1302,18 @@ function denyPermission() {
   localStorage.setItem('sunny_vpn_status', 'unauthorized');
 }
 
-// --- MODAL CLIENT SELECTION ---
+// --- MODAL CLIENT SELECTION (จดจำทั้งชื่อและ Package Name) ---
 function openClientModal() {
   const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
-  selectClientOption(current);
+  const pkg = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
+  selectClientOption(current, pkg);
   document.getElementById('clientModal').style.display = 'flex';
 }
 
-function selectClientOption(game) {
+function selectClientOption(game, pkg) {
   tempSelectedClient = game;
+  tempSelectedPackage = pkg;
+
   const btnFF = document.getElementById('btnOptFF');
   const btnFFMax = document.getElementById('btnOptFFMax');
 
@@ -1288,6 +1329,7 @@ function selectClientOption(game) {
 function confirmClientSelection() {
   closeAllModals();
   localStorage.setItem('sunny_selected_client', tempSelectedClient);
+  localStorage.setItem('sunny_selected_package', tempSelectedPackage);
   updateSearchButtonLabel(tempSelectedClient);
 }
 
@@ -1314,12 +1356,10 @@ function toggleFeature(name, state) {
   localStorage.setItem(`feat_${name}`, state);
 }
 
-// จัดเก็บประเภท Marker
 function changeMarkerType(val) {
   localStorage.setItem('feat_marker_type', val);
 }
 
-// โหลดสถานะเดิมของฟังก์ชัน
 function loadFeatureStates() {
   const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted', 'esp_moco'];
   features.forEach(f => {
@@ -1337,21 +1377,85 @@ function loadFeatureStates() {
   }
 }
 
-// --- ฟังก์ชันกดปุ่ม INJECT และแสดง TOAST ---
-let toastTimeout;
-function triggerInject() {
-  // สั่นเบาๆ หากอุปกรณ์รองรับ
+// ========================================================
+// ฟังก์ชัน INJECT แบบหลอดโหลดวิ่งไปทางขวา และเปิดเกม
+// ========================================================
+function triggerInjectAndLaunch() {
+  if (isInjecting) return;
+  isInjecting = true;
+
   if (navigator.vibrate) {
-    navigator.vibrate(40);
+    navigator.vibrate([30, 40, 30]);
   }
 
-  const toast = document.getElementById('toastNotification');
-  toast.classList.add('show');
+  const btn = document.getElementById('btnInjectMain');
+  const btnText = document.getElementById('btnInjectText');
+  const fillBar = document.getElementById('loadingProgressFill');
+  const percentText = document.getElementById('loadingPercentageText');
+  const statusText = document.getElementById('loadingStatusText');
 
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove('show');
-  }, 2800);
+  btn.disabled = true;
+  btnText.innerText = 'INJECTING...';
+  statusText.innerText = 'PROCESSING MODULES...';
+
+  let progress = 0;
+  fillBar.style.width = '0%';
+  percentText.innerText = '0%';
+
+  // อนิเมชันหลอดโหลดวิ่งไปทางขวา
+  const interval = setInterval(() => {
+    progress += Math.floor(Math.random() * 8) + 4; // วิ่งแบบเป็นธรรมชาติ
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      fillBar.style.width = '100%';
+      percentText.innerText = '100%';
+      statusText.innerText = 'COMPLETED';
+
+      // ดึง Package ที่เคยเลือกไว้ (ถ้าไม่มีจะใช้ Free Fire ปกติ)
+      const targetClient = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
+      const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
+
+      // แสดง Toast แจ้งเตือน
+      const toast = document.getElementById('toastNotification');
+      const toastGame = document.getElementById('toastTargetGameText');
+      toastGame.innerText = `ฉีดสำเร็จ! กำลังเปิด ${targetClient}...`;
+      toast.classList.add('show');
+
+      // รอ 800ms ให้เห็นสถานะชัดเจน แล้วดีดเปิดเกมทันที
+      setTimeout(() => {
+        launchGameApp(targetPackage);
+        
+        // รีเซ็ตปุ่มกลับมาพร้อมกดใหม่
+        setTimeout(() => {
+          toast.classList.remove('show');
+          btn.disabled = false;
+          btnText.innerText = 'INJECT';
+          isInjecting = false;
+        }, 2500);
+      }, 800);
+    } else {
+      fillBar.style.width = `${progress}%`;
+      percentText.innerText = `${progress}%`;
+    }
+  }, 50);
+}
+
+// สั่งเปิดตัวเกมตาม Package Name (com.dts.freefireth / com.dts.freefiremax)
+function launchGameApp(pkgName) {
+  const ua = navigator.userAgent;
+
+  if (/Android/i.test(ua)) {
+    // บน Android: สั่งเปิดผ่าน Android Intent Launcher ตาม Package โดยตรง
+    window.location.href = `intent://#Intent;package=${pkgName};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end;`;
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    // บน iOS: สั่งเปิดผ่าน URL Scheme ของตัวเกม
+    const scheme = pkgName.includes('max') ? 'freefiremax://' : 'freefire://';
+    window.location.href = scheme;
+  } else {
+    // บน PC / บราวเซอร์ทั่วไป: แจ้งเตือนจำลองการเปิดเกม
+    console.log(`[Launch Game] Package: ${pkgName}`);
+  }
 }
 
 // ออกจากระบบ
@@ -1359,10 +1463,11 @@ function logout() {
   localStorage.removeItem('sd_saved_user_key');
   localStorage.removeItem('sunny_vpn_status');
   localStorage.removeItem('sunny_selected_client');
+  localStorage.removeItem('sunny_selected_package');
   window.location.href = 'index.html';
 }
 
-// โหลดข้อมูลเมื่อเปิดหน้าเว็บ
+// โหลดข้อมูลทั้งหมดเมื่อเปิดเว็บ
 window.addEventListener('DOMContentLoaded', () => {
   initDeviceInfo();
   loadFeatureStates();
