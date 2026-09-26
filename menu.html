@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -48,7 +48,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px 90px;
+  padding: 20px 16px 95px;
 }
 
 .app-container {
@@ -56,16 +56,28 @@ body {
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
-/* Header Bar */
+/* Views (Tab switching) */
+.view-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.view-section.hidden {
+  display: none !important;
+}
+
+/* Top Header */
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-top: 6px;
+  padding-top: 4px;
 }
 
 .brand-box {
@@ -172,9 +184,9 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Section Title */
+/* Section Header */
 .section-header {
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .section-title {
@@ -216,7 +228,7 @@ body {
   font-weight: 600;
 }
 
-/* Config Installation Box */
+/* Config & Game Cards */
 .config-box {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -245,6 +257,11 @@ body {
   font-size: 22px;
 }
 
+.app-icon-box.game-icon {
+  background: #2a2046;
+  color: #a78bfa;
+}
+
 .app-info-title {
   font-size: 16px;
   font-weight: 700;
@@ -256,7 +273,7 @@ body {
   color: var(--txt-muted);
 }
 
-/* Badge สถานะ Config แดง/เขียว */
+/* Status Badge */
 .config-status-badge {
   display: inline-flex;
   align-items: center;
@@ -289,8 +306,8 @@ body {
   box-shadow: 0 0 6px currentColor;
 }
 
-/* Install Button */
-.btn-install {
+/* Action Buttons */
+.btn-action-main {
   width: 100%;
   height: 50px;
   background-color: var(--primary-purple);
@@ -308,12 +325,42 @@ body {
   transition: all 0.2s ease;
 }
 
-.btn-install:hover {
+.btn-action-main:hover {
   background-color: var(--primary-hover);
 }
 
-.btn-install:active {
+.btn-action-main:active {
   transform: scale(0.985);
+}
+
+/* Search Client Button */
+.btn-search-client {
+  width: 100%;
+  height: 48px;
+  background: #1a1a22;
+  color: #ffffff;
+  border: 1px solid #2a2a35;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-search-client:hover {
+  background: #252530;
+  border-color: var(--primary-purple);
+}
+
+.btn-search-client.has-value {
+  background: rgba(109, 74, 255, 0.15);
+  border-color: var(--primary-purple);
+  color: #c4b5fd;
 }
 
 .config-hint {
@@ -328,7 +375,6 @@ body {
   font-weight: 700;
   color: var(--txt-muted);
   letter-spacing: 0.8px;
-  margin-top: 4px;
 }
 
 .store-row {
@@ -357,7 +403,85 @@ body {
   background: var(--subcard-bg);
 }
 
-/* Bottom Navigation */
+/* Features Tab Elements */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+
+.feature-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.feature-name {
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.feature-desc {
+  font-size: 11.5px;
+  color: var(--txt-muted);
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #23232c;
+  transition: .3s;
+  border-radius: 34px;
+  border: 1px solid #333342;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-purple);
+  border-color: var(--primary-purple);
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* Bottom Navigation Bar */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -395,7 +519,7 @@ body {
   color: var(--primary-purple);
 }
 
-/* Modal Popup Core */
+/* Modals Core */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -469,7 +593,7 @@ body {
   box-shadow: 0 4px 16px rgba(109, 74, 255, 0.4);
 }
 
-.btn-action-primary {
+.btn-modal-confirm {
   width: 100%;
   height: 46px;
   background: var(--primary-purple);
@@ -482,11 +606,11 @@ body {
   transition: 0.2s;
 }
 
-.btn-action-primary:hover {
+.btn-modal-confirm:hover {
   background: var(--primary-hover);
 }
 
-.btn-action-secondary {
+.btn-modal-cancel {
   width: 100%;
   height: 40px;
   background: transparent;
@@ -515,95 +639,184 @@ body {
     </div>
   </div>
 
-  <!-- Device Profile Card -->
-  <div class="device-card">
-    <div class="card-head-row">
-      <div class="card-head-title">
-        <i class="fas fa-microchip"></i> DEVICE PROFILE
+  <!-- TAB 1: SETUP VIEW -->
+  <div class="view-section" id="viewSetup">
+
+    <!-- Device Profile Card -->
+    <div class="device-card">
+      <div class="card-head-row">
+        <div class="card-head-title">
+          <i class="fas fa-microchip"></i> DEVICE PROFILE
+        </div>
+        <div class="card-head-badge">AUTHENTICATED</div>
       </div>
-      <div class="card-head-badge">AUTHENTICATED</div>
+      <div class="specs-grid">
+        <div class="spec-box">
+          <div class="spec-label">TERMINAL MODEL</div>
+          <div class="spec-val" id="devModel">Detecting...</div>
+        </div>
+        <div class="spec-box">
+          <div class="spec-label">PLATFORM OS</div>
+          <div class="spec-val" id="devOS">Detecting...</div>
+        </div>
+        <div class="spec-box">
+          <div class="spec-label">GRAPHICS RENDERER</div>
+          <div class="spec-val" id="devGPU">Detecting...</div>
+        </div>
+        <div class="spec-box">
+          <div class="spec-label">DISPLAY MATRIX</div>
+          <div class="spec-val" id="devScreen">0 x 0</div>
+        </div>
+      </div>
     </div>
-    <div class="specs-grid">
-      <div class="spec-box">
-        <div class="spec-label">TERMINAL MODEL</div>
-        <div class="spec-val" id="devModel">Detecting...</div>
+
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-title">Install Configuration</h2>
+      <p class="section-desc">Connect to the proxy server using ProxyPin</p>
+    </div>
+
+    <!-- Location Row -->
+    <div class="location-row">
+      <div class="location-left">
+        <i class="fas fa-globe" style="color: #818cf8;"></i> Thailand
       </div>
-      <div class="spec-box">
-        <div class="spec-label">PLATFORM OS</div>
-        <div class="spec-val" id="devOS">Detecting...</div>
-      </div>
-      <div class="spec-box">
-        <div class="spec-label">GRAPHICS RENDERER</div>
-        <div class="spec-val" id="devGPU">Detecting...</div>
-      </div>
-      <div class="spec-box">
-        <div class="spec-label">DISPLAY MATRIX</div>
-        <div class="spec-val" id="devScreen">0 x 0</div>
+      <div class="location-right">
+        4ms <i class="fas fa-chevron-down" style="font-size: 11px;"></i>
       </div>
     </div>
+
+    <!-- 1. Install Config Box -->
+    <div class="config-box">
+      <div class="app-meta">
+        <div class="app-icon-box">
+          <i class="fas fa-infinity"></i>
+        </div>
+        <div>
+          <div class="app-info-title">ProxyPin</div>
+          <div class="app-info-sub">Required to connect</div>
+        </div>
+      </div>
+
+      <!-- ป้ายสถานะสีแดง / สีเขียว -->
+      <div id="configStatusBadge" class="config-status-badge unauthorized">
+        <span class="status-dot"></span>
+        <span id="configStatusText">UNAUTHORIZED</span>
+      </div>
+
+      <!-- ปุ่ม Install Config (กดแล้วเปิดขออนุญาต VPN โดยตรง) -->
+      <button class="btn-action-main" onclick="openVpnModal()">
+        <i class="fas fa-bolt"></i> Install Config
+      </button>
+      <div class="config-hint">Opens ProxyPin and imports the configuration</div>
+    </div>
+
+    <!-- 2. Target Client Selection Box (อยู่ด้านล่าง Install Config ตามที่สั่ง) -->
+    <div class="config-box">
+      <div class="app-meta">
+        <div class="app-icon-box game-icon">
+          <i class="fas fa-gamepad"></i>
+        </div>
+        <div>
+          <div class="app-info-title">Game Client</div>
+          <div class="app-info-sub">Select your target game client</div>
+        </div>
+      </div>
+
+      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน (เริ่มต้นด้วยคำว่า Search) -->
+      <button class="btn-search-client" id="btnSearchClient" onclick="openClientModal()">
+        <i class="fas fa-search"></i>
+        <span id="searchClientLabel">Search</span>
+      </button>
+    </div>
+
+    <!-- Store Section -->
+    <div class="store-section-label">DON'T HAVE PROXYPIN?</div>
+    <div class="store-row">
+      <a href="https://play.google.com/store/apps/details?id=com.proxypin" target="_blank" class="btn-store">
+        <i class="fab fa-google-play"></i> Google Play
+      </a>
+      <a href="https://apps.apple.com/app/proxypin/id6450932949" target="_blank" class="btn-store">
+        <i class="fab fa-apple"></i> App Store
+      </a>
+    </div>
+
   </div>
 
-  <!-- Section Header -->
-  <div class="section-header">
-    <h2 class="section-title">Install Configuration</h2>
-    <p class="section-desc">Connect to the proxy server using ProxyPin</p>
-  </div>
-
-  <!-- Location Row -->
-  <div class="location-row">
-    <div class="location-left">
-      <i class="fas fa-globe" style="color: #818cf8;"></i> Thailand
+  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม) -->
+  <div class="view-section hidden" id="viewFeatures">
+    <div class="section-header">
+      <h2 class="section-title">In-Game Features</h2>
+      <p class="section-desc">Configure proxy injection & game parameters</p>
     </div>
-    <div class="location-right">
-      4ms <i class="fas fa-chevron-down" style="font-size: 11px;"></i>
-    </div>
-  </div>
 
-  <!-- Config Action Box -->
-  <div class="config-box">
-    <div class="app-meta">
-      <div class="app-icon-box">
-        <i class="fas fa-infinity"></i>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-info">
+          <span class="feature-name">Aimbot Assist (Headshot)</span>
+          <span class="feature-desc">Adjust bullet curve trajectory</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" onchange="toggleFeature('aimbot', this.checked)">
+          <span class="slider"></span>
+        </label>
       </div>
-      <div>
-        <div class="app-info-title">ProxyPin</div>
-        <div class="app-info-sub">Required to connect</div>
+
+      <div class="feature-item">
+        <div class="feature-info">
+          <span class="feature-name">Bypass Anti-Cheat</span>
+          <span class="feature-desc">Filter client telemetry packets</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleFeature('bypass', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-info">
+          <span class="feature-name">Zero Recoil Suppression</span>
+          <span class="feature-desc">Stabilize weapon reticle spread</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" onchange="toggleFeature('recoil', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-info">
+          <span class="feature-name">High Damage Rate</span>
+          <span class="feature-desc">Optimize hit registration packets</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" onchange="toggleFeature('damage', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-info">
+          <span class="feature-name">FPS Unlocker (120Hz)</span>
+          <span class="feature-desc">Force maximum display refresh rate</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" checked onchange="toggleFeature('fps', this.checked)">
+          <span class="slider"></span>
+        </label>
       </div>
     </div>
-
-    <!-- แถบแสดงสถานะ สีแดง / สีเขียว -->
-    <div id="configStatusBadge" class="config-status-badge unauthorized">
-      <span class="status-dot"></span>
-      <span id="configStatusText">ยังไม่อนุญาต Config</span>
-    </div>
-
-    <!-- ปุ่มเปิด Popup เลือก Client -->
-    <button class="btn-install" onclick="openClientModal()">
-      <i class="fas fa-bolt"></i> Install Config
-    </button>
-    <div class="config-hint">Opens ProxyPin and imports the configuration</div>
-  </div>
-
-  <!-- Don't have ProxyPin -->
-  <div class="store-section-label">DON'T HAVE PROXYPIN?</div>
-  <div class="store-row">
-    <a href="https://play.google.com/store/apps/details?id=com.proxypin" target="_blank" class="btn-store">
-      <i class="fab fa-google-play"></i> Google Play
-    </a>
-    <a href="https://apps.apple.com/app/proxypin/id6450932949" target="_blank" class="btn-store">
-      <i class="fab fa-apple"></i> App Store
-    </a>
   </div>
 
 </div>
 
 <!-- Bottom Navigation Bar -->
 <div class="bottom-nav">
-  <button class="nav-item active">
+  <button class="nav-item active" id="navSetup" onclick="switchTab('setup')">
     <i class="fas fa-download"></i>
     <span>Setup</span>
   </button>
-  <button class="nav-item" onclick="alert('ฟีเจอร์กำลังเตรียมเปิดให้ใช้งานเร็วๆ นี้ครับ')">
+  <button class="nav-item" id="navFeatures" onclick="switchTab('features')">
     <i class="fas fa-sliders-h"></i>
     <span>Features</span>
   </button>
@@ -613,59 +826,79 @@ body {
   </button>
 </div>
 
-<!-- POPUP 1: SELECT CLIENT (เลือก Free Fire / Free Fire Max) -->
+<!-- MODAL 1: SELECT CLIENT (ภาษาอังกฤษล้วน) -->
 <div class="modal-overlay" id="clientModal">
   <div class="modal-card">
     <h2 class="modal-title">SELECT CLIENT</h2>
     <p class="modal-desc">Select your game version to proceed</p>
 
     <div class="client-options">
-      <button type="button" class="client-btn selected" onclick="selectClient(this, 'Free Fire')">
+      <button type="button" class="client-btn" id="btnOptFF" onclick="selectClientOption('FREE FIRE')">
         FREE FIRE
       </button>
-      <button type="button" class="client-btn" onclick="selectClient(this, 'Free Fire Max')">
+      <button type="button" class="client-btn" id="btnOptFFMax" onclick="selectClientOption('FREE FIRE MAX')">
         FREE FIRE MAX
       </button>
     </div>
 
-    <button type="button" class="btn-action-primary" onclick="proceedToPermission()">
-      Continue
+    <button type="button" class="btn-modal-confirm" onclick="confirmClientSelection()">
+      Confirm
     </button>
-    <button type="button" class="btn-action-secondary" onclick="closeAllModals()">
+    <button type="button" class="btn-modal-cancel" onclick="closeAllModals()">
       Cancel
     </button>
   </div>
 </div>
 
-<!-- POPUP 2: PERMISSION REQUEST (สไตล์ขออนุญาต VPN) -->
+<!-- MODAL 2: PERMISSION REQUEST (สไตล์ขออนุญาต VPN สากล) -->
 <div class="modal-overlay" id="vpnModal">
   <div class="modal-card">
-    <div style="font-size: 42px; color: #a78bfa; margin-bottom: 12px;">
+    <div style="font-size: 44px; color: #a78bfa; margin-bottom: 12px;">
       <i class="fas fa-shield-alt"></i>
     </div>
-    <h2 class="modal-title" style="font-size: 18px;">การเชื่อมต่อ VPN</h2>
+    <h2 class="modal-title" style="font-size: 18px;">VPN Configuration</h2>
     <p class="modal-desc" style="line-height: 1.5;">
-      “SUNNY WIRE” ต้องการขออนุญาตเพิ่มการตั้งค่าโปรไฟล์ Proxy/VPN เพื่อควบคุมเครือข่ายสำหรับ <span id="targetGameName" style="color: #ffffff; font-weight: 700;">Free Fire</span>
+      “SUNNY WIRE” would like to add VPN configuration profiles to monitor and route game packets through ProxyPin.
     </p>
 
-    <button type="button" class="btn-action-primary" onclick="allowPermission()">
-      อนุญาต (Allow)
+    <button type="button" class="btn-modal-confirm" onclick="allowPermission()">
+      Allow
     </button>
-    <button type="button" class="btn-action-secondary" onclick="denyPermission()">
-      ปฏิเสธ (Don't Allow)
+    <button type="button" class="btn-modal-cancel" onclick="denyPermission()">
+      Don't Allow
     </button>
   </div>
 </div>
 
 <script>
-// ป้องกันคนแอบเข้าหน้านี้โดยไม่ได้ล็อกอิน
+// ตรวจสอบสถานะการล็อกอิน
 if (!localStorage.getItem('sd_saved_user_key')) {
   window.location.href = 'index.html';
 }
 
-let currentSelectedGame = 'Free Fire';
+let tempSelectedClient = 'FREE FIRE';
 
-// ดึงสเปกเครื่องอัตโนมัติมาแสดงในการ์ด
+// ฟังก์ชันสลับแท็บ Setup และ Features
+function switchTab(tab) {
+  const viewSetup = document.getElementById('viewSetup');
+  const viewFeatures = document.getElementById('viewFeatures');
+  const navSetup = document.getElementById('navSetup');
+  const navFeatures = document.getElementById('navFeatures');
+
+  if (tab === 'setup') {
+    viewSetup.classList.remove('hidden');
+    viewFeatures.classList.add('hidden');
+    navSetup.classList.add('active');
+    navFeatures.classList.remove('active');
+  } else {
+    viewSetup.classList.add('hidden');
+    viewFeatures.classList.remove('hidden');
+    navSetup.classList.remove('active');
+    navFeatures.classList.add('active');
+  }
+}
+
+// ตรวจจับสเปกเครื่องอัตโนมัติ
 function initDeviceInfo() {
   const ua = navigator.userAgent;
   let os = 'Unknown OS';
@@ -686,7 +919,6 @@ function initDeviceInfo() {
     os = 'Windows';
   }
 
-  // ดึงชื่อชิป GPU
   let gpu = 'Standard GPU';
   try {
     const canvas = document.createElement('canvas');
@@ -708,49 +940,75 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
-// ระบบจัดการ Modal และการเลือก Client
-function openClientModal() {
-  document.getElementById('clientModal').style.display = 'flex';
-}
-
-function selectClient(btn, game) {
-  document.querySelectorAll('.client-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  currentSelectedGame = game;
-}
-
-function proceedToPermission() {
-  document.getElementById('clientModal').style.display = 'none';
-  document.getElementById('targetGameName').innerText = currentSelectedGame;
+// --- การจัดการ MODAL ขออนุญาต VPN ---
+function openVpnModal() {
   document.getElementById('vpnModal').style.display = 'flex';
 }
 
-// เมื่อกดยืนยัน อนุญาต (เปลี่ยนสถานะเป็น สีเขียว)
 function allowPermission() {
   closeAllModals();
 
   const badge = document.getElementById('configStatusBadge');
   const txt = document.getElementById('configStatusText');
   badge.className = 'config-status-badge authorized';
-  txt.innerText = `อนุญาตแล้ว (${currentSelectedGame})`;
+  txt.innerText = 'AUTHORIZED';
 
   localStorage.setItem('sunny_vpn_status', 'authorized');
-  localStorage.setItem('sunny_selected_game', currentSelectedGame);
 
-  // คำสั่งยิงเปิด ProxyPin Application
+  // ยิงคำสั่งเปิดแอป ProxyPin
   window.location.href = 'proxypin://';
 }
 
-// เมื่อกด ปฏิเสธ (เปลี่ยนสถานะเป็น สีแดง)
 function denyPermission() {
   closeAllModals();
 
   const badge = document.getElementById('configStatusBadge');
   const txt = document.getElementById('configStatusText');
   badge.className = 'config-status-badge unauthorized';
-  txt.innerText = 'ยังไม่อนุญาต Config';
+  txt.innerText = 'UNAUTHORIZED';
 
   localStorage.setItem('sunny_vpn_status', 'unauthorized');
+}
+
+// --- การจัดการ MODAL ค้นหาและเลือกไคลเอนต์เกม ---
+function openClientModal() {
+  const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
+  selectClientOption(current);
+  document.getElementById('clientModal').style.display = 'flex';
+}
+
+function selectClientOption(game) {
+  tempSelectedClient = game;
+  const btnFF = document.getElementById('btnOptFF');
+  const btnFFMax = document.getElementById('btnOptFFMax');
+
+  if (game === 'FREE FIRE') {
+    btnFF.classList.add('selected');
+    btnFFMax.classList.remove('selected');
+  } else {
+    btnFF.classList.remove('selected');
+    btnFFMax.classList.add('selected');
+  }
+}
+
+function confirmClientSelection() {
+  closeAllModals();
+
+  localStorage.setItem('sunny_selected_client', tempSelectedClient);
+  updateSearchButtonLabel(tempSelectedClient);
+}
+
+function updateSearchButtonLabel(clientName) {
+  const btn = document.getElementById('btnSearchClient');
+  const label = document.getElementById('searchClientLabel');
+
+  if (clientName) {
+    label.innerText = clientName;
+    btn.classList.add('has-value');
+  } else {
+    label.innerText = 'Search';
+    btn.classList.remove('has-value');
+  }
 }
 
 function closeAllModals() {
@@ -758,25 +1016,38 @@ function closeAllModals() {
   document.getElementById('vpnModal').style.display = 'none';
 }
 
+// จัดเก็บสถานะ Toggles ในแท็บ Features
+function toggleFeature(name, state) {
+  localStorage.setItem(`feature_${name}`, state);
+}
+
 // ออกจากระบบ
 function logout() {
   localStorage.removeItem('sd_saved_user_key');
   localStorage.removeItem('sunny_vpn_status');
+  localStorage.removeItem('sunny_selected_client');
   window.location.href = 'index.html';
 }
 
-// โหลดสถานะเดิมที่เคยบันทึกไว้เมื่อเปิดหน้าเว็บ
+// โหลดข้อมูลทั้งหมดเมื่อเปิดเว็บ
 window.addEventListener('DOMContentLoaded', () => {
   initDeviceInfo();
 
-  const savedStatus = localStorage.getItem('sunny_vpn_status');
-  const savedGame = localStorage.getItem('sunny_selected_game') || 'Free Fire';
-
-  if (savedStatus === 'authorized') {
+  // ตรวจสถานะ VPN
+  const savedVpn = localStorage.getItem('sunny_vpn_status');
+  if (savedVpn === 'authorized') {
     const badge = document.getElementById('configStatusBadge');
     const txt = document.getElementById('configStatusText');
     badge.className = 'config-status-badge authorized';
-    txt.innerText = `อนุญาตแล้ว (${savedGame})`;
+    txt.innerText = 'AUTHORIZED';
+  }
+
+  // ตรวจสถานะเกมที่เลือก (ถ้ายังไม่เคยเลือกจะเป็นค่าว่าง เพื่อให้โชว์ Search)
+  const savedClient = localStorage.getItem('sunny_selected_client');
+  if (savedClient) {
+    updateSearchButtonLabel(savedClient);
+  } else {
+    updateSearchButtonLabel(null); // แสดงคำว่า Search
   }
 });
 </script>
