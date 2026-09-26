@@ -26,6 +26,7 @@
   --card-bg: #141418;
   --subcard-bg: #1a1a22;
   --border-color: rgba(255, 255, 255, 0.07);
+  --line-divider: rgba(255, 255, 255, 0.06);
   
   --primary-purple: #6d4aff;
   --primary-hover: #5d3bf0;
@@ -59,7 +60,7 @@ body {
   gap: 18px;
 }
 
-/* Views (Tab switching) */
+/* Tab Sections */
 .view-section {
   display: flex;
   flex-direction: column;
@@ -71,7 +72,7 @@ body {
   display: none !important;
 }
 
-/* Top Header */
+/* Header */
 .top-header {
   display: flex;
   justify-content: space-between;
@@ -121,7 +122,7 @@ body {
   box-shadow: 0 0 8px var(--color-green);
 }
 
-/* Device Profile Card */
+/* Device Card */
 .device-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -184,23 +185,23 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Section Header */
+/* Titles */
 .section-header {
   margin-top: 2px;
 }
 
 .section-title {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
   margin-bottom: 4px;
 }
 
 .section-desc {
-  font-size: 12.5px;
+  font-size: 13px;
   color: var(--txt-muted);
 }
 
-/* Country Selector */
+/* Location Bar */
 .location-row {
   display: flex;
   justify-content: space-between;
@@ -273,7 +274,6 @@ body {
   color: var(--txt-muted);
 }
 
-/* Status Badge */
 .config-status-badge {
   display: inline-flex;
   align-items: center;
@@ -306,7 +306,6 @@ body {
   box-shadow: 0 0 6px currentColor;
 }
 
-/* Action Buttons */
 .btn-action-main {
   width: 100%;
   height: 50px;
@@ -333,7 +332,6 @@ body {
   transform: scale(0.985);
 }
 
-/* Search Client Button */
 .btn-search-client {
   width: 100%;
   height: 48px;
@@ -369,7 +367,6 @@ body {
   text-align: center;
 }
 
-/* Store Downloads */
 .store-section-label {
   font-size: 11px;
   font-weight: 700;
@@ -403,45 +400,131 @@ body {
   background: var(--subcard-bg);
 }
 
-/* Features Tab Elements */
-.feature-list {
+/* ========================================================
+   FEATURES TAB STYLING (ออกแบบตามโครงสร้างรูปภาพ)
+   ======================================================== */
+.features-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  width: 100%;
+  gap: 22px;
 }
 
-.feature-item {
+.feature-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--txt-label);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.feature-group-header i {
+  font-size: 14px;
+  color: var(--txt-label);
+}
+
+.feature-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-  padding: 16px 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-divider);
 }
 
-.feature-info {
+.feature-row:first-child {
+  padding-top: 4px;
+}
+
+.feature-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 16px;
+}
+
+.feature-title-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--txt-white);
+}
+
+.feature-desc-text {
+  font-size: 12px;
+  color: var(--txt-muted);
+  line-height: 1.4;
+}
+
+/* Dropdown Selector Row */
+.marker-type-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0 6px;
+  border-bottom: 1px solid var(--line-divider);
+}
+
+.marker-label-row {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
 
-.feature-name {
-  font-size: 14.5px;
-  font-weight: 700;
+.marker-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--txt-label);
 }
 
-.feature-desc {
-  font-size: 11.5px;
+.custom-select-box {
+  position: relative;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.select-input {
+  width: 100%;
+  height: 48px;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0 16px;
+  color: var(--txt-white);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select-input:focus {
+  border-color: var(--primary-purple);
+  background-color: #1a1a22;
+}
+
+.custom-select-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
   color: var(--txt-muted);
+  font-size: 12px;
 }
 
-/* Toggle Switch */
+/* Switch */
 .switch {
   position: relative;
   display: inline-block;
-  width: 48px;
-  height: 26px;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .switch input {
@@ -454,22 +537,23 @@ body {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #23232c;
+  background-color: #272732;
   transition: .3s;
   border-radius: 34px;
-  border: 1px solid #333342;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
+  height: 20px;
+  width: 20px;
+  left: 4px;
   bottom: 3px;
-  background-color: white;
+  background-color: #ffffff;
   transition: .3s;
   border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 input:checked + .slider {
@@ -481,7 +565,7 @@ input:checked + .slider:before {
   transform: translateX(22px);
 }
 
-/* Bottom Navigation Bar */
+/* Bottom Nav */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -519,7 +603,7 @@ input:checked + .slider:before {
   color: var(--primary-purple);
 }
 
-/* Modals Core */
+/* Modals */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -704,14 +788,14 @@ input:checked + .slider:before {
         <span id="configStatusText">UNAUTHORIZED</span>
       </div>
 
-      <!-- ปุ่ม Install Config (กดแล้วเปิดขออนุญาต VPN โดยตรง) -->
+      <!-- ปุ่มกดขออนุญาต VPN โดยตรง -->
       <button class="btn-action-main" onclick="openVpnModal()">
         <i class="fas fa-bolt"></i> Install Config
       </button>
       <div class="config-hint">Opens ProxyPin and imports the configuration</div>
     </div>
 
-    <!-- 2. Target Client Selection Box (อยู่ด้านล่าง Install Config ตามที่สั่ง) -->
+    <!-- 2. Target Client Selection Box -->
     <div class="config-box">
       <div class="app-meta">
         <div class="app-icon-box game-icon">
@@ -723,7 +807,7 @@ input:checked + .slider:before {
         </div>
       </div>
 
-      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน (เริ่มต้นด้วยคำว่า Search) -->
+      <!-- ปุ่มค้นหาภาษาอังกฤษล้วน (เริ่มต้นคำว่า Search) -->
       <button class="btn-search-client" id="btnSearchClient" onclick="openClientModal()">
         <i class="fas fa-search"></i>
         <span id="searchClientLabel">Search</span>
@@ -743,68 +827,94 @@ input:checked + .slider:before {
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (หน้าฟังก์ชันเสริม) -->
+  <!-- TAB 2: FEATURES VIEW (ปรับแต่งตรงตามรูปภาพ 100%) -->
   <div class="view-section hidden" id="viewFeatures">
     <div class="section-header">
-      <h2 class="section-title">In-Game Features</h2>
-      <p class="section-desc">Configure proxy injection & game parameters</p>
+      <h2 class="section-title">Features</h2>
+      <p class="section-desc">Manage active features for your session</p>
     </div>
 
-    <div class="feature-list">
-      <div class="feature-item">
-        <div class="feature-info">
-          <span class="feature-name">Aimbot Assist (Headshot)</span>
-          <span class="feature-desc">Adjust bullet curve trajectory</span>
+    <div class="features-container">
+
+      <!-- หมวด COMBAT -->
+      <div>
+        <div class="feature-group-header">
+          <i class="fas fa-crosshairs"></i> COMBAT
         </div>
-        <label class="switch">
-          <input type="checkbox" onchange="toggleFeature('aimbot', this.checked)">
-          <span class="slider"></span>
-        </label>
+
+        <!-- 1. Aimbot Legit -->
+        <div class="feature-row">
+          <div class="feature-text-group">
+            <span class="feature-title-text">Aimbot Legit</span>
+            <span class="feature-desc-text">ช่วยดึงเป้าเข้าตัวศัตรูแบบเนียนเป็นธรรมชาติ ไม่กระตุกหรือดีดผิดปกติ</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="feat_aimbot_legit" onchange="toggleFeature('aimbot_legit', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- 2. Aimbot 85% (เพิ่มตามสั่ง) -->
+        <div class="feature-row">
+          <div class="feature-text-group">
+            <span class="feature-title-text">Aimbot 85%</span>
+            <span class="feature-desc-text">เพิ่มแรงดูดเป้าเข้าส่วนสำคัญระดับ 85% ล็อกเป้าแม่นยำสูงหวังผลได้ทันที</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="feat_aimbot_85" onchange="toggleFeature('aimbot_85', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- 3. Icewall Inverted -->
+        <div class="feature-row">
+          <div class="feature-text-group">
+            <span class="feature-title-text">Icewall Inverted</span>
+            <span class="feature-desc-text">ระบบวางไอซ์วอลล์แบบรวดเร็วและกลับด้าน ป้องกันตัวอัตโนมัติรอบทิศทาง</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="feat_icewall_inverted" onchange="toggleFeature('icewall_inverted', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
       </div>
 
-      <div class="feature-item">
-        <div class="feature-info">
-          <span class="feature-name">Bypass Anti-Cheat</span>
-          <span class="feature-desc">Filter client telemetry packets</span>
+      <!-- หมวด VISION -->
+      <div>
+        <div class="feature-group-header">
+          <i class="fas fa-cog"></i> VISION
         </div>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleFeature('bypass', this.checked)">
-          <span class="slider"></span>
-        </label>
+
+        <!-- 1. ESP Moco -->
+        <div class="feature-row">
+          <div class="feature-text-group">
+            <span class="feature-title-text">ESP Moco</span>
+            <span class="feature-desc-text">แสดงมาร์กเกอร์และพิกัดตำแหน่งศัตรูบนแผนที่และเหนือหัวตลอดทั้งแมตช์</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="feat_esp_moco" onchange="toggleFeature('esp_moco', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- 2. Marker type Dropdown -->
+        <div class="marker-type-group">
+          <div class="marker-label-row">
+            <span class="marker-label">Marker type</span>
+            <span class="feature-desc-text">เลือกรูปแบบและไอคอนสำหรับชี้ตำแหน่งศัตรู</span>
+          </div>
+          <div class="custom-select-box">
+            <select class="select-input" id="markerTypeSelect" onchange="changeMarkerType(this.value)">
+              <option value="Shirou">Shirou</option>
+              <option value="Moco">Moco</option>
+              <option value="Clu">Clu</option>
+              <option value="Homer">Homer</option>
+            </select>
+            <i class="fas fa-chevron-down custom-select-arrow"></i>
+          </div>
+        </div>
       </div>
 
-      <div class="feature-item">
-        <div class="feature-info">
-          <span class="feature-name">Zero Recoil Suppression</span>
-          <span class="feature-desc">Stabilize weapon reticle spread</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" onchange="toggleFeature('recoil', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-info">
-          <span class="feature-name">High Damage Rate</span>
-          <span class="feature-desc">Optimize hit registration packets</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" onchange="toggleFeature('damage', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="feature-item">
-        <div class="feature-info">
-          <span class="feature-name">FPS Unlocker (120Hz)</span>
-          <span class="feature-desc">Force maximum display refresh rate</span>
-        </div>
-        <label class="switch">
-          <input type="checkbox" checked onchange="toggleFeature('fps', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
     </div>
   </div>
 
@@ -826,7 +936,7 @@ input:checked + .slider:before {
   </button>
 </div>
 
-<!-- MODAL 1: SELECT CLIENT (ภาษาอังกฤษล้วน) -->
+<!-- MODAL 1: SELECT CLIENT -->
 <div class="modal-overlay" id="clientModal">
   <div class="modal-card">
     <h2 class="modal-title">SELECT CLIENT</h2>
@@ -850,7 +960,7 @@ input:checked + .slider:before {
   </div>
 </div>
 
-<!-- MODAL 2: PERMISSION REQUEST (สไตล์ขออนุญาต VPN สากล) -->
+<!-- MODAL 2: PERMISSION REQUEST -->
 <div class="modal-overlay" id="vpnModal">
   <div class="modal-card">
     <div style="font-size: 44px; color: #a78bfa; margin-bottom: 12px;">
@@ -871,14 +981,14 @@ input:checked + .slider:before {
 </div>
 
 <script>
-// ตรวจสอบสถานะการล็อกอิน
+// ตรวจสอบการล็อกอิน
 if (!localStorage.getItem('sd_saved_user_key')) {
   window.location.href = 'index.html';
 }
 
 let tempSelectedClient = 'FREE FIRE';
 
-// ฟังก์ชันสลับแท็บ Setup และ Features
+// สลับแท็บ Setup และ Features
 function switchTab(tab) {
   const viewSetup = document.getElementById('viewSetup');
   const viewFeatures = document.getElementById('viewFeatures');
@@ -940,7 +1050,7 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
-// --- การจัดการ MODAL ขออนุญาต VPN ---
+// --- MODAL VPN ---
 function openVpnModal() {
   document.getElementById('vpnModal').style.display = 'flex';
 }
@@ -954,8 +1064,6 @@ function allowPermission() {
   txt.innerText = 'AUTHORIZED';
 
   localStorage.setItem('sunny_vpn_status', 'authorized');
-
-  // ยิงคำสั่งเปิดแอป ProxyPin
   window.location.href = 'proxypin://';
 }
 
@@ -970,7 +1078,7 @@ function denyPermission() {
   localStorage.setItem('sunny_vpn_status', 'unauthorized');
 }
 
-// --- การจัดการ MODAL ค้นหาและเลือกไคลเอนต์เกม ---
+// --- MODAL CLIENT SELECTION ---
 function openClientModal() {
   const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
   selectClientOption(current);
@@ -993,7 +1101,6 @@ function selectClientOption(game) {
 
 function confirmClientSelection() {
   closeAllModals();
-
   localStorage.setItem('sunny_selected_client', tempSelectedClient);
   updateSearchButtonLabel(tempSelectedClient);
 }
@@ -1016,9 +1123,32 @@ function closeAllModals() {
   document.getElementById('vpnModal').style.display = 'none';
 }
 
-// จัดเก็บสถานะ Toggles ในแท็บ Features
+// จัดเก็บการเปิด/ปิด สวิตช์ฟังก์ชัน
 function toggleFeature(name, state) {
-  localStorage.setItem(`feature_${name}`, state);
+  localStorage.setItem(`feat_${name}`, state);
+}
+
+// จัดเก็บประเภท Marker
+function changeMarkerType(val) {
+  localStorage.setItem('feat_marker_type', val);
+}
+
+// โหลดสถานะสวิตช์เดิมที่เคยเลือกไว้
+function loadFeatureStates() {
+  const features = ['aimbot_legit', 'aimbot_85', 'icewall_inverted', 'esp_moco'];
+  features.forEach(f => {
+    const saved = localStorage.getItem(`feat_${f}`);
+    const el = document.getElementById(`feat_${f}`);
+    if (el && saved !== null) {
+      el.checked = (saved === 'true');
+    }
+  });
+
+  const savedMarker = localStorage.getItem('feat_marker_type');
+  if (savedMarker) {
+    const sel = document.getElementById('markerTypeSelect');
+    if (sel) sel.value = savedMarker;
+  }
 }
 
 // ออกจากระบบ
@@ -1029,11 +1159,11 @@ function logout() {
   window.location.href = 'index.html';
 }
 
-// โหลดข้อมูลทั้งหมดเมื่อเปิดเว็บ
+// โหลดข้อมูลเมื่อเปิดหน้าเว็บ
 window.addEventListener('DOMContentLoaded', () => {
   initDeviceInfo();
+  loadFeatureStates();
 
-  // ตรวจสถานะ VPN
   const savedVpn = localStorage.getItem('sunny_vpn_status');
   if (savedVpn === 'authorized') {
     const badge = document.getElementById('configStatusBadge');
@@ -1042,12 +1172,11 @@ window.addEventListener('DOMContentLoaded', () => {
     txt.innerText = 'AUTHORIZED';
   }
 
-  // ตรวจสถานะเกมที่เลือก (ถ้ายังไม่เคยเลือกจะเป็นค่าว่าง เพื่อให้โชว์ Search)
   const savedClient = localStorage.getItem('sunny_selected_client');
   if (savedClient) {
     updateSearchButtonLabel(savedClient);
   } else {
-    updateSearchButtonLabel(null); // แสดงคำว่า Search
+    updateSearchButtonLabel(null);
   }
 });
 </script>
