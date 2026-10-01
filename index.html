@@ -1,322 +1,911 @@
-<!DOCTYPE html>
 <html lang="th">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SUNNY WIRE - SYSTEM MAINTENANCE</title>
+
+<title>SUNNY WIRE - LOGIN</title>
+
+
 
 <!-- FontAwesome Icons -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Google Fonts: Inter & Prompt -->
+
+<!-- Google Fonts: Inter -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
 
 <style>
+
 * {
+
   box-sizing: border-box;
+
   margin: 0;
+
   padding: 0;
+
   -webkit-tap-highlight-color: transparent;
+
   user-select: none;
+
 }
+
+
+
+input {
+
+  user-select: auto;
+
+}
+
+
 
 :root {
+
   --bg-color: #0b0b0e;
+
   --card-bg: #141418;
-  --border-color: rgba(255, 255, 255, 0.06);
+
+  --input-bg: #1e1e24;
+
+  --input-border: #292932;
+
+  --input-focus: #3b3b48;
+
   
+
   --primary-purple: #6d4aff;
+
+  --primary-hover: #5d3bf0;
+
   --primary-glow: rgba(109, 74, 255, 0.35);
+
   
+
   --txt-white: #ffffff;
+
   --txt-muted: #737380;
+
   --txt-label: #8f8fa0;
-  --color-amber: #f59e0b;
-  --color-red: #ef4444;
+
+  --txt-placeholder: #505060;
+
 }
+
+
 
 body {
+
   width: 100%;
+
   min-height: 100vh;
+
   margin: 0;
+
   padding: 20px;
-  font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
   background-color: var(--bg-color);
+
   color: var(--txt-white);
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
-  overflow: hidden;
+
+  overflow-x: hidden;
+
 }
+
+
 
 /* Card Container */
-.maintenance-card {
+
+.login-card {
+
   width: 100%;
-  max-width: 385px;
+
+  max-width: 375px;
+
   background-color: var(--card-bg);
+
   border-radius: 26px;
-  padding: 40px 26px 36px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--border-color);
+
+  padding: 38px 26px 34px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   text-align: center;
+
   animation: fadeIn 0.4s ease-out;
-  position: relative;
+
 }
+
+
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+
+  from { opacity: 0; transform: translateY(10px); }
+
+  to { opacity: 1; transform: translateY(0); }
+
 }
+
+
 
 /* Logo */
+
 .logo-box {
-  width: 66px;
-  height: 66px;
-  border-radius: 16px;
+
+  width: 62px;
+
+  height: 62px;
+
+  border-radius: 14px;
+
   overflow: hidden;
-  margin-bottom: 18px;
+
+  margin-bottom: 20px;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   background: #1a1a20;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+
 }
+
+
 
 .logo-img {
+
   width: 100%;
+
   height: 100%;
+
   object-fit: cover;
+
 }
+
+
 
 /* Title & Subtitle */
+
 .card-title {
-  font-size: 22px;
+
+  font-size: 21px;
+
   font-weight: 800;
-  letter-spacing: 0.5px;
+
+  letter-spacing: 0.3px;
+
   color: var(--txt-white);
+
   margin-bottom: 6px;
+
 }
 
-.maintenance-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  color: #fbbf24;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  margin-bottom: 24px;
+
+
+.card-subtitle {
+
+  font-size: 13.5px;
+
+  color: var(--txt-muted);
+
+  font-weight: 400;
+
+  margin-bottom: 26px;
+
 }
 
-.badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #f59e0b;
-  box-shadow: 0 0 8px #f59e0b;
-  animation: pulseDot 1.5s infinite;
-}
 
-@keyframes pulseDot {
-  0% { opacity: 0.4; }
-  50% { opacity: 1; }
-  100% { opacity: 0.4; }
-}
 
-/* Maintenance Content Box */
-.update-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 14px;
+/* Form */
+
+.form-container {
+
   width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  text-align: left;
+
 }
 
-.update-icon-wrap {
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  background: rgba(109, 74, 255, 0.1);
-  border: 1px solid rgba(109, 74, 255, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 4px;
+
+
+.field-label {
+
+  font-size: 13px;
+
+  font-weight: 500;
+
+  color: var(--txt-label);
+
+  margin-bottom: 8px;
+
+  padding-left: 2px;
+
 }
+
+
+
+/* Input Area */
+
+.input-wrapper {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  height: 48px;
+
+  background-color: var(--input-bg);
+
+  border: 1px solid var(--input-border);
+
+  border-radius: 12px;
+
+  padding: 0 14px;
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+.input-wrapper:focus-within {
+
+  border-color: var(--input-focus);
+
+  background-color: #23232b;
+
+}
+
+
+
+.key-input {
+
+  flex: 1;
+
+  height: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  color: var(--txt-white);
+
+  font-size: 14px;
+
+  font-family: inherit;
+
+}
+
+
+
+.key-input::placeholder {
+
+  color: var(--txt-placeholder);
+
+  font-size: 14px;
+
+}
+
+
+
+/* ปุ่ม Paste */
+
+.btn-paste-icon {
+
+  background: transparent;
+
+  border: none;
+
+  color: var(--txt-muted);
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  padding: 6px;
+
+  border-radius: 6px;
+
+  transition: color 0.2s;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+
+.btn-paste-icon:hover {
+
+  color: var(--txt-white);
+
+}
+
+
+
+/* Continue Button */
+
+.btn-continue {
+
+  width: 100%;
+
+  height: 48px;
+
+  margin-top: 18px;
+
+  background-color: var(--primary-purple);
+
+  color: #ffffff;
+
+  border: none;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  font-family: inherit;
+
+  transition: all 0.2s ease;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow: 0 4px 18px var(--primary-glow);
+
+}
+
+
+
+.btn-continue:hover {
+
+  background-color: var(--primary-hover);
+
+  box-shadow: 0 6px 22px rgba(109, 74, 255, 0.5);
+
+}
+
+
+
+.btn-continue:active {
+
+  transform: scale(0.985);
+
+}
+
+
+
+.btn-continue:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+}
+
+
+
+/* Status Message */
+
+.status-msg {
+
+  width: 100%;
+
+  margin-top: 14px;
+
+  padding: 10px 12px;
+
+  border-radius: 10px;
+
+  background: rgba(239, 68, 68, 0.12);
+
+  border: 1px solid rgba(239, 68, 68, 0.25);
+
+  color: #fca5a5;
+
+  font-size: 12.5px;
+
+  text-align: center;
+
+  font-weight: 500;
+
+  display: none;
+
+  line-height: 1.4;
+
+}
+
+
+
+.status-msg.success {
+
+  background: rgba(16, 185, 129, 0.12);
+
+  border-color: rgba(16, 185, 129, 0.25);
+
+  color: #6ee7b7;
+
+}
+
+
+
+/* System Maintenance Box */
+
+.update-box {
+
+  display: none;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  text-align: center;
+
+  gap: 12px;
+
+  width: 100%;
+
+}
+
+
 
 .update-icon {
-  font-size: 32px;
+
+  font-size: 40px;
+
   color: #a78bfa;
-  animation: spinSlow 6s linear infinite;
+
+  margin-bottom: 2px;
+
 }
 
-@keyframes spinSlow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+
 
 .update-title {
-  font-size: 19px;
-  font-weight: 800;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
   color: #ffffff;
+
 }
+
+
 
 .update-desc {
-  font-size: 13.5px;
+
+  font-size: 13px;
+
   color: var(--txt-muted);
-  line-height: 1.6;
+
+  line-height: 1.5;
+
 }
 
-.notice-warning-box {
-  width: 100%;
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 12px;
-  padding: 11px 14px;
-  color: #fca5a5;
-  font-size: 12.5px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
 
-/* Button Group */
-.action-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 8px;
-}
 
 .btn-discord {
+
   width: 100%;
-  height: 48px;
+
+  height: 44px;
+
   background: #5865F2;
+
   color: #ffffff;
-  border-radius: 14px;
-  font-size: 14.5px;
-  font-weight: 700;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 18px rgba(88, 101, 242, 0.35);
-}
 
-.btn-discord:hover {
-  background: #4752c4;
-}
+  border-radius: 12px;
 
-.btn-exit {
-  width: 100%;
-  height: 46px;
-  background: #1c1c24;
-  border: 1px solid #2b2b36;
-  border-radius: 14px;
-  color: #a1a1aa;
   font-size: 14px;
+
   font-weight: 600;
-  cursor: pointer;
+
+  text-decoration: none;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 8px;
-  transition: all 0.2s ease;
-  font-family: inherit;
+
+  margin-top: 10px;
+
 }
 
-.btn-exit:hover {
-  background: #252530;
-  color: #ffffff;
-  border-color: #3f3f4e;
-}
 </style>
+
 </head>
+
 <body>
 
-<div class="maintenance-card">
+
+
+<div class="login-card">
+
+
 
   <!-- Logo -->
+
   <div class="logo-box">
+
     <img src="https://i.postimg.cc/SNrTx4V6/Picsart-26-09-05-09-29-37-550.png" alt="SUNNY WIRE Logo" class="logo-img">
+
   </div>
+
+
 
   <!-- Header Titles -->
+
   <h1 class="card-title">SUNNY WIRE</h1>
-  <div class="maintenance-badge">
-    <span class="badge-dot"></span> MAINTENANCE MODE
+
+  <p class="card-subtitle">Enter your product key to get started</p>
+
+
+
+  <!-- Login Form -->
+
+  <div class="form-container" id="loginContainer">
+
+    <label class="field-label" for="keyInput">Product key</label>
+
+    
+
+    <div class="input-wrapper">
+
+      <input type="text" id="keyInput" class="key-input" placeholder="Enter your key" autocomplete="off" spellcheck="false">
+
+      <button type="button" class="btn-paste-icon" onclick="pasteFromClipboard()" title="วางคีย์">
+
+        <i class="far fa-clipboard"></i>
+
+      </button>
+
+    </div>
+
+
+
+    <!-- Continue Button -->
+
+    <button id="loginBtn" class="btn-continue" onclick="performLogin()">
+
+      <span id="loginBtnLabel">Continue</span>
+
+    </button>
+
+
+
+    <!-- แจ้งเตือนสถานะ -->
+
+    <div id="statusBox" class="status-msg"></div>
+
   </div>
 
-  <!-- Locked Screen Content -->
-  <div class="update-box">
-    <div class="update-icon-wrap">
-      <i class="fas fa-tools update-icon"></i>
+
+
+  <!-- Update/Maintenance Screen -->
+
+  <div class="update-box" id="updateContainer">
+
+    <div class="update-icon">
+
+      <i class="fas fa-tools"></i>
+
     </div>
 
     <div class="update-title">ระบบกำลังอัปเดต</div>
-    
+
     <div class="update-desc">
-      ขณะนี้ระบบกำลังปิดปรับปรุงชั่วคราว<br>
-      เพื่ออัปเดตระบบความปลอดภัยและฟังก์ชันใหม่<br>
-      สามารถติดตามประกาศเปิดระบบได้ที่ Discord ครับ
+
+      ขณะนี้ระบบกำลังปิดปรับปรุงชั่วคราว<br>สามารถติดตามข่าวสารได้ที่ Discord ครับ
+
     </div>
 
-    <div class="notice-warning-box">
-      <i class="fas fa-lock"></i> ระบบล็อกการเข้าสู่ระบบทั้งหมดชั่วคราว
-    </div>
+    <a href="https://discord.gg/jT4QhEeXx" target="_blank" class="btn-discord">
 
-    <!-- ปุ่มออกจากเว็บ & ปุ่ม Discord -->
-    <div class="action-buttons">
-      <a href="https://discord.gg/jT4QhEeXx" target="_blank" class="btn-discord">
-        <i class="fab fa-discord"></i> Discord Server
-      </a>
-      <button type="button" class="btn-exit" onclick="exitWebsite()">
-        <i class="fas fa-sign-out-alt"></i> ออกจากเว็บไซต์
-      </button>
-    </div>
+      <i class="fab fa-discord"></i> Discord Server
+
+    </a>
+
   </div>
+
+
 
 </div>
 
-<script>
-// ฟังก์ชันกดออกจากเว็บไซต์
-function exitWebsite() {
-  // พยายามปิดแท็บเบราว์เซอร์
-  window.close();
 
-  // แผนสำรองกรณีเบราว์เซอร์บล็อกคำสั่ง window.close()
-  setTimeout(() => {
-    if (history.length > 1) {
-      history.back();
-    } else {
-      window.location.href = 'about:blank';
-    }
-  }, 250);
+
+<script>
+
+// ฟังก์ชันกด PASTE วางคีย์
+
+async function pasteFromClipboard() {
+
+  const input = document.getElementById('keyInput');
+
+  if (navigator.clipboard && navigator.clipboard.readText) {
+
+    try {
+
+      const text = await navigator.clipboard.readText();
+
+      if (text && text.trim() !== '') {
+
+        input.value = text.trim();
+
+        showStatus('วางคีย์สำเร็จแล้ว', true);
+
+        setTimeout(() => {
+
+          document.getElementById('statusBox').style.display = 'none';
+
+        }, 1200);
+
+        return;
+
+      }
+
+    } catch (err) {}
+
+  }
+
+
+
+  const fallbackText = prompt('กรุณาวางรหัสคีย์ของคุณที่นี่ (Paste Key):');
+
+  if (fallbackText && fallbackText.trim() !== '') {
+
+    input.value = fallbackText.trim();
+
+  }
+
 }
 
-// ล็อคการคลิกขวาและการตรวจสอบหน้าเว็บ
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => {
-  // บล็อก F12, Ctrl+Shift+I, Ctrl+U
-  if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
-    e.preventDefault();
-    return false;
+
+
+// สร้าง Device Serial / HWID
+
+function getDeviceSerial() {
+
+  let s = localStorage.getItem('sd_device_serial_lite');
+
+  if (!s) {
+
+    try {
+
+      const raw = `${window.screen.width}x${window.screen.height}-${navigator.userAgent}`;
+
+      let h = 0;
+
+      for (let i = 0; i < raw.length; i++) {
+
+        h = ((h << 5) - h) + raw.charCodeAt(i);
+
+        h = h & h;
+
+      }
+
+      s = 'SD-' + Math.abs(h).toString(16).toUpperCase();
+
+      localStorage.setItem('sd_device_serial_lite', s);
+
+    } catch(e) {
+
+      s = 'SD-' + Math.random().toString(16).substring(2, 10).toUpperCase();
+
+      localStorage.setItem('sd_device_serial_lite', s);
+
+    }
+
   }
+
+  return s;
+
+}
+
+
+
+// แสดงข้อความแจ้งเตือน
+
+function showStatus(text, isSuccess = false) {
+
+  const box = document.getElementById('statusBox');
+
+  box.innerText = text;
+
+  box.style.display = 'block';
+
+  box.className = isSuccess ? 'status-msg success' : 'status-msg';
+
+}
+
+
+
+// ฟังก์ชัน Login ส่งผ่าน Vercel Proxy
+
+async function performLogin() {
+
+  const keyInput = document.getElementById('keyInput');
+
+  const key = keyInput.value.trim();
+
+  const btn = document.getElementById('loginBtn');
+
+  const btnLabel = document.getElementById('loginBtnLabel');
+
+
+
+  if (!key) {
+
+    showStatus('กรุณากรอก Product key ก่อนเข้าสู่ระบบ');
+
+    keyInput.focus();
+
+    return;
+
+  }
+
+
+
+  btnLabel.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+  btn.disabled = true;
+
+  document.getElementById('statusBox').style.display = 'none';
+
+
+
+  const serial = getDeviceSerial();
+
+  const url = '/api/connect';
+
+  
+
+  // ส่งค่าแบบ Form URL Encoded ไปยัง Vercel Rewrite
+
+  const bodyData = new URLSearchParams({
+
+    game: 'ProxyPin',
+
+    user_key: key,
+
+    serial: serial
+
+  }).toString();
+
+
+
+  try {
+
+    const response = await fetch(url, {
+
+      method: 'POST',
+
+      headers: { 
+
+        'Content-Type': 'application/x-www-form-urlencoded' 
+
+      },
+
+      body: bodyData
+
+    });
+
+
+
+    const r = await response.json();
+
+    btnLabel.innerText = 'Continue';
+
+    btn.disabled = false;
+
+
+
+    if (r.status === true) {
+
+      showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
+
+      localStorage.setItem('sd_saved_user_key', key);
+
+
+
+      setTimeout(() => {
+
+        if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
+
+          AndroidInterface.onLoginSuccess(key);
+
+        }
+
+        window.location.href = 'menu.html';
+
+      }, 700);
+
+    } else {
+
+      showStatus(r.message || 'รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
+
+    }
+
+  } catch(e) {
+
+    btnLabel.innerText = 'Continue';
+
+    btn.disabled = false;
+
+    showStatus('เกิดข้อผิดพลาด: ' + e.message);
+
+  }
+
+}
+
+// โหลดคีย์เดิมที่เคยบันทึกไว้
+
+window.addEventListener('DOMContentLoaded', function() {
+
+  const savedKey = localStorage.getItem('sd_saved_user_key');
+
+  if (savedKey) {
+
+    document.getElementById('keyInput').value = savedKey;
+
+  }
+
 });
+
 </script>
+
 </body>
-</html>
+
+</html> 
