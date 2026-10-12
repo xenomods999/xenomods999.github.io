@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SUNNY WIRE - DASHBOARD</title>
+<title>SUNNY - DASHBOARD</title>
 
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Google Fonts: Inter & Prompt -->
+<!-- Google Fonts: Prompt & Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,701 +22,381 @@
 }
 
 :root {
-  --bg-color: #0b0b0e;
-  --card-bg: #141418;
-  --subcard-bg: #1a1a22;
-  --border-color: rgba(255, 255, 255, 0.07);
-  --line-divider: rgba(255, 255, 255, 0.06);
-  
-  --primary-purple: #6d4aff;
-  --primary-hover: #5d3bf0;
-  --primary-glow: rgba(109, 74, 255, 0.35);
-  
+  --bg-deep: #050811;
+  --card-bg: #0d1527;
+  --subcard-bg: #111d35;
+  --card-border: #1a2846;
+  --divider-color: rgba(255, 255, 255, 0.05);
+
+  --primary-blue: #0ea5e9;
+  --accent-cyan: #38bdf8;
+  --primary-glow: rgba(14, 165, 233, 0.4);
+
   --txt-white: #ffffff;
-  --txt-muted: #737380;
-  --txt-label: #8f8fa0;
+  --txt-muted: #64748b;
+  --txt-label: #94a3b8;
+  
   --color-green: #10b981;
   --color-red: #ef4444;
-  --color-blue: #38bdf8;
   --color-amber: #f59e0b;
 }
 
 body {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
   color: var(--txt-white);
-  font-family: 'Prompt', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Prompt', 'Inter', -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px 95px;
+  padding: 16px 16px 95px;
   overflow-x: hidden;
 }
 
-.app-container {
+.app-wrapper {
   width: 100%;
-  max-width: 420px;
+  max-width: 410px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Tab Sections */
-.view-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.view-section.hidden {
-  display: none !important;
-}
-
-/* Header */
+/* Header แถบหัวด้านบน[cite: 1, 3, 4] */
 .top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding-top: 4px;
+  padding: 6px 2px 2px;
 }
 
-.brand-box {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.brand-title {
-  font-size: 19px;
+.header-title {
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  color: #ffffff;
 }
 
-.status-online-pill {
+.lang-badge {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: var(--color-green);
-  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--txt-label);
+  background: rgba(13, 21, 39, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
-.dot-green {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-green);
-  box-shadow: 0 0 8px var(--color-green);
-}
-
-/* แถบประกาศแจ้งเตือนหน้าแรก */
-.announcement-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  border-radius: 16px;
-  padding: 12px 16px;
-  color: #fca5a5;
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1.45;
-  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
-  animation: pulseAlert 2.5s infinite;
-}
-
-.announcement-banner i {
-  color: #f87171;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-@keyframes pulseAlert {
-  0% { border-color: rgba(239, 68, 68, 0.35); }
-  50% { border-color: rgba(239, 68, 68, 0.7); box-shadow: 0 4px 18px rgba(239, 68, 68, 0.2); }
-  100% { border-color: rgba(239, 68, 68, 0.35); }
-}
-
-/* VIP Timer Card */
-.vip-timer-card {
+/* สถานะย่อย[cite: 3, 4] */
+.sub-status-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, rgba(109, 74, 255, 0.12) 0%, rgba(20, 20, 24, 0.8) 100%);
-  border: 1px solid rgba(109, 74, 255, 0.25);
-  border-radius: 18px;
-  padding: 13px 18px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  font-size: 12.5px;
+  color: var(--txt-muted);
+  font-weight: 500;
+  padding: 0 2px;
 }
 
-.vip-timer-left {
+.status-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
-.timer-icon {
-  font-size: 20px;
-  color: #a78bfa;
+.status-box-indicator {
+  width: 8px;
+  height: 8px;
+  background: #475569;
+  border-radius: 2px;
 }
 
-.vip-timer-info {
+.status-box-indicator.online {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+/* ซ่อน/แสดงแท็บ */
+.view-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.view-panel.hidden {
+  display: none !important;
+}
+
+/* ========================================================
+   TAB 1: หน้าหลัก (HOME) STYLES[cite: 4]
+   ======================================================== */
+.radar-hud-card {
+  position: relative;
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* กรอบมุมฉาก Tactical Bracket[cite: 4] */
+.hud-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(56, 189, 248, 0.4);
+  pointer-events: none;
+}
+.hud-corner.tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+.hud-corner.tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+.hud-corner.bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+.hud-corner.br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+
+/* เรดาร์วงกลมขีดรอบทิศทาง[cite: 4] */
+.radar-circle-wrapper {
+  position: relative;
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.radar-dial-ticks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px dashed rgba(56, 189, 248, 0.25);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 70%);
+}
+
+.center-logo-box {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+  border: 2px solid var(--accent-cyan);
+  z-index: 2;
+}
+
+.center-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hud-pill-indicator {
+  width: 18px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 8px #ffffff;
+}
+
+.hud-clock-status-text {
+  font-size: 13px;
+  color: var(--txt-muted);
+  font-weight: 500;
+}
+
+/* กล่องแสดงคีย์[cite: 4] */
+.key-pill-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.key-text-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', monospace;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.key-badge-tag {
+  color: var(--txt-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-copy-action {
+  background: #142038;
+  border: 1px solid #24355a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s;
+}
+
+.btn-copy-action:hover {
+  background: #1e3157;
+  border-color: var(--accent-cyan);
+}
+
+/* ตาราง 3 คอลัมน์[cite: 4] */
+.meta-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.meta-box {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-box-label {
+  font-size: 11px;
+  color: var(--txt-muted);
+  font-weight: 600;
+}
+
+.meta-box-value {
+  font-size: 13.5px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* การ์ดสว่าง: เพิ่มการสมัครใช้งาน[cite: 4] */
+.add-sub-card {
+  width: 100%;
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0c182c;
+  border-radius: 18px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(186, 230, 253, 0.2);
+  transition: transform 0.2s;
+}
+
+.add-sub-card:active {
+  transform: scale(0.985);
+}
+
+.add-sub-left {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.vip-timer-label {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--txt-muted);
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.vip-timer-clock {
-  font-size: 15px;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  font-variant-numeric: tabular-nums;
-}
-
-.vip-tier-badge {
-  background: rgba(168, 85, 247, 0.18);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  color: #d8b4fe;
-  font-size: 10.5px;
-  font-weight: 800;
-  padding: 5px 10px;
-  border-radius: 12px;
-  letter-spacing: 0.6px;
-}
-
-/* Device Card */
-.device-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 22px;
-  padding: 18px 20px;
-}
-
-.card-head-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-}
-
-.card-head-title {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--txt-label);
-  letter-spacing: 0.8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.card-head-badge {
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--color-blue);
-  letter-spacing: 0.5px;
-}
-
-.specs-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.spec-box {
-  background: var(--subcard-bg);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  padding: 10px 14px;
-}
-
-.spec-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--txt-muted);
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-  text-transform: uppercase;
-}
-
-.spec-val {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--txt-white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Supported Devices Banner */
-.support-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(109, 74, 255, 0.09);
-  border: 1px solid rgba(109, 74, 255, 0.22);
-  border-radius: 14px;
-  padding: 11px 16px;
-  font-size: 12.5px;
-  color: #d1c4e9;
-  font-weight: 600;
-}
-
-.support-banner i {
-  color: #a78bfa;
+.add-sub-title {
   font-size: 16px;
+  font-weight: 800;
 }
 
-/* Titles */
-.section-header {
-  margin-top: 2px;
+.add-sub-desc {
+  font-size: 12px;
+  color: #334155;
+  font-weight: 500;
 }
 
-.section-title {
+.add-sub-btn-plus {
+  width: 44px;
+  height: 44px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
-.section-desc {
-  font-size: 13px;
-  color: var(--txt-muted);
-}
-
-/* Location Bar */
-.location-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 12px 18px;
-}
-
-.location-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13.5px;
-  font-weight: 600;
-}
-
-.location-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--color-green);
-  font-weight: 600;
-}
-
-/* Config & Game Cards */
-.config-box {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 22px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.app-meta {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.app-icon-box {
-  width: 46px;
-  height: 46px;
-  background: #ffffff;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0284c7;
-  font-size: 22px;
-}
-
-.app-icon-box.game-icon {
-  background: #2a2046;
-  color: #a78bfa;
-}
-
-.app-info-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.app-info-sub {
-  font-size: 12px;
-  color: var(--txt-muted);
-}
-
-.config-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.config-status-badge.unauthorized {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #fca5a5;
-}
-
-.config-status-badge.authorized {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #6ee7b7;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 6px currentColor;
-}
-
-.btn-action-main {
-  width: 100%;
-  height: 50px;
-  background-color: var(--primary-purple);
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 18px var(--primary-glow);
-  transition: all 0.2s ease;
-}
-
-.btn-action-main:hover {
-  background-color: var(--primary-hover);
-}
-
-.btn-action-main:active {
-  transform: scale(0.985);
-}
-
-.btn-search-client {
-  width: 100%;
-  height: 48px;
-  background: #1a1a22;
-  color: #ffffff;
-  border: 1px solid #2a2a35;
-  border-radius: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  letter-spacing: 0.5px;
-}
-
-.btn-search-client:hover {
-  background: #252530;
-  border-color: var(--primary-purple);
-}
-
-.btn-search-client.has-value {
-  background: rgba(109, 74, 255, 0.15);
-  border-color: var(--primary-purple);
-  color: #c4b5fd;
-}
-
-.config-hint {
-  font-size: 12px;
-  color: var(--txt-muted);
-  text-align: center;
-}
-
-.store-section-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--txt-muted);
-  letter-spacing: 0.8px;
-}
-
-.store-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.btn-store {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 13px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: 0.2s;
-}
-
-.btn-store:hover {
-  background: var(--subcard-bg);
 }
 
 /* ========================================================
-   FEATURES TAB STYLING
+   TAB 2: ฟีเจอร์ (FEATURES) STYLES[cite: 2, 3]
    ======================================================== */
-.features-container {
+.feature-item-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 22px;
+  gap: 14px;
 }
 
-.feature-group-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--txt-label);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.feature-group-header i {
-  font-size: 14px;
-  color: var(--txt-label);
-}
-
-.feature-row {
+.feature-item-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line-divider);
+  align-items: flex-start;
 }
 
-.feature-row:first-child {
-  padding-top: 4px;
-}
-
-.feature-text-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-right: 16px;
-}
-
-.feature-title-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--txt-white);
-}
-
-.feature-desc-text {
-  font-size: 12px;
-  color: var(--txt-muted);
-  line-height: 1.4;
-}
-
-/* Sliders Styling (FOV & Smoothness) */
-.slider-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line-divider);
-}
-
-.slider-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.slider-val-badge {
-  background: rgba(109, 74, 255, 0.2);
-  border: 1px solid rgba(109, 74, 255, 0.4);
-  color: #c4b5fd;
-  font-size: 12px;
-  font-weight: 800;
-  padding: 2px 10px;
-  border-radius: 8px;
-}
-
-.custom-range {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 5px;
-  background: #23232e;
-  outline: none;
-  margin: 6px 0;
-  cursor: pointer;
-}
-
-.custom-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--primary-purple);
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(109, 74, 255, 0.8);
-  transition: transform 0.1s ease;
-}
-
-.custom-range::-webkit-slider-thumb:active {
-  transform: scale(1.2);
-}
-
-/* FOV Visual Radar Box */
-.fov-radar-container {
-  width: 100%;
-  height: 140px;
-  background: #101015;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 14px;
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.fov-crosshair-center {
-  width: 6px;
-  height: 6px;
-  background: #ef4444;
-  border-radius: 50%;
-  position: absolute;
-  box-shadow: 0 0 8px #ef4444;
-  z-index: 2;
-}
-
-.fov-circle-preview {
-  border: 2px dashed rgba(167, 139, 250, 0.75);
-  border-radius: 50%;
-  background: rgba(109, 74, 255, 0.08);
-  transition: width 0.15s ease, height 0.15s ease;
-  box-shadow: 0 0 15px rgba(109, 74, 255, 0.3);
-  position: absolute;
-}
-
-/* Marker Selector */
-.marker-type-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 0 6px;
-  border-bottom: 1px solid var(--line-divider);
-}
-
-.marker-label-row {
+.feature-title-row {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  padding-right: 12px;
 }
 
-.marker-label {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--txt-label);
+.feature-num-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
-.custom-select-box {
-  position: relative;
-  width: 100%;
-  margin-top: 4px;
+.badge-new {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: rgba(14, 165, 233, 0.2);
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  color: var(--accent-cyan);
+  padding: 2px 7px;
+  border-radius: 6px;
 }
 
-.select-input {
-  width: 100%;
-  height: 48px;
-  background-color: var(--card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 0 16px;
-  color: var(--txt-white);
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.select-input:focus {
-  border-color: var(--primary-purple);
-  background-color: #1a1a22;
-}
-
-.custom-select-arrow {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+.feature-desc-text {
+  font-size: 12.5px;
   color: var(--txt-muted);
-  font-size: 12px;
+  line-height: 1.45;
 }
 
-/* Switches */
+/* Switch ปุ่มสลับแบบ Tactical[cite: 2, 3] */
 .switch {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 28px;
+  width: 48px;
+  height: 26px;
   flex-shrink: 0;
 }
 
@@ -730,231 +410,343 @@ body {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #272732;
-  transition: .3s;
-  border-radius: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  transition: .25s;
+  border-radius: 6px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
+  height: 18px;
+  width: 18px;
+  left: 3px;
   bottom: 3px;
-  background-color: #ffffff;
-  transition: .3s;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: #64748b;
+  transition: .25s;
+  border-radius: 4px;
 }
 
 input:checked + .slider {
-  background-color: var(--primary-purple);
-  border-color: var(--primary-purple);
+  background-color: #ffffff;
+  border-color: #ffffff;
 }
 
 input:checked + .slider:before {
   transform: translateX(22px);
+  background-color: #0f172a;
 }
 
-/* ========================================================
-   INJECT CARD & REAL LOADING BAR
-   ======================================================== */
-.inject-card {
-  margin-top: 10px;
-  background: var(--card-bg);
-  border: 1px solid rgba(109, 74, 255, 0.25);
-  border-radius: 20px;
-  padding: 18px;
+/* กริดตัวเลือกรูปแบบมาร์กเกอร์ 8 ปุ่ม[cite: 3] */
+.marker-subgroup {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--divider-color);
 }
 
-.btn-inject {
-  width: 100%;
-  height: 52px;
-  background: linear-gradient(135deg, #7c3aed 0%, #6d4aff 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 14px;
-  font-size: 16px;
+.subgroup-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt-label);
+}
+
+.marker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.marker-btn {
+  height: 38px;
+  background: var(--subcard-bg);
+  border: 1px solid var(--card-border);
+  color: var(--txt-label);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.3px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.marker-btn.active {
+  background: #ffffff;
+  color: #050b16;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+/* ส่วนตัวเลือกย่อยของหน่วงเป้า[cite: 3] */
+.sub-options-lock-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--divider-color);
+}
+
+.lock-label-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: 0 4px 20px rgba(109, 74, 255, 0.45);
-  transition: all 0.25s ease;
-}
-
-.btn-inject:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 6px 25px rgba(109, 74, 255, 0.6);
-}
-
-.btn-inject:active {
-  transform: scale(0.98);
-}
-
-.btn-inject:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  filter: grayscale(0.2);
-}
-
-.btn-inject.ready-launch {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  box-shadow: 0 4px 22px rgba(16, 185, 129, 0.5) !important;
-  animation: pulseGreen 1.5s infinite;
-}
-
-@keyframes pulseGreen {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1.015); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-
-.loading-bar-container {
-  display: flex;
-  flex-direction: column;
   gap: 6px;
-  width: 100%;
+  font-size: 11.5px;
+  color: var(--txt-muted);
 }
 
-.loading-bar-header {
+.sub-toggle-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--txt-muted);
-  letter-spacing: 0.6px;
+  padding: 6px 0;
 }
 
-.loading-bar-track {
-  width: 100%;
-  height: 14px;
-  background-color: #101015;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.7);
+.sub-toggle-text {
+  font-size: 13px;
+  color: var(--txt-label);
+  font-weight: 500;
 }
 
-.loading-bar-fill {
-  width: 0%;
-  height: 100%;
-  background: linear-gradient(90deg, #6d4aff 0%, #a855f7 70%, #c084fc 100%);
-  border-radius: 10px;
-  position: relative;
-  transition: width 0.08s linear;
-  box-shadow: 0 0 14px rgba(168, 85, 247, 0.6);
-}
-
-.loading-bar-fill::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.4) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  animation: shineRunner 1s infinite linear;
-}
-
-@keyframes shineRunner {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* Toast */
-.toast-box {
-  position: fixed;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-60px);
-  background: #181820;
-  border: 1px solid rgba(16, 185, 129, 0.45);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.2);
+/* ปรับมุมหมุนกำแพงเจล[cite: 2] */
+.wall-angle-val {
+  font-size: 26px;
+  font-weight: 800;
   color: #ffffff;
-  padding: 14px 22px;
+  text-align: right;
+  font-family: 'Inter', sans-serif;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  background: #1e293b;
+  border-radius: 4px;
+  outline: none;
+  margin: 10px 0;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+  cursor: pointer;
+}
+
+.preset-btn-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.btn-preset {
+  height: 36px;
+  background: var(--subcard-bg);
+  border: 1px solid var(--card-border);
+  color: var(--txt-label);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-preset.active {
+  background: #ffffff;
+  color: #0b1426;
+  border-color: #ffffff;
+}
+
+/* ========================================================
+   TAB 3: จัดการ (MANAGEMENT) STYLES[cite: 1]
+   ======================================================== */
+.device-manage-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.device-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.device-header-title {
+  font-size: 12px;
+  color: var(--txt-muted);
+  font-weight: 600;
+}
+
+.device-header-badge {
+  font-size: 11px;
+  color: var(--txt-muted);
+  font-weight: 600;
+}
+
+.device-state-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.device-state-desc {
+  font-size: 12.5px;
+  color: var(--txt-muted);
+}
+
+/* การ์ดบันทึกการอัปเดต[cite: 1] */
+.update-manage-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.update-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt-muted);
+}
+
+.update-title-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.update-desc-text {
+  font-size: 12px;
+  color: var(--txt-muted);
+  line-height: 1.45;
+}
+
+/* เมนูคู่มือการตั้งค่า & ดิสคอร์ด[cite: 1] */
+.link-action-card {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.link-action-card:hover {
+  background: #142038;
+}
+
+.link-left-content {
   display: flex;
   align-items: center;
-  gap: 12px;
-  z-index: 10000;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 310px;
+  gap: 14px;
 }
 
-.toast-box.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-  pointer-events: auto;
-}
-
-.toast-icon {
-  width: 34px;
-  height: 34px;
+.icon-square-box {
+  width: 40px;
+  height: 40px;
+  background: var(--subcard-bg);
+  border: 1px solid var(--card-border);
   border-radius: 10px;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--color-green);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
+  font-size: 15px;
+  color: #ffffff;
 }
 
-.toast-content {
+.link-title-group {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.toast-title {
-  font-size: 13.5px;
+.link-main-title {
+  font-size: 14.5px;
   font-weight: 700;
   color: #ffffff;
 }
 
-.toast-desc {
-  font-size: 11.5px;
+.link-sub-desc {
+  font-size: 12px;
   color: var(--txt-muted);
 }
 
-/* Bottom Nav */
+.btn-signout {
+  width: 100%;
+  height: 48px;
+  background: #12192a;
+  border: 1px solid #23355b;
+  border-radius: 14px;
+  color: #f87171;
+  font-family: 'Prompt', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+.btn-signout:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+}
+
+/* ========================================================
+   BOTTOM NAVIGATION BAR[cite: 1, 2, 3, 4]
+   ======================================================== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 68px;
-  background: rgba(14, 14, 18, 0.95);
+  background: rgba(5, 8, 17, 0.95);
   backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--card-border);
   display: flex;
   justify-content: space-around;
   align-items: center;
   z-index: 100;
 }
 
-.nav-item {
+.nav-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--txt-muted);
   background: none;
@@ -963,23 +755,20 @@ input:checked + .slider:before {
   transition: 0.2s;
 }
 
-.nav-item i {
-  font-size: 17px;
+.nav-btn i {
+  font-size: 18px;
 }
 
-.nav-item.active {
-  color: var(--primary-purple);
+.nav-btn.active {
+  color: #ffffff;
 }
 
-/* Modals */
+/* MODAL ป็อปอัปสำหรับการเชื่อมต่อ */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(8px);
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -987,532 +776,449 @@ input:checked + .slider:before {
   padding: 20px;
 }
 
-.modal-card {
+.modal-box {
   width: 100%;
-  max-width: 330px;
-  background: #141418;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 26px 20px;
+  max-width: 320px;
+  background: #0d1527;
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 24px 20px;
   text-align: center;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
-  animation: modalPopup 0.25s ease-out;
 }
 
-@keyframes modalPopup {
-  from { opacity: 0; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  margin-bottom: 6px;
-  letter-spacing: 0.3px;
-}
-
-.modal-desc {
-  font-size: 12.5px;
-  color: var(--txt-muted);
-  margin-bottom: 20px;
-  line-height: 1.4;
-}
-
-.client-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.client-btn {
+.modal-btn-confirm {
   width: 100%;
-  height: 48px;
-  background: #1a1a22;
-  border: 1px solid #2a2a35;
-  border-radius: 14px;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.client-btn.selected {
-  background: var(--primary-purple);
-  border-color: var(--primary-purple);
-  box-shadow: 0 4px 16px rgba(109, 74, 255, 0.4);
-}
-
-.btn-modal-confirm {
-  width: 100%;
-  height: 46px;
-  background: var(--primary-purple);
+  height: 44px;
+  background: #ffffff;
+  color: #0b1426;
   border: none;
-  border-radius: 12px;
-  color: #ffffff;
-  font-size: 14px;
+  border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-modal-confirm:hover {
-  background: var(--primary-hover);
-}
-
-.btn-modal-cancel {
-  width: 100%;
-  height: 40px;
-  background: transparent;
-  border: 1px solid #2a2a35;
-  border-radius: 12px;
-  color: var(--txt-muted);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
+  margin-top: 16px;
 }
 </style>
 </head>
 <body>
 
-<!-- TOAST NOTIFICATION -->
-<div id="toastNotification" class="toast-box">
-  <div class="toast-icon">
-    <i class="fas fa-check"></i>
-  </div>
-  <div class="toast-content">
-    <div class="toast-title">INJECTION SUCCESSFUL</div>
-    <div class="toast-desc" id="toastTargetGameText">ฉีดสำเร็จ! กรุณากดปุ่มเพื่อเปิดเกม</div>
-  </div>
-</div>
+<div class="app-wrapper">
 
-<div class="app-container">
-
-  <!-- Top Header -->
-  <div class="top-header">
-    <div class="brand-box">
-      <img src="https://i.postimg.cc/SNrTx4V6/Picsart-26-09-05-09-29-37-550.png" alt="Logo" class="brand-logo">
-      <span class="brand-title">SUNNY WIRE</span>
+  <!-- ==================== TAB 1: หน้าหลัก[cite: 4] ==================== -->
+  <div class="view-panel" id="viewHome">
+    
+    <div class="top-header">
+      <h1 class="header-title">หน้าหลัก</h1>
+      <div class="lang-badge"><i class="fas fa-globe"></i> ไทย</div>
     </div>
-    <div class="status-online-pill">
-      <span class="dot-green"></span> ONLINE
-    </div>
-  </div>
 
-  <!-- แถบประกาศแจ้งเตือนหน้าแรก (อัปเดตคำเตือนความเสี่ยงยิงคอ) -->
-  <div class="announcement-banner">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span><strong>ประกาศ:</strong> แนะนำการเปิดใช้งาน ไม่ควรเปิดยิงคอขึ้นหัว เสี่ยงต่อการแบน (Risk)</span>
-  </div>
-
-  <!-- VIP Timer Card -->
-  <div class="vip-timer-card">
-    <div class="vip-timer-left">
-      <i class="fas fa-stopwatch timer-icon"></i>
-      <div class="vip-timer-info">
-        <span class="vip-timer-label">KEY EXPIRATION</span>
-        <span class="vip-timer-clock" id="keyTimerDisplay">23h 59m 59s</span>
+    <div class="sub-status-bar">
+      <div class="status-left">
+        <span class="status-box-indicator" id="onlineIndicator"></span>
+        <span id="onlineText">ออฟไลน์</span>
       </div>
-    </div>
-    <div class="vip-tier-badge">VIP ACTIVE</div>
-  </div>
-
-  <!-- TAB 1: SETUP VIEW -->
-  <div class="view-section" id="viewSetup">
-
-    <!-- Device Profile Card -->
-    <div class="device-card">
-      <div class="card-head-row">
-        <div class="card-head-title">
-          <i class="fas fa-microchip"></i> DEVICE PROFILE
-        </div>
-        <div class="card-head-badge">AUTHENTICATED</div>
-      </div>
-      <div class="specs-grid">
-        <div class="spec-box">
-          <div class="spec-label">TERMINAL MODEL</div>
-          <div class="spec-val" id="devModel">Detecting...</div>
-        </div>
-        <div class="spec-box">
-          <div class="spec-label">PLATFORM OS</div>
-          <div class="spec-val" id="devOS">Detecting...</div>
-        </div>
-        <div class="spec-box">
-          <div class="spec-label">GRAPHICS RENDERER</div>
-          <div class="spec-val" id="devGPU">Detecting...</div>
-        </div>
-        <div class="spec-box">
-          <div class="spec-label">DISPLAY MATRIX</div>
-          <div class="spec-val" id="devScreen">0 x 0</div>
-        </div>
-      </div>
+      <span id="connectStateText">ยังไม่เคยเชื่อมต่อ</span>
     </div>
 
-    <!-- Supported Devices Banner -->
-    <div class="support-banner">
-      <i class="fas fa-shield-alt"></i>
-      <span>รองรับระบบ iOS 15.0 - 27.2 และ Android 9.0+ ทุกรุ่น</span>
-    </div>
+    <!-- กล่องเรดาร์ HUD ตรงกลาง[cite: 4] -->
+    <div class="radar-hud-card">
+      <div class="hud-corner tl"></div>
+      <div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div>
+      <div class="hud-corner br"></div>
 
-    <!-- Section Header -->
-    <div class="section-header">
-      <h2 class="section-title">Install Configuration</h2>
-      <p class="section-desc">Connect to the proxy server using ProxyPin</p>
-    </div>
-
-    <!-- Location Row -->
-    <div class="location-row">
-      <div class="location-left">
-        <i class="fas fa-globe" style="color: #818cf8;"></i> Thailand
-      </div>
-      <div class="location-right">
-        4ms <i class="fas fa-chevron-down" style="font-size: 11px;"></i>
-      </div>
-    </div>
-
-    <!-- 1. Install Config Box -->
-    <div class="config-box">
-      <div class="app-meta">
-        <div class="app-icon-box">
-          <i class="fas fa-infinity"></i>
-        </div>
-        <div>
-          <div class="app-info-title">ProxyPin</div>
-          <div class="app-info-sub">Required to connect</div>
+      <div class="radar-circle-wrapper">
+        <div class="radar-dial-ticks"></div>
+        <div class="center-logo-box">
+          <img src="https://i.postimg.cc/SNrTx4V6/Picsart-26-09-05-09-29-37-550.png" alt="SUNNY Logo">
         </div>
       </div>
 
-      <div id="configStatusBadge" class="config-status-badge unauthorized">
-        <span class="status-dot"></span>
-        <span id="configStatusText">UNAUTHORIZED</span>
-      </div>
-
-      <button class="btn-action-main" onclick="openVpnModal()">
-        <i class="fas fa-bolt"></i> Install Config
-      </button>
-      <div class="config-hint">Opens ProxyPin and imports the configuration</div>
+      <div class="hud-pill-indicator"></div>
+      <div class="hud-clock-status-text">เวลาจะเริ่มนับเมื่อคุณเชื่อมต่อ</div>
     </div>
 
-    <!-- 2. Target Client Selection Box -->
-    <div class="config-box">
-      <div class="app-meta">
-        <div class="app-icon-box game-icon">
-          <i class="fas fa-gamepad"></i>
-        </div>
-        <div>
-          <div class="app-info-title">Game Client</div>
-          <div class="app-info-sub">Select your target game client</div>
-        </div>
+    <!-- กล่องแสดงคีย์[cite: 4] -->
+    <div class="key-pill-card">
+      <div class="key-text-group">
+        <span class="key-badge-tag">คีย์</span>
+        <span id="displayKeyText">SUNNY-XXXX-XXXX-XXXX</span>
       </div>
-
-      <button class="btn-search-client" id="btnSearchClient" onclick="openClientModal()">
-        <i class="fas fa-search"></i>
-        <span id="searchClientLabel">Search</span>
+      <button class="btn-copy-action" onclick="copyUserKey()">
+        <i class="far fa-copy"></i> คัดลอก
       </button>
     </div>
 
-    <!-- Store Section -->
-    <div class="store-section-label">DON'T HAVE PROXYPIN?</div>
-    <div class="store-row">
-      <a href="https://play.google.com/store/apps/details?id=com.proxypin" target="_blank" class="btn-store">
-        <i class="fab fa-google-play"></i> Google Play
-      </a>
-      <a href="https://apps.apple.com/app/proxypin/id6450932949" target="_blank" class="btn-store">
-        <i class="fab fa-apple"></i> App Store
-      </a>
+    <!-- รายละเอียด 3 คอลัมน์[cite: 4] -->
+    <div class="meta-info-grid">
+      <div class="meta-box">
+        <span class="meta-box-label">เปิดใช้งาน</span>
+        <span class="meta-box-value">-</span>
+      </div>
+      <div class="meta-box">
+        <span class="meta-box-label">หมดอายุ</span>
+        <span class="meta-box-value" id="keyTimerDisplay">-</span>
+      </div>
+      <div class="meta-box">
+        <span class="meta-box-label">อุปกรณ์</span>
+        <span class="meta-box-value">ยังไม่ล็อก</span>
+      </div>
+    </div>
+
+    <!-- การ์ดเพิ่มการสมัครใช้งาน[cite: 4] -->
+    <div class="add-sub-card" onclick="connectProxyPin()">
+      <div class="add-sub-left">
+        <span class="add-sub-title">เพิ่มการสมัครใช้งาน</span>
+        <span class="add-sub-desc">เปิดแอป VPN พร้อมคีย์ของคุณ</span>
+      </div>
+      <div class="add-sub-btn-plus">
+        <i class="fas fa-plus"></i>
+      </div>
     </div>
 
   </div>
 
-  <!-- TAB 2: FEATURES VIEW (เปิดใช้งาน Hs - Neck และ ESP Moco) -->
-  <div class="view-section hidden" id="viewFeatures">
-    <div class="section-header">
-      <h2 class="section-title">Features</h2>
-      <p class="section-desc">Manage active features for your session</p>
+  <!-- ==================== TAB 2: ฟีเจอร์[cite: 2, 3] ==================== -->
+  <div class="view-panel hidden" id="viewFeatures">
+
+    <div class="top-header">
+      <h1 class="header-title">ฟีเจอร์</h1>
+      <div class="lang-badge"><i class="fas fa-globe"></i> ไทย</div>
     </div>
 
-    <div class="features-container">
-
-      <!-- หมวด COMBAT -->
-      <div>
-        <div class="feature-group-header">
-          <i class="fas fa-crosshairs"></i> COMBAT
-        </div>
-
-        <!-- 1. Aimbot Legit -->
-        <div class="feature-row">
-          <div class="feature-text-group">
-            <span class="feature-title-text">Aimbot Legit</span>
-            <span class="feature-desc-text">ช่วยดึงเป้าเข้าตัวศัตรูแบบเนียนเป็นธรรมชาติ ไม่กระตุกหรือดีดผิดปกติ</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_aimbot_legit" onchange="toggleFeatureWithVibe('aimbot_legit', this.checked)">
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <!-- 2. Aimbot 85% -->
-        <div class="feature-row">
-          <div class="feature-text-group">
-            <span class="feature-title-text">Aimbot 85%</span>
-            <span class="feature-desc-text">เพิ่มแรงดูดเป้าเข้าส่วนสำคัญระดับ 85% ล็อกเป้าแม่นยำสูงหวังผลได้ทันที</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_aimbot_85" onchange="toggleFeatureWithVibe('aimbot_85', this.checked)">
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <!-- 3. Hs - Neck (เปิดใช้งานได้ตามปกติ) -->
-        <div class="feature-row">
-          <div class="feature-text-group">
-            <span class="feature-title-text">Hs - Neck</span>
-            <span class="feature-desc-text">ยิงคอขึ้นหัว เล็งบริเวณลำคอดึงขึ้นสู่ศีรษะอัตโนมัติ (เสี่ยงต่อการแบน)</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_hs_neck" onchange="toggleFeatureWithVibe('hs_neck', this.checked)">
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <!-- 4. SLIDER: FOV Circle (30° - 180°) พร้อมวงพรีวิว -->
-        <div class="slider-group">
-          <div class="slider-header-row">
-            <span class="feature-title-text">FOV Circle</span>
-            <span class="slider-val-badge" id="fovValBadge">90°</span>
-          </div>
-          <span class="feature-desc-text">ปรับองศาวงล็อกเป้าและระยะตรวจจับรอบเป้าเล็ง</span>
-          <input type="range" min="30" max="180" value="90" class="custom-range" id="fovRangeInput" oninput="handleFovChange(this.value)">
-          
-          <div class="fov-radar-container">
-            <div class="fov-crosshair-center"></div>
-            <div class="fov-circle-preview" id="fovCircleVisual" style="width: 75px; height: 75px;"></div>
-          </div>
-        </div>
-
-        <!-- 5. SLIDER: Smoothness (1 - 10) -->
-        <div class="slider-group">
-          <div class="slider-header-row">
-            <span class="feature-title-text">Smoothness</span>
-            <span class="slider-val-badge" id="smoothValBadge">5</span>
-          </div>
-          <span class="feature-desc-text">ปรับความหน่วงและความเนียนในการลากเป้าเข้าหาศัตรู</span>
-          <input type="range" min="1" max="10" value="5" class="custom-range" id="smoothRangeInput" oninput="handleSmoothChange(this.value)">
-        </div>
-
-        <!-- 6. Icewall Inverted -->
-        <div class="feature-row">
-          <div class="feature-text-group">
-            <span class="feature-title-text">Icewall Inverted</span>
-            <span class="feature-desc-text">ระบบวางไอซ์วอลล์แบบรวดเร็วและกลับด้าน ป้องกันตัวอัตโนมัติรอบทิศทาง</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_icewall_inverted" onchange="toggleFeatureWithVibe('icewall_inverted', this.checked)">
-            <span class="slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <!-- หมวด VISION -->
-      <div>
-        <div class="feature-group-header">
-          <i class="fas fa-cog"></i> VISION
-        </div>
-
-        <!-- 1. ESP Moco (เปิดใช้งานได้ตามปกติ) -->
-        <div class="feature-row">
-          <div class="feature-text-group">
-            <span class="feature-title-text">ESP Moco</span>
-            <span class="feature-desc-text">แสดงมาร์กเกอร์และพิกัดตำแหน่งศัตรูบนแผนที่และเหนือหัวตลอดทั้งแมตช์</span>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="feat_esp_moco" onchange="toggleFeatureWithVibe('esp_moco', this.checked)">
-            <span class="slider"></span>
-          </label>
-        </div>
-
-        <!-- 2. Marker type Dropdown -->
-        <div class="marker-type-group">
-          <div class="marker-label-row">
-            <span class="marker-label">Marker type</span>
-            <span class="feature-desc-text">เลือกรูปแบบและไอคอนสำหรับชี้ตำแหน่งศัตรู</span>
-          </div>
-          <div class="custom-select-box">
-            <select class="select-input" id="markerTypeSelect" onchange="changeMarkerType(this.value)">
-              <option value="Shirou">Shirou</option>
-              <option value="Moco">Moco</option>
-              <option value="Clu">Clu</option>
-              <option value="Homer">Homer</option>
-            </select>
-            <i class="fas fa-chevron-down custom-select-arrow"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- ส่วน INJECT & LOADING BAR -->
-      <div class="inject-card">
-        <button class="btn-inject" id="btnInjectMain" onclick="handleInjectClick()">
-          <i class="fas fa-syringe" id="btnInjectIcon"></i>
-          <span id="btnInjectText">INJECT</span>
-        </button>
-
-        <div class="loading-bar-container">
-          <div class="loading-bar-header">
-            <span id="loadingStatusText">READY TO INJECT</span>
-            <span id="loadingPercentageText">0%</span>
-          </div>
-          <div class="loading-bar-track">
-            <div class="loading-bar-fill" id="loadingProgressFill"></div>
-          </div>
-        </div>
-      </div>
-
+    <div class="sub-status-bar">
+      <span>การเปลี่ยนแปลงจะมีผลในแมตช์ถัดไป</span>
+      <span id="activeCountBadge">1/5</span>
     </div>
+
+    <!-- 01 มาร์กเกอร์[cite: 3] -->
+    <div class="feature-item-card">
+      <div class="feature-item-header">
+        <div class="feature-title-row">
+          <div class="feature-num-title">01 มาร์กเกอร์</div>
+          <div class="feature-desc-text">ทำเครื่องหมายศัตรูทุกคนบนหน้าจอ</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_marker" checked onchange="toggleFeatureState('marker', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="marker-subgroup">
+        <div class="subgroup-label">รูปแบบเครื่องหมาย</div>
+        <div class="marker-grid">
+          <button class="marker-btn active" onclick="selectMarkerBtn(this, 'SUNNY')">SUNNY</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'DREAM')">DREAM</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'ICE WALL')">ICE WALL</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'MOCO')">MOCO</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'CLU')">CLU</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'SHIROU')">SHIROU</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'IRIS')">IRIS</button>
+          <button class="marker-btn" onclick="selectMarkerBtn(this, 'DREKI')">DREKI</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 จุดเล็ง[cite: 3] -->
+    <div class="feature-item-card">
+      <div class="feature-item-header">
+        <div class="feature-title-row">
+          <div class="feature-num-title">
+            02 จุดเล็ง <span class="badge-new">ใหม่</span>
+          </div>
+          <div class="feature-desc-text">ย้ายจุดเล็งจากหน้าอกขึ้นไปที่คอ ยิงโดนตัวก็เข้าหัว</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_aimpoint" onchange="toggleFeatureState('aimpoint', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 03 หน่วงเป้า[cite: 3] -->
+    <div class="feature-item-card">
+      <div class="feature-item-header">
+        <div class="feature-title-row">
+          <div class="feature-num-title">03 หน่วงเป้า</div>
+          <div class="feature-desc-text">ตรึงศัตรูไว้ชั่วขณะยิงหรือส่องกล้อง ทำให้ยิงโดนง่ายขึ้น</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_aimlag" onchange="toggleAimLagMaster(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="sub-options-lock-box" id="aimLagSubBox">
+        <div class="lock-label-row">
+          <i class="fas fa-lock" id="lockIconLag"></i>
+          <span id="lockTextLag">เปิดก่อนจึงจะปรับได้</span>
+        </div>
+        <div class="sub-toggle-row">
+          <span class="sub-toggle-text">ขณะยิง</span>
+          <label class="switch">
+            <input type="checkbox" id="f_lag_fire" disabled onchange="saveSubLag()">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="sub-toggle-row">
+          <span class="sub-toggle-text">ขณะส่องกล้อง</span>
+          <label class="switch">
+            <input type="checkbox" id="f_lag_scope" disabled onchange="saveSubLag()">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 หมุนกำแพงเจล[cite: 2] -->
+    <div class="feature-item-card">
+      <div class="feature-item-header">
+        <div class="feature-title-row">
+          <div class="feature-num-title">04 หมุนกำแพงเจล</div>
+          <div class="feature-desc-text">หมุนกำแพงเจลไปตามมุมที่คุณตั้งไว้</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_icewall" onchange="toggleIcewallMaster(this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="sub-options-lock-box">
+        <div class="lock-label-row">
+          <i class="fas fa-lock" id="lockIconWall"></i>
+          <span id="lockTextWall">เปิดก่อนจึงจะปรับได้</span>
+        </div>
+        <div class="sub-toggle-row">
+          <span class="sub-toggle-text">มุมกำแพง</span>
+          <div class="wall-angle-val" id="wallAngleValDisplay">180°</div>
+        </div>
+        <input type="range" min="-90" max="180" value="180" class="custom-range" id="wallRangeInput" disabled oninput="updateWallAngle(this.value)">
+        <div class="preset-btn-row">
+          <button class="btn-preset" onclick="setPresetWall(-90)">-90°</button>
+          <button class="btn-preset" onclick="setPresetWall(0)">0°</button>
+          <button class="btn-preset" onclick="setPresetWall(90)">+90°</button>
+          <button class="btn-preset active" id="btnPreset180" onclick="setPresetWall(180)">180°</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 ชุบเร็ว[cite: 2] -->
+    <div class="feature-item-card">
+      <div class="feature-item-header">
+        <div class="feature-title-row">
+          <div class="feature-num-title">05 ชุบเร็ว</div>
+          <div class="feature-desc-text">ช่วยเพื่อนที่ล้มให้ลุกในราว 0.1 วินาที แทน 3 วินาที</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="f_fastrevive" onchange="toggleFeatureState('fastrevive', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== TAB 3: จัดการ[cite: 1] ==================== -->
+  <div class="view-panel hidden" id="viewManage">
+
+    <div class="top-header">
+      <h1 class="header-title">จัดการ</h1>
+      <div class="lang-badge"><i class="fas fa-globe"></i> ไทย</div>
+    </div>
+
+    <!-- การ์ดสถานะอุปกรณ์[cite: 1] -->
+    <div class="device-manage-card">
+      <div class="device-card-header">
+        <span class="device-header-title">อุปกรณ์นี้</span>
+        <span class="device-header-badge">ยังไม่ล็อก</span>
+      </div>
+      <div class="device-state-title" id="devStateTitle">ยังไม่มีโทรศัพท์</div>
+      <div class="device-state-desc">โทรศัพท์เครื่องแรกที่เชื่อมต่อจะถูกล็อกกับคีย์นี้</div>
+    </div>
+
+    <!-- การ์ดบันทึกการอัปเดต[cite: 1] -->
+    <div class="update-manage-card">
+      <div class="update-card-header">
+        <span>บันทึกการอัปเดต</span>
+        <span>ดูการอัปเดตทั้งหมด <i class="fas fa-chevron-right" style="font-size: 10px;"></i></span>
+      </div>
+      <div class="update-title-text">V1.7 AIM LAG IS BACK, NEXT TO AIMPOINT</div>
+      <div class="update-desc-text">aim lag is back, sitting under aimpoint. run it with aimpoint or on its own. every feature now carries a short...</div>
+    </div>
+
+    <!-- คู่มือการตั้งค่า[cite: 1] -->
+    <div class="link-action-card" onclick="connectProxyPin()">
+      <div class="link-left-content">
+        <div class="icon-square-box">
+          <i class="fas fa-play" style="font-size: 12px;"></i>
+        </div>
+        <div class="link-title-group">
+          <div class="link-main-title">คู่มือการตั้งค่า</div>
+          <div class="link-sub-desc">ติดตั้งแอปแล้วเชื่อมต่อ</div>
+        </div>
+      </div>
+      <i class="fas fa-chevron-right" style="color: #475569; font-size: 13px;"></i>
+    </div>
+
+    <!-- ชุมชน Discord[cite: 1] -->
+    <div style="font-size: 12px; color: var(--txt-muted); font-weight: 600; margin-top: 4px;">ชุมชน</div>
+    <a href="https://discord.gg/jT4QhEeXx" target="_blank" class="link-action-card">
+      <div class="link-left-content">
+        <div class="icon-square-box" style="background: #171d33; font-weight: 800; font-family: 'Inter';">
+          D
+        </div>
+        <div class="link-title-group">
+          <div class="link-main-title">DISCORD</div>
+        </div>
+      </div>
+      <i class="fas fa-external-link-alt" style="color: #475569; font-size: 13px;"></i>
+    </a>
+
+    <!-- ปุ่มออกจากระบบ[cite: 1] -->
+    <button class="btn-signout" onclick="logout()">
+      <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
+    </button>
+
   </div>
 
 </div>
 
-<!-- Bottom Navigation Bar -->
+<!-- แถบนำทางด้านล่าง[cite: 1, 2, 3, 4] -->
 <div class="bottom-nav">
-  <button class="nav-item active" id="navSetup" onclick="switchTab('setup')">
-    <i class="fas fa-download"></i>
-    <span>Setup</span>
+  <button class="nav-btn active" id="btnNavHome" onclick="switchMainTab('home')">
+    <i class="fas fa-home"></i>
+    <span>หน้าหลัก</span>
   </button>
-  <button class="nav-item" id="navFeatures" onclick="switchTab('features')">
+  <button class="nav-btn" id="btnNavFeatures" onclick="switchMainTab('features')">
     <i class="fas fa-sliders-h"></i>
-    <span>Features</span>
+    <span>ฟีเจอร์</span>
   </button>
-  <button class="nav-item" onclick="logout()">
-    <i class="fas fa-sign-out-alt"></i>
-    <span>Logout</span>
+  <button class="nav-btn" id="btnNavManage" onclick="switchMainTab('manage')">
+    <i class="fas fa-bars"></i>
+    <span>จัดการ</span>
   </button>
-</div>
-
-<!-- MODAL 1: SELECT CLIENT -->
-<div class="modal-overlay" id="clientModal">
-  <div class="modal-card">
-    <h2 class="modal-title">SELECT CLIENT</h2>
-    <p class="modal-desc">Select your game version to proceed</p>
-
-    <div class="client-options">
-      <button type="button" class="client-btn" id="btnOptFF" onclick="selectClientOption('FREE FIRE', 'com.dts.freefireth')">
-        FREE FIRE
-      </button>
-      <button type="button" class="client-btn" id="btnOptFFMax" onclick="selectClientOption('FREE FIRE MAX', 'com.dts.freefiremax')">
-        FREE FIRE MAX
-      </button>
-    </div>
-
-    <button type="button" class="btn-modal-confirm" onclick="confirmClientSelection()">
-      Confirm
-    </button>
-    <button type="button" class="btn-modal-cancel" onclick="closeAllModals()">
-      Cancel
-    </button>
-  </div>
-</div>
-
-<!-- MODAL 2: PERMISSION REQUEST -->
-<div class="modal-overlay" id="vpnModal">
-  <div class="modal-card">
-    <div style="font-size: 44px; color: #a78bfa; margin-bottom: 12px;">
-      <i class="fas fa-shield-alt"></i>
-    </div>
-    <h2 class="modal-title" style="font-size: 18px;">VPN Configuration</h2>
-    <p class="modal-desc" style="line-height: 1.5;">
-      “SUNNY WIRE” would like to add VPN configuration profiles to monitor and route game packets through ProxyPin.
-    </p>
-
-    <button type="button" class="btn-modal-confirm" onclick="allowPermission()">
-      Allow
-    </button>
-    <button type="button" class="btn-modal-cancel" onclick="denyPermission()">
-      Don't Allow
-    </button>
-  </div>
 </div>
 
 <script>
+// ตรวจสอบสถานะการล็อกอิน
 if (!localStorage.getItem('sd_saved_user_key')) {
   window.location.href = 'index.html';
 }
 
-let tempSelectedClient = 'FREE FIRE';
-let tempSelectedPackage = 'com.dts.freefireth';
-let isInjecting = false;
-let isReadyToLaunch = false;
+function switchMainTab(tab) {
+  if (navigator.vibrate) navigator.vibrate(25);
+  
+  const vHome = document.getElementById('viewHome');
+  const vFeatures = document.getElementById('viewFeatures');
+  const vManage = document.getElementById('viewManage');
 
-function switchTab(tab) {
-  vibrateDevice(20);
-  const viewSetup = document.getElementById('viewSetup');
-  const viewFeatures = document.getElementById('viewFeatures');
-  const navSetup = document.getElementById('navSetup');
-  const navFeatures = document.getElementById('navFeatures');
+  const bHome = document.getElementById('btnNavHome');
+  const bFeatures = document.getElementById('btnNavFeatures');
+  const bManage = document.getElementById('btnNavManage');
 
-  if (tab === 'setup') {
-    viewSetup.classList.remove('hidden');
-    viewFeatures.classList.add('hidden');
-    navSetup.classList.add('active');
-    navFeatures.classList.remove('active');
+  vHome.classList.add('hidden');
+  vFeatures.classList.add('hidden');
+  vManage.classList.add('hidden');
+
+  bHome.classList.remove('active');
+  bFeatures.classList.remove('active');
+  bManage.classList.remove('active');
+
+  if (tab === 'home') {
+    vHome.classList.remove('hidden');
+    bHome.classList.add('active');
+  } else if (tab === 'features') {
+    vFeatures.classList.remove('hidden');
+    bFeatures.classList.add('active');
   } else {
-    viewSetup.classList.add('hidden');
-    viewFeatures.classList.remove('hidden');
-    navSetup.classList.remove('active');
-    navFeatures.classList.add('active');
+    vManage.classList.remove('hidden');
+    bManage.classList.add('active');
   }
 }
 
-function vibrateDevice(duration = 35) {
-  if (navigator.vibrate) {
-    navigator.vibrate(duration);
+// คัดลอกรหัสคีย์
+function copyUserKey() {
+  const key = localStorage.getItem('sd_saved_user_key') || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(key);
+    alert('คัดลอกคีย์เรียบร้อยแล้ว: ' + key);
+  } else {
+    prompt('คัดลอกรหัสคีย์ของคุณ:', key);
   }
 }
 
-function initDeviceInfo() {
-  const ua = navigator.userAgent;
-  let os = 'Unknown OS';
-  let model = 'Unknown Device';
-
-  if (/iPhone/i.test(ua)) {
-    model = 'Apple iPhone';
-    os = 'iOS';
-  } else if (/iPad/i.test(ua)) {
-    model = 'Apple iPad';
-    os = 'iPadOS';
-  } else if (/Android/i.test(ua)) {
-    os = 'Android';
-    const match = ua.match(/Android.*; ([^;]+)\sBuild/);
-    model = match ? match[1] : 'Android Device';
-  } else if (/Windows/i.test(ua)) {
-    model = 'Desktop PC';
-    os = 'Windows';
-  }
-
-  let gpu = 'Standard GPU';
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (gl) {
-      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-      if (debugInfo) {
-        gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-        if (gpu.includes('Apple')) gpu = 'Apple GPU';
-        else if (gpu.includes('Adreno')) gpu = gpu.match(/Adreno[^)]*/)[0];
-        else if (gpu.includes('Mali')) gpu = gpu.match(/Mali[^)]*/)[0];
-      }
-    }
-  } catch(e) {}
-
-  document.getElementById('devModel').innerText = model;
-  document.getElementById('devOS').innerText = os;
-  document.getElementById('devGPU').innerText = gpu;
-  document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
+// เลือกมาร์กเกอร์[cite: 3]
+function selectMarkerBtn(btn, name) {
+  if (navigator.vibrate) navigator.vibrate(20);
+  document.querySelectorAll('.marker-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  localStorage.setItem('sunny_marker_type', name);
 }
 
-function startKeyCountdown() {
+// จัดการสถานะฟีเจอร์ย่อย
+function toggleAimLagMaster(state) {
+  if (navigator.vibrate) navigator.vibrate(25);
+  document.getElementById('f_lag_fire').disabled = !state;
+  document.getElementById('f_lag_scope').disabled = !state;
+  document.getElementById('lockIconLag').className = state ? 'fas fa-lock-open' : 'fas fa-lock';
+  document.getElementById('lockTextLag').innerText = state ? 'ปรับการทำงาน' : 'เปิดก่อนจึงจะปรับได้';
+  localStorage.setItem('feat_aimlag_master', state);
+  updateActiveFeaturesCount();
+}
+
+function saveSubLag() {
+  localStorage.setItem('feat_lag_fire', document.getElementById('f_lag_fire').checked);
+  localStorage.setItem('feat_lag_scope', document.getElementById('f_lag_scope').checked);
+}
+
+function toggleIcewallMaster(state) {
+  if (navigator.vibrate) navigator.vibrate(25);
+  document.getElementById('wallRangeInput').disabled = !state;
+  document.getElementById('lockIconWall').className = state ? 'fas fa-lock-open' : 'fas fa-lock';
+  document.getElementById('lockTextWall').innerText = state ? 'ปรับมุมหมุน' : 'เปิดก่อนจึงจะปรับได้';
+  localStorage.setItem('feat_icewall_master', state);
+  updateActiveFeaturesCount();
+}
+
+function updateWallAngle(val) {
+  document.getElementById('wallAngleValDisplay').innerText = `${val}°`;
+  localStorage.setItem('feat_wall_angle', val);
+  document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+  if (val == 180) document.getElementById('btnPreset180')?.classList.add('active');
+}
+
+function setPresetWall(val) {
+  const slider = document.getElementById('wallRangeInput');
+  if (slider.disabled) return;
+  slider.value = val;
+  updateWallAngle(val);
+}
+
+function toggleFeatureState(name, state) {
+  if (navigator.vibrate) navigator.vibrate(20);
+  localStorage.setItem(`feat_${name}`, state);
+  updateActiveFeaturesCount();
+}
+
+function updateActiveFeaturesCount() {
+  const list = ['f_marker', 'f_aimpoint', 'f_aimlag', 'f_icewall', 'f_fastrevive'];
+  let count = 0;
+  list.forEach(id => {
+    if (document.getElementById(id)?.checked) count++;
+  });
+  document.getElementById('activeCountBadge').innerText = `${count}/5`;
+}
+
+// เปิดแอป ProxyPin
+function connectProxyPin() {
+  if (navigator.vibrate) navigator.vibrate(30);
+  document.getElementById('onlineIndicator').className = 'status-box-indicator online';
+  document.getElementById('onlineText').innerText = 'ออนไลน์';
+  document.getElementById('connectStateText').innerText = 'เชื่อมต่อแล้ว';
+  window.location.href = 'proxypin://';
+}
+
+// นับเวลาถอยหลังอายุคีย์
+function startCountdown() {
   let expiryTime = localStorage.getItem('sunny_key_expiry');
   if (!expiryTime) {
     expiryTime = Date.now() + (24 * 60 * 60 * 1000);
@@ -1521,282 +1227,37 @@ function startKeyCountdown() {
     expiryTime = parseInt(expiryTime, 10);
   }
 
-  function updateTimer() {
+  function tick() {
     const now = Date.now();
     const diff = expiryTime - now;
-
     if (diff <= 0) {
-      document.getElementById('keyTimerDisplay').innerText = '00h 00m 00s (EXPIRED)';
+      document.getElementById('keyTimerDisplay').innerText = 'หมดอายุ';
       return;
     }
-
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const hStr = String(hours).padStart(2, '0');
-    const mStr = String(minutes).padStart(2, '0');
-    const sStr = String(seconds).padStart(2, '0');
-
-    document.getElementById('keyTimerDisplay').innerText = `${hStr}h ${mStr}m ${sStr}s`;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('keyTimerDisplay').innerText = `${h}ชม. ${m}น.`;
   }
-
-  updateTimer();
-  setInterval(updateTimer, 1000);
-}
-
-function handleFovChange(val) {
-  vibrateDevice(15);
-  document.getElementById('fovValBadge').innerText = `${val}°`;
-  localStorage.setItem('feat_fov_val', val);
-
-  const size = Math.round(25 + ((val - 30) / 150) * 105);
-  const visual = document.getElementById('fovCircleVisual');
-  visual.style.width = `${size}px`;
-  visual.style.height = `${size}px`;
-}
-
-function handleSmoothChange(val) {
-  vibrateDevice(15);
-  document.getElementById('smoothValBadge').innerText = val;
-  localStorage.setItem('feat_smooth_val', val);
-}
-
-function toggleFeatureWithVibe(name, state) {
-  vibrateDevice(35);
-  localStorage.setItem(`feat_${name}`, state);
-}
-
-function openVpnModal() {
-  vibrateDevice(20);
-  document.getElementById('vpnModal').style.display = 'flex';
-}
-
-function allowPermission() {
-  vibrateDevice(40);
-  closeAllModals();
-
-  const badge = document.getElementById('configStatusBadge');
-  const txt = document.getElementById('configStatusText');
-  badge.className = 'config-status-badge authorized';
-  txt.innerText = 'AUTHORIZED';
-
-  localStorage.setItem('sunny_vpn_status', 'authorized');
-  window.location.href = 'proxypin://';
-}
-
-function denyPermission() {
-  vibrateDevice(30);
-  closeAllModals();
-
-  const badge = document.getElementById('configStatusBadge');
-  const txt = document.getElementById('configStatusText');
-  badge.className = 'config-status-badge unauthorized';
-  txt.innerText = 'UNAUTHORIZED';
-
-  localStorage.setItem('sunny_vpn_status', 'unauthorized');
-}
-
-function openClientModal() {
-  vibrateDevice(20);
-  const current = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
-  const pkg = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
-  selectClientOption(current, pkg);
-  document.getElementById('clientModal').style.display = 'flex';
-}
-
-function selectClientOption(game, pkg) {
-  vibrateDevice(25);
-  tempSelectedClient = game;
-  tempSelectedPackage = pkg;
-
-  const btnFF = document.getElementById('btnOptFF');
-  const btnFFMax = document.getElementById('btnOptFFMax');
-
-  if (game === 'FREE FIRE') {
-    btnFF.classList.add('selected');
-    btnFFMax.classList.remove('selected');
-  } else {
-    btnFF.classList.remove('selected');
-    btnFFMax.classList.add('selected');
-  }
-}
-
-function confirmClientSelection() {
-  vibrateDevice(35);
-  closeAllModals();
-  localStorage.setItem('sunny_selected_client', tempSelectedClient);
-  localStorage.setItem('sunny_selected_package', tempSelectedPackage);
-  updateSearchButtonLabel(tempSelectedClient);
-
-  if (isReadyToLaunch) {
-    const btnText = document.getElementById('btnInjectText');
-    btnText.innerText = `START ${tempSelectedClient}`;
-  }
-}
-
-function updateSearchButtonLabel(clientName) {
-  const btn = document.getElementById('btnSearchClient');
-  const label = document.getElementById('searchClientLabel');
-
-  if (clientName) {
-    label.innerText = clientName;
-    btn.classList.add('has-value');
-  } else {
-    label.innerText = 'Search';
-    btn.classList.remove('has-value');
-  }
-}
-
-function closeAllModals() {
-  document.getElementById('clientModal').style.display = 'none';
-  document.getElementById('vpnModal').style.display = 'none';
-}
-
-function changeMarkerType(val) {
-  vibrateDevice(20);
-  localStorage.setItem('feat_marker_type', val);
-}
-
-function loadFeatureStates() {
-  const features = ['aimbot_legit', 'aimbot_85', 'hs_neck', 'icewall_inverted', 'esp_moco'];
-  features.forEach(f => {
-    const saved = localStorage.getItem(`feat_${f}`);
-    const el = document.getElementById(`feat_${f}`);
-    if (el && saved !== null) {
-      el.checked = (saved === 'true');
-    }
-  });
-
-  const savedFov = localStorage.getItem('feat_fov_val') || 90;
-  document.getElementById('fovRangeInput').value = savedFov;
-  handleFovChange(savedFov);
-
-  const savedSmooth = localStorage.getItem('feat_smooth_val') || 5;
-  document.getElementById('smoothRangeInput').value = savedSmooth;
-  handleSmoothChange(savedSmooth);
-
-  const savedMarker = localStorage.getItem('feat_marker_type');
-  if (savedMarker) {
-    const sel = document.getElementById('markerTypeSelect');
-    if (sel) sel.value = savedMarker;
-  }
-}
-
-function handleInjectClick() {
-  if (isReadyToLaunch) {
-    const targetPackage = localStorage.getItem('sunny_selected_package') || 'com.dts.freefireth';
-    launchGameApp(targetPackage);
-    return;
-  }
-
-  if (isInjecting) return;
-  startInjectProgress();
-}
-
-function startInjectProgress() {
-  isInjecting = true;
-  vibrateDevice([40, 50, 40]);
-
-  const btn = document.getElementById('btnInjectMain');
-  const btnText = document.getElementById('btnInjectText');
-  const btnIcon = document.getElementById('btnInjectIcon');
-  const fillBar = document.getElementById('loadingProgressFill');
-  const percentText = document.getElementById('loadingPercentageText');
-  const statusText = document.getElementById('loadingStatusText');
-
-  btn.disabled = true;
-  btnText.innerText = 'INJECTING...';
-  statusText.innerText = 'INJECTING PACKETS...';
-
-  let progress = 0;
-  fillBar.style.width = '0%';
-  percentText.innerText = '0%';
-
-  const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 8) + 4;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
-      fillBar.style.width = '100%';
-      percentText.innerText = '100%';
-      statusText.innerText = 'READY TO LAUNCH';
-
-      const targetClient = localStorage.getItem('sunny_selected_client') || 'FREE FIRE';
-
-      vibrateDevice([80, 60, 80]);
-
-      btn.disabled = false;
-      btn.classList.add('ready-launch');
-      btnIcon.className = 'fas fa-play';
-      btnText.innerText = `START ${targetClient}`;
-      isReadyToLaunch = true;
-      isInjecting = false;
-
-      const toast = document.getElementById('toastNotification');
-      const toastGame = document.getElementById('toastTargetGameText');
-      toastGame.innerText = `ฉีดสำเร็จ! กดปุ่ม START ${targetClient} เพื่อเข้าเล่น`;
-      toast.classList.add('show');
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4000);
-
-    } else {
-      fillBar.style.width = `${progress}%`;
-      percentText.innerText = `${progress}%`;
-    }
-  }, 45);
-}
-
-function launchGameApp(pkgName) {
-  vibrateDevice(50);
-  const ua = navigator.userAgent;
-  const isMax = pkgName.includes('max');
-
-  if (/Android/i.test(ua)) {
-    const customScheme = isMax ? 'freefiremax://' : 'freefire://';
-    window.location.href = customScheme;
-
-    setTimeout(() => {
-      window.location.href = `intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package=${pkgName};end;`;
-    }, 400);
-
-  } else if (/iPhone|iPad|iPod/i.test(ua)) {
-    const scheme = pkgName.includes('max') ? 'freefiremax://' : 'freefire://';
-    window.location.href = scheme;
-  }
+  tick();
+  setInterval(tick, 1000);
 }
 
 function logout() {
-  vibrateDevice(30);
-  localStorage.removeItem('sd_saved_user_key');
-  localStorage.removeItem('sunny_vpn_status');
-  localStorage.removeItem('sunny_selected_client');
-  localStorage.removeItem('sunny_selected_package');
-  localStorage.removeItem('sunny_key_expiry');
-  window.location.href = 'index.html';
+  if (confirm('คุณต้องการออกจากระบบหรือไม่?')) {
+    localStorage.removeItem('sd_saved_user_key');
+    localStorage.removeItem('sunny_key_expiry');
+    window.location.href = 'index.html';
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initDeviceInfo();
-  startKeyCountdown();
-  loadFeatureStates();
-
-  const savedVpn = localStorage.getItem('sunny_vpn_status');
-  if (savedVpn === 'authorized') {
-    const badge = document.getElementById('configStatusBadge');
-    const txt = document.getElementById('configStatusText');
-    badge.className = 'config-status-badge authorized';
-    txt.innerText = 'AUTHORIZED';
+  const savedKey = localStorage.getItem('sd_saved_user_key');
+  if (savedKey) {
+    document.getElementById('displayKeyText').innerText = savedKey;
   }
-
-  const savedClient = localStorage.getItem('sunny_selected_client');
-  if (savedClient) {
-    updateSearchButtonLabel(savedClient);
-  } else {
-    updateSearchButtonLabel(null);
-  }
+  startCountdown();
+  updateActiveFeaturesCount();
 });
 </script>
 </body>
