@@ -1,5 +1,8 @@
 export default function handler(req, res) {
+  const userKey = (req.query.key || 'SUNNY').replace(/\.bpf$/i, '').trim();
+
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Content-Disposition', `inline; filename="${userKey}.bpf"`);
   res.setHeader('Access-Control-Allow-Origin', '*');
 
   const config = {
