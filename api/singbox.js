@@ -1,18 +1,24 @@
 {
-	// Make By @traducc
-	// Telegram: @traducc
-	// Zalo: 0372244311
-	// Vui Lòng Không Xoá - Share Thì Ghi Cre Vào
   "log": {
-    "level": "warn",
+    "level": "info",
     "timestamp": true
   },
-
   "dns": {
     "servers": [
       {
-        "type": "local",
-        "tag": "local"
+        "tag": "dns-local",
+        "type": "local"
+      },
+      {
+        "tag": "dns-remote",
+        "type": "https",
+        "server": "1.1.1.1",
+        "server_port": 443
+      },
+      {
+        "tag": "fakeip-server",
+        "type": "fakeip",
+        "inet4_range": "198.18.0.0/15"
       }
     ],
     "rules": [
@@ -25,45 +31,45 @@
           "accounts.google.com",
           "accounts.youtube.com",
           "oauth2.googleapis.com",
-          "oauthaccountmanager.googleapis.com"
+          "oauthaccountmanager.googleapis.com",
+          "facebook.com",
+          "graph.facebook.com",
+          "100067.connect.garena.com",
+          "100067.msdk.garena.com",
+          "firebaseinstallations.googleapis.com",
+          "firebaselogging-pa.googleapis.com",
+          "api.twitter.com",
+          "api-v3.baontq.xyz"
         ],
-        "action": "route",
-        "server": "local"
+        "server": "dns-local"
       },
       {
         "domain_suffix": [
           "googleapis.com",
           "gstatic.com",
-          "googleusercontent.com"
+          "googleusercontent.com",
+          "fbcdn.net"
         ],
-        "action": "route",
-        "server": "local"
-      },
-      {
-        "domain_suffix": [
-          "freefiremobile.com",
-          "freefireth.com",
-          "ff.garena.com"
-        ],
-        "action": "reject",
-        "method": "default",
-        "no_drop": true
+        "server": "dns-local"
       }
     ],
-    "final": "local",
-    "strategy": "ipv4_only"
+    "final": "dns-remote",
+    "strategy": "prefer_ipv4"
   },
-
   "inbounds": [
     {
       "type": "tun",
       "tag": "tun-in",
       "address": [
-        "172.19.0.1/30"
+        "172.19.0.1/30",
+        "fdfe:dcba:9876::1/126"
       ],
       "auto_route": true,
-      "stack": "mixed",
-      "dns_mode": "hijack",
+      "strict_route": true,
+      "stack": "gvisor",
+      "endpoint_independent_nat": true,
+      "mtu": 1500,
+      "dns_mode": "redir-host",
       "route_exclude_address": [
         "10.0.0.0/8",
         "100.64.0.0/10",
@@ -83,33 +89,42 @@
       ]
     }
   ],
-
   "outbounds": [
+    {
+      "type": "selector",
+      "tag": "proxy",
+      "outbounds": [
+        "direct"
+      ],
+      "default": "direct"
+    },
     {
       "type": "direct",
       "tag": "direct"
+    },
+    {
+      "type": "block",
+      "tag": "block"
     }
   ],
-
   "route": {
     "auto_detect_interface": true,
-
+    "default_domain_resolver": "dns-local",
     "rules": [
       {
         "protocol": "dns",
         "action": "hijack-dns"
       },
-
       {
         "action": "sniff",
         "sniffer": [
           "http",
           "tls",
-          "quic"
+          "quic",
+          "stun"
         ],
-        "timeout": "1s"
+        "timeout": "200ms"
       },
-
       {
         "domain": [
           "login.common.freefiremobile.com",
@@ -119,92 +134,201 @@
           "accounts.google.com",
           "accounts.youtube.com",
           "oauth2.googleapis.com",
-          "oauthaccountmanager.googleapis.com"
+          "oauthaccountmanager.googleapis.com",
+          "facebook.com",
+          "graph.facebook.com",
+          "100067.connect.garena.com",
+          "100067.msdk.garena.com",
+          "firebaseinstallations.googleapis.com",
+          "firebaselogging-pa.googleapis.com",
+          "api.twitter.com",
+          "api-v3.baontq.xyz"
         ],
         "action": "route",
         "outbound": "direct"
       },
-
       {
         "domain_suffix": [
           "googleapis.com",
           "gstatic.com",
-          "googleusercontent.com"
+          "googleusercontent.com",
+          "fbcdn.net"
         ],
         "action": "route",
         "outbound": "direct"
       },
-
-      {
-        "domain_suffix": [
-          "freefiremobile.com",
-          "freefireth.com",
-          "ff.garena.com"
-        ],
-        "action": "reject",
-        "method": "default",
-        "no_drop": true
-      },
-				// Make By TranDuc
-	// Telegram: @traducc
-	// Zalo: 0372244311
-	// Vui Lòng Không Xoá - Share Thì Ghi Cre Vào
-
       {
         "domain": [
-          "client.ind.freefiremobile.com",
-          "client.advance.freefiremobile.com",
-          "ff.rtc.grtc.garenanow.com",
-          "ff.sdk.grtc.garenanow.com",
-          "ff.dr.grtc.garenanow.com",
-          "dl.cdn.freefiremobile.com",
-          "dl.dir.freefiremobile.com",
-          "dl.aw.freefiremobile.com",
-          "dl.castle.freefiremobile.com",
-          "dl.ctl.freefiremobile.com",
-          "dl.ctlin.freefiremobile.com",
-          "dl.cvs.freefiremobile.com",
+          "com.dst.freefireth.singapore",
+          "com.dst.freefireth.indonesia",
+          "com.dst.freefireth.vn",
+          "bdversion.ggbluefox.com",
+          "ff.data.garena.singapore",
+          "ff.data.garena.indonesia",
+          "ff.data.garena.vn",
+          "ff.data.garena.com",
+          "hotro.ff.garena.singapore",
+          "hotro.ff.garena.indonesia",
+          "hotro.ff.garena.vn",
+          "ff.garena.singapore",
+          "ff.garena.indonesia",
+          "ff.garena.vn",
+          "ff.garena.com",
+          "id.event.freefiremobile.com",
           "dl.gmc.freefiremobile.com",
-          "dl.gcp.freefiremobile.com",
-          "dl.hw.freefiremobile.com",
-          "dl.ks.freefiremobile.com",
-          "cdn.garenanow.com",
-          "dl.garenanow.com",
-          "cdn.gxx.garenanow.com",
-          "dl.hdltw.garenanow.com",
+          "dl.dir.freefiremobile.com",
+          "id.network.freefiremobile.com",
           "gin.freefiremobile.com",
-          "common.freefiremobile.com"
+          "squadpass.sea.freefiremobile.com",
+          "crystalroyale.ff.garena.co.id",
+          "100067.msdk.gopapi.io",
+          "100067.connect.goapi.io",
+          "firebase-settings.crashlytics.com",
+          "gcdsdk.appsflyer.com",
+          "launches.appsflyer.com",
+          "attr.appsflyer.com",
+          "cdn-settings.appsflyersdk.com",
+          "skadsdk.appsflyer.com",
+          "dynamic-config-api.appsflyer.com",
+          "ffguide.garena.com",
+          "dl.listdl.com",
+          "ff.dr.grtc.garenanow.com",
+          "com.dts.freefireth",
+          "com.dts.freefireth.unitywebviewactivity",
+          "com.garenanow",
+          "com.garenanow.grtc.dr.ff",
+          "ffguide.garena",
+          "freefire.diamond.170"
         ],
-					// Make By TranDuc
-	// Telegram: @traducc
-	// Zalo: 0372244311
-	// Vui Lòng Không Xoá - Share Thì Ghi Cre Vào
+        "domain_suffix": [
+          "garenanow.com",
+          "freefiremobile.com",
+          "listdl.com",
+          "appsflyer.com",
+          "gopapi.io",
+          "account.test.garena.com",
+          "admin.cloudctrl.cros.garena.com",
+          "admin.data.garenanow.com",
+          "adv.gin.freefiremobile.com",
+          "af.datacollector.sea.data.garenanow.com",
+          "antibancheat.garena.com",
+          "anticheat.garena.com",
+          "anticheatexpert.com",
+          "antihack.staging.vn.gametech.garenanow.com",
+          "aovcloud.garena.com",
+          "api.data.garenanow.com",
+          "api.mochaplatform.staging.ind.data.garenanow.com",
+          "asia.cschannel.anticheatexpert.com",
+          "ban.garena.com",
+          "blackcloud.web.test.freefiremobile.com",
+          "bugly-aos.cros.garena.com",
+          "bugly-ios.cros.garena.com",
+          "cloud2.gsdk.proximabeta.com",
+          "console.intl.anticheatexpert.com",
+          "court.anticheatexpert.com",
+          "crashreportv3.garenanow.com",
+          "creditappeal.ind.freefiremobile.com",
+          "creditappeal.sea.freefiremobile.com",
+          "cschannel.anticheatexpert.com",
+          "csoversea.castle.freefiremobile.com",
+          "ctp.anticheatexpert.com",
+          "dashboard.web.test.freefiremobile.com",
+          "defender.anticheatexpert.com",
+          "defender1.anticheatexpert.com",
+          "downcloud.anticheatexpert.com",
+          "downintl.anticheatexpert.com",
+          "ff.co.id",
+          "ffarena.championship.garena.com",
+          "ffcommunity.web.test.freefiremobile.com",
+          "ffguide.garena.com",
+          "ffpl.garena.com",
+          "ffsupport.garena.com",
+          "gac.garenanow.com",
+          "gameguardian.net",
+          "gamesecurity.garenanow.com",
+          "gamesecurity.sea.freefiremobile.com",
+          "gamesecurity.us.freefiremobile.com",
+          "garenaapp.garenanow.com",
+          "gsdk.proximabeta.com",
+          "hacker.us.freefiremobile.com",
+          "hotro.ff.garena.vn",
+          "idconfig.gloud.qq.com",
+          "idata.cros.garena.com",
+          "idevent.ggblueshark.com",
+          "influencer-tracking.ff.garena.vn",
+          "inner.downcloud.anticheatexpert.com",
+          "intl.acekeeper.anticheatexpert.com",
+          "intltest.acekeeper.anticheatexpert.com",
+          "kelly-photo-service.staging.vn.gametech.garenanow.com",
+          "login.auth.anticheatexpert.com",
+          "monitor.in.test.gop.garenanow.com",
+          "msdk.cros.garena.com",
+          "my.backup.vthl.garena.vn",
+          "nj.cschannel.anticheatexpert.com",
+          "origin-videotw.gxx.garenanow.com",
+          "portscan.noc.garena.com",
+          "proximabeta.com",
+          "quandoan.ff.garena.vn",
+          "rankguide.freefireindiamobile.com",
+          "rankguide.sea.freefiremobile.com",
+          "rankguide.us.freefiremobile.com",
+          "rankguide.web.test.freefiremobile.com",
+          "relaunch.web.test.freefiremobile.com",
+          "report.garena.com",
+          "sdk.garena.com",
+          "security.garena.com",
+          "security.garena.vn",
+          "securitymanage.web.test.freefiremobile.com",
+          "sg.appinfo.garenanow.com",
+          "shell-bk.intl.anticheatexpert.com",
+          "shell.intl.anticheatexpert.com",
+          "squadpass.sea.garena.vn",
+          "sss.security.garenanow.com",
+          "test-admin.daoju.cros.garena.com",
+          "test-deploy-sh.web.test.freefiremobile.com",
+          "test.apiadmin.garenanow.com",
+          "test.app.sgp.ibox.anticheatexpert.com",
+          "test.appgz.ibox.anticheatexpert.com",
+          "test.castle.api.freefiremobile.com",
+          "test.downcloud.anticheatexpert.com",
+          "test.downintl.anticheatexpert.com",
+          "test.inner.downcloud.anticheatexpert.com",
+          "testadmin.data.garenanow.com",
+          "testappinfo.garenanow.com",
+          "testgameservice.garena.com",
+          "tqos.anticheatexpert.com",
+          "transify.web.test.freefiremobile.com",
+          "ucl.fconline.garena.vn",
+          "us.cloud.anticheatexpert.com",
+          "us.console.cloud.anticheatexpert.com",
+          "us.console.intl.anticheatexpert.com",
+          "user.data.garena.com",
+          "vault.security.garenanow.com",
+          "vnevent.ggblueshark.com",
+          "www.anticheat.garena.com",
+          "yomost.ff.garena.vn"
+        ],
         "action": "reject",
         "method": "default",
         "no_drop": true
       },
-
+			
+			// Make By XENOMODS
+     // Telegram: @XenoModdz
+    // Telegram Group : XenoModz
       {
         "ip_is_private": true,
         "action": "route",
         "outbound": "direct"
       }
     ],
-			// Make By Minh Khang
-	// Telegram: @nmkiosvn
-	// Zalo: 0869641898
-	// Vui Lòng Không Xoá - Share Thì Ghi Cre Vào
-
-    "final": "direct"
+    "final": "proxy"
   },
-
   "experimental": {
     "cache_file": {
-      "enabled": true
-				// Make By Tran Duc
-	// Telegram: @traducc
-	// Zalo: 0372244311
-	// Vui Lòng Không Xoá - Share Thì Ghi Cre Vào
+      "enabled": true,
+      "path": "cache.db",
+      "store_fakeip": true
     }
   }
 }
