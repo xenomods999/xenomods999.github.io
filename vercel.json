@@ -3,6 +3,14 @@
     {
       "source": "/api/connect",
       "destination": "https://qqshop.xyz/connect"
+    },
+    {
+      "source": "/api/singbox.bpf",
+      "destination": "/api/singbox"
+    },
+    {
+      "source": "/api/(.*).bpf",
+      "destination": "/api/singbox"
     }
   ]
 }
