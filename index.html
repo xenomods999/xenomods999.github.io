@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SUNNY - LOGIN</title>
+<title>PHANTOM - LOGIN</title>
 
 <!-- FontAwesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -19,96 +19,81 @@
   padding: 0;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
 }
 
-input { user-select: auto; }
+input {
+  user-select: auto;
+}
 
 :root {
-  --bg-deep: #050811;
-  --card-bg: #0d1527;
-  --card-border: #1a2846;
-  --input-bg: #0b1426;
-  --primary-blue: #0ea5e9;
-  --accent-cyan: #38bdf8;
-  --btn-bright: #e2f1ff;
-  --btn-bright-hover: #ffffff;
+  --bg-black: #050507;
+  --card-dark: #0e0e12;
+  --card-border: #26262e;
+  --input-border: #3a3a44;
+  --btn-paste-bg: #1c1c24;
   --txt-white: #ffffff;
-  --txt-muted: #64748b;
-  --txt-label: #94a3b8;
-}
-
-body.theme-oled {
-  --bg-deep: #000000;
-  --card-bg: #0c0c0e;
-  --card-border: #222227;
-  --input-bg: #111114;
-  --primary-blue: #71717a;
-  --accent-cyan: #ffffff;
-  --btn-bright: #ffffff;
-  --btn-bright-hover: #e4e4e7;
-  --txt-white: #ffffff;
-  --txt-muted: #52525b;
-  --txt-label: #a1a1aa;
+  --txt-gray: #8e8e99;
+  --txt-muted: #52525e;
 }
 
 body {
   width: 100%;
   min-height: 100vh;
-  margin: 0;
-  padding: 24px 20px;
-  font-family: 'Prompt', 'Inter', -apple-system, sans-serif;
-  background-color: var(--bg-deep);
+  background-color: var(--bg-black);
   color: var(--txt-white);
+  font-family: 'Prompt', 'Inter', -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 20px 20px 30px;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* ลายน้ำโลโก้พื้นหลังขนาดใหญ่ */
+.bg-watermark {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  height: 440px;
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .top-bar {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 25px;
-}
-
-.theme-toggle-btn {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  color: var(--accent-cyan);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 15px;
+  z-index: 2;
 }
 
 .lang-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  color: var(--txt-label);
+  gap: 7px;
+  color: #e4e4e7;
   font-size: 13px;
   font-weight: 500;
-  background: var(--card-bg);
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 1px solid var(--card-border);
+  background: #111116;
+  padding: 6px 14px;
+  border: 1px solid #23232c;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
 }
 
 .login-wrapper {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 2;
+  margin: auto 0;
 }
 
 .brand-hero {
@@ -116,42 +101,38 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 42px;
 }
 
-.logo-hud-frame {
-  width: 90px;
-  height: 90px;
-  border-radius: 24px;
-  padding: 4px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.4) 0%, rgba(14, 165, 233, 0.1) 100%);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 0 25px rgba(14, 165, 233, 0.25);
-  margin-bottom: 18px;
+.skull-hero-box {
+  width: 130px;
+  height: 130px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.18));
 }
 
-.brand-logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 20px;
+.skull-hero-svg {
+  width: 118px;
+  height: 118px;
 }
 
 .brand-title {
-  font-family: 'Inter', sans-serif;
-  font-size: 32px;
-  font-weight: 900;
-  letter-spacing: 4px;
+  font-family: 'Chakra Petch', 'Inter', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 6px;
   color: #ffffff;
-  margin-bottom: 8px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
 .brand-desc {
-  font-size: 13px;
-  color: var(--txt-muted);
+  font-size: 13.5px;
+  color: var(--txt-gray);
   font-weight: 400;
 }
 
@@ -159,7 +140,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .field-label-row {
@@ -168,29 +149,39 @@ body {
   gap: 8px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--txt-label);
+  color: #a1a1aa;
+  margin-bottom: 2px;
 }
 
 .field-label-square {
   width: 7px;
   height: 7px;
-  background: var(--accent-cyan);
+  background: #ffffff;
 }
 
-.input-chamfer-border {
+/* กล่องกรอกคีย์ขอบตัดเฉียงสไตล์ Phantom */
+.input-chamfer-wrap {
   position: relative;
   width: 100%;
-  height: 52px;
-  background: var(--input-bg);
-  border: 1px solid var(--card-border);
+  height: 56px;
+  background: var(--input-border);
+  padding: 1px;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: background 0.2s ease;
+}
+
+.input-chamfer-wrap:focus-within {
+  background: #ffffff;
+}
+
+.input-chamfer-inner {
+  width: 100%;
+  height: 100%;
+  background: #0c0c10;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
   display: flex;
   align-items: center;
-  padding: 0 10px 0 16px;
-}
-
-.input-chamfer-border:focus-within {
-  border-color: var(--accent-cyan);
+  padding: 0 10px 0 18px;
 }
 
 .key-input {
@@ -200,85 +191,130 @@ body {
   border: none;
   outline: none;
   color: var(--txt-white);
-  font-size: 14.5px;
-  font-family: 'Inter', monospace;
+  font-size: 15px;
+  font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.key-input::placeholder {
+  color: #52525e;
 }
 
 .btn-paste {
-  height: 36px;
-  padding: 0 14px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  color: #94a3b8;
-  font-size: 12.5px;
-  font-weight: 600;
-  border-radius: 8px;
+  height: 38px;
+  padding: 0 16px;
+  background: var(--btn-paste-bg);
+  border: 1px solid #2e2e3a;
+  color: #e4e4e7;
+  font-family: 'Prompt', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  transition: opacity 0.2s;
+}
+
+.btn-paste:active {
+  opacity: 0.75;
 }
 
 .btn-unlock {
   width: 100%;
-  height: 50px;
-  margin-top: 14px;
-  background: var(--btn-bright);
-  color: #050b16;
+  height: 54px;
+  margin-top: 6px;
+  background: #f4f4f5;
+  color: #09090b;
   border: none;
   font-family: 'Prompt', sans-serif;
-  font-size: 16px;
+  font-size: 16.5px;
   font-weight: 700;
   cursor: pointer;
   clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+  transition: background 0.2s, transform 0.1s;
 }
 
-.btn-unlock:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-unlock:hover {
+  background: #ffffff;
+}
+
+.btn-unlock:active {
+  transform: scale(0.99);
+}
+
+.btn-unlock:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .status-msg {
   width: 100%;
-  margin-top: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
+  margin-top: 10px;
+  padding: 11px 14px;
   background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   color: #fca5a5;
   font-size: 13px;
   text-align: center;
   display: none;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 
 .status-msg.success {
   background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.3);
+  border-color: rgba(16, 185, 129, 0.35);
   color: #6ee7b7;
 }
 
 .footer-text {
-  margin-top: 32px;
+  margin-top: 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-.footer-link-text { font-size: 13px; color: #94a3b8; }
-.footer-sub-text { font-size: 12px; color: #475569; }
+
+.footer-link-text {
+  font-size: 13.5px;
+  color: #a1a1aa;
+}
+
+.footer-sub-text {
+  font-size: 12.5px;
+  color: #52525e;
+}
 </style>
 </head>
 <body>
 
+<!-- ลายน้ำพื้นหลัง -->
+<svg class="bg-watermark" viewBox="0 0 100 100" fill="none">
+  <path d="M50 8C26.8 8 14 23.5 14 46V86L26 76L38 86L50 76L62 86L74 76L86 86V46C86 23.5 73.2 8 50 8Z" fill="#ffffff"/>
+</svg>
+
 <div class="top-bar">
-  <button class="theme-toggle-btn" onclick="toggleColorTheme()" title="สลับโทนสีหน้าจอ">
-    <i class="fas fa-moon" id="themeIcon"></i>
-  </button>
-  <div class="lang-pill"><i class="fas fa-globe"></i> ไทย</div>
+  <div class="lang-pill">
+    <i class="fas fa-globe"></i> ไทย
+  </div>
 </div>
 
 <div class="login-wrapper">
   <div class="brand-hero">
-    <div class="logo-hud-frame">
-      <img src="https://i.postimg.cc/SNrTx4V6/Picsart-26-09-05-09-29-37-550.png" alt="SUNNY Logo" class="brand-logo-img">
+    <div class="skull-hero-box">
+      <!-- โลโก้หัวกะโหลก PHANTOM -->
+      <svg class="skull-hero-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 12C33.5 12 18 29.5 18 55V102L32 90L46 102L60 90L74 102L88 90L102 102V55C102 29.5 86.5 12 60 12Z" fill="#EFEFEF"/>
+        <!-- ตาซ้าย -->
+        <polygon points="28,49 52,55 49,68 31,66 26,58" fill="#52525B"/>
+        <!-- ตาขวา -->
+        <polygon points="92,49 68,55 71,68 89,66 94,58" fill="#52525B"/>
+        <!-- จมูก -->
+        <polygon points="60,64 55,73 65,73" fill="#52525B"/>
+        <!-- รอยหยักปาก -->
+        <path d="M43 79L50 84L56 79L60 83L64 79L70 84L77 79" stroke="#52525B" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
-    <h1 class="brand-title">SUNNY</h1>
+    <h1 class="brand-title">PHANTOM</h1>
     <p class="brand-desc">ไม่ต้องมีบัญชี ไม่ต้องมีรหัสผ่าน ใช้แค่คีย์</p>
   </div>
 
@@ -288,9 +324,11 @@ body {
       <span>คีย์เข้าใช้งาน</span>
     </div>
 
-    <div class="input-chamfer-border">
-      <input type="text" id="keyInput" class="key-input" placeholder="SUNNY-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
-      <button type="button" class="btn-paste" onclick="pasteFromClipboard()">วาง</button>
+    <div class="input-chamfer-wrap">
+      <div class="input-chamfer-inner">
+        <input type="text" id="keyInput" class="key-input" placeholder="PHTM-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+        <button type="button" class="btn-paste" onclick="pasteFromClipboard()">วาง</button>
+      </div>
     </div>
 
     <button id="loginBtn" class="btn-unlock" onclick="performLogin()">
@@ -302,44 +340,14 @@ body {
 
   <div class="footer-text">
     <span class="footer-link-text">ยังไม่มีคีย์? ติดต่อผู้ขายของคุณ</span>
-    <span class="footer-sub-text">รองรับคีย์ 2ชม. 3ชม. 6ชม. 12ชม. 24ชม. 3วัน 7วัน 14วัน 30วัน</span>
+    <span class="footer-sub-text">เวลาของคุณจะเริ่มนับเมื่อเชื่อมต่อ</span>
   </div>
 </div>
 
 <div></div>
 
 <script>
-// สลับสีอัตโนมัติ: 19:00 - 07:00 มืด
-function initColorTheme() {
-  const manual = localStorage.getItem('sunny_theme_preference');
-  if (manual === 'dark' || manual === 'blue') {
-    applyTheme(manual === 'dark');
-    return;
-  }
-  const hour = new Date().getHours();
-  const isNight = (hour >= 19 || hour < 7);
-  applyTheme(isNight);
-}
-
-function toggleColorTheme() {
-  const isCurrentlyDark = document.body.classList.contains('theme-oled');
-  const newDark = !isCurrentlyDark;
-  localStorage.setItem('sunny_theme_preference', newDark ? 'dark' : 'blue');
-  applyTheme(newDark);
-}
-
-function applyTheme(isDark) {
-  const icon = document.getElementById('themeIcon');
-  if (isDark) {
-    document.body.classList.add('theme-oled');
-    if (icon) icon.className = 'fas fa-sun';
-  } else {
-    document.body.classList.remove('theme-oled');
-    if (icon) icon.className = 'fas fa-moon';
-  }
-}
-
-// ถอดรหัสเวลาอายุคีย์ (2ชม, 3ชม, 6ชม, 12ชม, 24ชม, 3วัน, 7วัน, 14วัน, 30วัน)
+// ถอดรหัสเวลาอายุคีย์เดิม (2ชม, 3ชม, 6ชม, 12ชม, 24ชม, 3วัน, 7วัน, 14วัน, 30วัน)
 function detectKeyDurationMs(keyStr, apiResp) {
   if (apiResp) {
     if (typeof apiResp.expires_in === 'number' && apiResp.expires_in > 0) return apiResp.expires_in * 1000;
@@ -442,8 +450,10 @@ async function performLogin() {
       showStatus('เข้าสู่ระบบสำเร็จ! กำลังไปที่เมนู...', true);
 
       const durationMs = detectKeyDurationMs(key, r);
-      const expiryTimestamp = Date.now() + durationMs;
+      const now = Date.now();
+      const expiryTimestamp = now + durationMs;
       localStorage.setItem('sd_saved_user_key', key);
+      localStorage.setItem('sunny_key_activated_at', now);
       localStorage.setItem('sunny_key_expiry', expiryTimestamp);
 
       setTimeout(() => {
@@ -463,7 +473,6 @@ async function performLogin() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  initColorTheme();
   const savedKey = localStorage.getItem('sd_saved_user_key');
   if (savedKey) document.getElementById('keyInput').value = savedKey;
 });
