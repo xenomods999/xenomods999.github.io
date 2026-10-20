@@ -507,7 +507,7 @@ body.theme-oled .add-sub-desc { color: #52525b; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 13px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--divider-color);
 }
 
@@ -521,6 +521,7 @@ body.theme-oled .add-sub-desc { color: #52525b; }
   font-size: 12px;
   color: var(--txt-muted);
   line-height: 1.4;
+  margin-top: 2px;
 }
 
 .switch {
@@ -529,6 +530,7 @@ body.theme-oled .add-sub-desc { color: #52525b; }
   width: 48px;
   height: 26px;
   flex-shrink: 0;
+  margin-left: 12px;
 }
 
 .switch input { opacity: 0; width: 0; height: 0; }
@@ -580,48 +582,6 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
   background: var(--accent-cyan);
   cursor: pointer;
 }
-
-.preset-btn-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.btn-preset {
-  height: 34px;
-  background: var(--subcard-bg);
-  border: 1px solid var(--card-border);
-  color: var(--txt-label);
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.btn-preset.active { background: #ffffff; color: #0b1426; border-color: #ffffff; }
-
-.marker-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.marker-btn {
-  height: 36px;
-  background: var(--subcard-bg);
-  border: 1px solid var(--card-border);
-  color: var(--txt-label);
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.marker-btn.active { background: #ffffff; color: #050b16; border-color: #ffffff; }
 
 /* MANAGE TAB */
 .device-manage-card, .update-manage-card {
@@ -736,8 +696,8 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 
     <!-- แถบประกาศ -->
     <div class="announcement-banner">
-      <i class="fas fa-exclamation-triangle" style="color: #f87171;"></i>
-      <span><strong>คำเตือน:</strong> แนะนำการเปิดใช้งาน ไม่ควรเปิดยิงคอขึ้นหัว เสี่ยงต่อการแบน</span>
+      <i class="fas fa-shield-alt" style="color: #f87171;"></i>
+      <span><strong>ประกาศ:</strong> ระบบป้องกันและอัปเดตสถานะออนไลน์พร้อมใช้งาน</span>
     </div>
 
     <!-- VIP TIMER CARD -->
@@ -892,7 +852,31 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
         </label>
       </div>
 
-      <!-- 3. หน่วงเป้า (Aim Lag) -->
+      <!-- 3. ดูดหัว 90% -->
+      <div class="feature-row">
+        <div>
+          <span class="feature-title-text">ดูดหัว 90% (Headshot Pull 90%)</span>
+          <div class="feature-desc-text">เพิ่มแรงดึงเป้าล็อกเข้าศีรษะโดยตรงระดับ 90% หวังผลไว</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="feat_headshot_90" onchange="toggleFeatureState('headshot_90', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- 4. กระสุนตรง 80% -->
+      <div class="feature-row">
+        <div>
+          <span class="feature-title-text">กระสุนตรง 80% (Straight Bullet 80%)</span>
+          <div class="feature-desc-text">ลดการกระจายของกระสุน ให้วิถีกระสุนพุ่งตรงเข้าเป้าแม่นยำ 80%</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="feat_bullet_80" onchange="toggleFeatureState('bullet_80', this.checked)">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- 5. หน่วงเป้า (Aim Lag) -->
       <div class="feature-row">
         <div>
           <span class="feature-title-text">หน่วงเป้าล็อกตัว (Aim Lag)</span>
@@ -904,7 +888,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
         </label>
       </div>
 
-      <!-- 4. SLIDER: FOV Circle (แสดงเฉพาะแถบเลื่อนองศา ไม่มีวงกลมเรดาร์) -->
+      <!-- 6. SLIDER: FOV Circle (แสดงเฉพาะแถบเลื่อนองศา) -->
       <div class="slider-group">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <span class="feature-title-text">FOV Circle</span>
@@ -912,69 +896,6 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
         </div>
         <span class="feature-desc-text">ปรับองศาวงล็อกเป้าและระยะตรวจจับรอบเป้าเล็ง</span>
         <input type="range" min="30" max="180" value="90" class="custom-range" id="fovRangeInput" oninput="handleFovChange(this.value)">
-      </div>
-
-      <!-- 5. ไอซ์วอลล์กลับหลัง -->
-      <div class="feature-row">
-        <div>
-          <span class="feature-title-text">ไอซ์วอลล์กลับหลัง (Invert Gloo Wall)</span>
-          <div class="feature-desc-text">หมุนองศาตั้งไอซ์วอลล์กลับหลังอัตโนมัติ</div>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="feat_icewall" onchange="toggleFeatureState('icewall', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <!-- Preset ปุ่มองศาไอซ์วอลล์ -->
-      <div class="preset-btn-row">
-        <button class="btn-preset" onclick="setPresetWall(-90)">-90°</button>
-        <button class="btn-preset" onclick="setPresetWall(0)">0°</button>
-        <button class="btn-preset" onclick="setPresetWall(90)">+90°</button>
-        <button class="btn-preset active" id="btnPreset180" onclick="setPresetWall(180)">180°</button>
-      </div>
-
-      <!-- 6. ชุบไวไฮสปีด -->
-      <div class="feature-row">
-        <div>
-          <span class="feature-title-text">ชุบไวไฮสปีด (Fast Revive)</span>
-          <div class="feature-desc-text">ชุบเพื่อนร่วมทีมใน 0.1 วินาที แทน 3 วินาที</div>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="feat_fastrevive" onchange="toggleFeatureState('fastrevive', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
-
-    <!-- หมวด VISION -->
-    <div>
-      <div class="feature-group-header">
-        <i class="fas fa-eye"></i> VISION (ESP)
-      </div>
-
-      <!-- มาร์กเกอร์ ESP -->
-      <div class="feature-row">
-        <div>
-          <span class="feature-title-text">มาร์กเกอร์ (ESP Target)</span>
-          <div class="feature-desc-text">แสดงตำแหน่งและทิศทางศัตรูทุกคนบนหน้าจอ</div>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="feat_esp_moco" checked onchange="toggleFeatureState('esp_moco', this.checked)">
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <!-- Grid 8 มาร์กเกอร์ -->
-      <div class="marker-grid">
-        <button class="marker-btn active" onclick="selectMarkerBtn(this, 'SUNNY')">SUNNY</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'DREAM')">DREAM</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'ICE WALL')">ICE WALL</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'MOCO')">MOCO</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'CLU')">CLU</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'SHIROU')">SHIROU</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'IRIS')">IRIS</button>
-        <button class="marker-btn" onclick="selectMarkerBtn(this, 'DREKI')">DREKI</button>
       </div>
     </div>
 
@@ -1279,23 +1200,12 @@ function initDeviceInfo() {
   document.getElementById('devScreen').innerText = `${window.screen.width} x ${window.screen.height}`;
 }
 
-// 6. การจัดการ FOV, Markers, ไอซ์วอลล์
+// 6. การจัดการ FOV และสวิตช์ฟีเจอร์ทั้งหมด
+const featureListIds = ['aimbot_legit', 'aimbot_85', 'headshot_90', 'bullet_80', 'aimlag'];
+
 function handleFovChange(val) {
   document.getElementById('fovValBadge').innerText = `${val}°`;
   localStorage.setItem('feat_fov_val', val);
-}
-
-function setPresetWall(val) {
-  localStorage.setItem('feat_wall_angle', val);
-  document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-}
-
-function selectMarkerBtn(btn, name) {
-  if (navigator.vibrate) navigator.vibrate(20);
-  document.querySelectorAll('.marker-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  localStorage.setItem('sunny_marker_type', name);
 }
 
 function toggleFeatureState(name, state) {
@@ -1304,13 +1214,22 @@ function toggleFeatureState(name, state) {
   updateActiveFeaturesCount();
 }
 
+function loadSavedFeatureStates() {
+  featureListIds.forEach(id => {
+    const saved = localStorage.getItem(`feat_${id}`);
+    const el = document.getElementById(`feat_${id}`);
+    if (el && saved !== null) {
+      el.checked = (saved === 'true');
+    }
+  });
+}
+
 function updateActiveFeaturesCount() {
-  const list = ['aimbot_legit', 'aimbot_85', 'aimlag', 'icewall', 'fastrevive', 'esp_moco'];
   let count = 0;
-  list.forEach(id => {
+  featureListIds.forEach(id => {
     if (document.getElementById(`feat_${id}`)?.checked) count++;
   });
-  document.getElementById('activeCountBadge').innerText = `${count}/${list.length} Active`;
+  document.getElementById('activeCountBadge').innerText = `${count}/${featureListIds.length} Active`;
 }
 
 // 7. สลับแท็บหน้าจอ
@@ -1376,6 +1295,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   initDeviceInfo();
   startCountdownTimer();
+  loadSavedFeatureStates();
   updateActiveFeaturesCount();
 
   const isConn = localStorage.getItem('sunny_vpn_connected') === 'true';
