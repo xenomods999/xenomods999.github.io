@@ -426,7 +426,7 @@ async function performLogin() {
   btn.disabled = true;
 
   const serial = getDeviceSerial();
-  const bodyData = new URLSearchParams({ game: 'ProxyPin', user_key: key, serial: serial }).toString();
+  const bodyData = new URLSearchParams({ game: 'SUNNYWIRE', user_key: key, serial: serial }).toString();
 
   try {
     const response = await fetch('/api/connect', {
@@ -450,7 +450,7 @@ async function performLogin() {
         if (typeof AndroidInterface !== 'undefined' && AndroidInterface.onLoginSuccess) {
           AndroidInterface.onLoginSuccess(key);
         }
-        window.location.href = 'sbs';
+        window.location.href = 'sbs.html';
       }, 700);
     } else {
       showStatus(r.message || 'รหัสคีย์ไม่ถูกต้อง หรือคีย์หมดอายุแล้ว');
